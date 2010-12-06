@@ -1,6 +1,6 @@
 h2. Rails'e Başlamak
 
-This guide covers getting up and running with Ruby on Rails. After reading it, you should be familiar with:
+Bu klavuz Ruby on Rails'i kurmanız ve çalıştırmanız için gerekenleri içerir. Onu okuduktan sonra şu konularda bilgi sahibi olacaksınız:
 
 * Installing Rails, creating a new Rails application, and connecting your application to a database
 * The general layout of a Rails application
