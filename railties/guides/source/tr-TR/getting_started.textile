@@ -368,9 +368,9 @@ Scaffold jeneratör uygulamanıza 15 dosya üretir, bazı klasörler üretir ve 
 
 h4. Veritabanı Birleştirme Yapılması (Migration)
 
-One of the products of the +rails generate scaffold+ command is a _database migration_. Migrations are Ruby classes that are designed to make it simple to create and modify database tables. Rails uses rake commands to run migrations, and it's possible to undo a migration after it's been applied to your database. Migration filenames include a timestamp to ensure that they're processed in the order that they were created.
++rails generate scaffold+ komutunun ürünlerinden biri de _veritabanı birleştirmesi_ dir. Birleştirmeler (Migration) veritabanı tablolarının üretilmesi ve değiştirilmesini basitleştirmek için kullanılan Ruby sınıflarıdır. Rails birleştirmeler için rake komutunu kullanır, ve bir birleştirme uygulandıktan sonra geri alınabilir. Birleştirme dosyaları, hangi sırada yapıldıklarından emin olmak için yapıldıkları zamanın kodunu içerirler.
 
-If you look in the +db/migrate/20100207214725_create_posts.rb+ file (remember, yours will have a slightly different name), here's what you'll find:
+Eğer +db/migrate/20100207214725_create_posts.rb+ dosyasının içine bakarsanız (hatırlayın, sizinkinin ismi farklı olacaktır), şunları bulursunuz:
 
 <ruby>
 class CreatePosts < ActiveRecord::Migration
@@ -390,15 +390,15 @@ class CreatePosts < ActiveRecord::Migration
 end
 </ruby>
 
-The above migration creates two methods, +up+, called when you run this migration into the database, and +down+ in case you need to reverse the changes made by this migration at a later date.  The +up+ command in this case creates a +posts+ table with two string columns and a text column.  It also creates two timestamp fields to track record creation and updating.  More information about Rails migrations can be found in the "Rails Database Migrations":migrations.html guide.
+Yukardaki birleştirme iki metod üretir, +up+ bu birlştirmeyi çalıştırdığınızda aktif olur ve +down+ ilerde birleştirmeleri geri almak isterseniz çalışır. Bu görüntüde +up+ komutu +posts+ tablosunu iki string ve bir text sütunu ile oluşturur. Ayrıca kayıtların üretildiği ve update edildiği tarihler için de timestamp alanları üretir. Rails birleştirmeleri hakkında daha fazla bilgi "Rails Database Migrations":migrations.html klavuzunda bulunabilir.
 
-At this point, you can use a rake command to run the migration:
+Şimdi birleştirmenin gerçekleşmesi için rake komutu çalıştırın:
 
 <shell>
 $ rake db:migrate
 </shell>
 
-Rails will execute this migration command and tell you it created the Posts table.
+Rails birleştirme komutunu işletecek ve size +posts+ tablosunu ürettiğini bildirecektir.
 
 <shell>
 ==  CreatePosts: migrating ====================================================
@@ -407,26 +407,26 @@ Rails will execute this migration command and tell you it created the Posts tabl
 ==  CreatePosts: migrated (0.0020s) ===========================================
 </shell>
 
-NOTE. Because you're working in the development environment by default, this command will apply to the database defined in the +development+ section of your +config/database.yml+ file.
+NOT. Şu anda geliştirme ortamında çalıştığınız için bu komut +config/database.yml+ dosyasının +development+ kısmında belirtilen veritabanında işlem yapacaktır.
 
-h4. Adding a Link
+h4. Bir Bağlantı Eklemek
 
-To hook the posts up to the home page you've already created, you can add a link to the home page. Open +app/views/home/index.html.erb+ and modify it as follows:
+Önceden ürettiğiniz ana sayfaya gönderilere gitmek için bir bağlantı ekleyebilirsiniz. +app/views/home/index.html.erb+ dosyasını açın ve şöyle değiştirin:
 
 <code lang="ruby">
-<h1>Hello, Rails!</h1>
-<%= link_to "My Blog", posts_path %>
+<h1>Merhaba Rails!</h1>
+<%= link_to "Bloğum", posts_path %>
 </code>
 
-The +link_to+ method is one of Rails' built-in view helpers. It creates a hyperlink based on text to display and where to go - in this case, to the path for posts.
++link_to+ metodu Rails'in içerdiği görsel yardımcılarından biridir. Yazılacak yazı ve gidilecek yer parametrelerinden bir hyperlink oluşturur - bu durumda gönderilere bağlantı kurulmuş.
 
-h4. Working with Posts in the Browser
+h4. Tarayıcıda Gönderileri Çalışmak
 
-Now you're ready to start working with posts. To do that, navigate to "http://localhost:3000":http://localhost:3000/ and then click the "My Blog" link:
+Şimdi gönderilerle çalışmaya başlayabilirsiniz. Bunu yapmak için "http://localhost:3000":http://localhost:3000/ adresine gidin ve "Bloğum" linkini tıklayın:
 
 !images/posts_index.png(Posts Index screenshot)!
 
-This is the result of Rails rendering the +index+ view of your posts. There aren't currently any posts in the database, but if you click the +New Post+ link you can create one. After that, you'll find that you can edit posts, look at their details, or destroy them. All of the logic and HTML to handle this was built by the single +rails generate scaffold+ command.
+Bu gönderilerin +index+ görsel sayfası için Rails'in sunusu sonucudur. There aren't currently any posts in the database, but if you click the +New Post+ link you can create one. After that, you'll find that you can edit posts, look at their details, or destroy them. All of the logic and HTML to handle this was built by the single +rails generate scaffold+ command.
 
 TIP: In development mode (which is what you're working in by default), Rails reloads your application with every browser request, so there's no need to stop and restart the web server.
 
