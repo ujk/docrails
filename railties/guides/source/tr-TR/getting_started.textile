@@ -268,55 +268,55 @@ Bu komut <tt>db/</tt> klasöründe geliştirme ve test veritabanlarınızı olu�
 
 İPUCU: Rake komutu Rails'in birçok şey için kullandığı genel amaçlı bir kod çalıştırıcıdır. Olası komutları +rake -T+ komutu girerek görebilirsiniz.
 
-h3. Hello, Rails!
+h3. Merhaba Rails!
 
-One of the traditional places to start with a new language is by getting some text up on screen quickly, to do this, you need to get your Rails application server running.
+Yeni bir dile başlamanın klasik yolu ekrana yazılı birşeyler getirmektir. Rails'de bunun olması için uygulama server'ı çalıştırmalısınız.
 
-h4. Starting up the Web Server
+h4. Web Server'ı Çalıştırmak
 
-You actually have a functional Rails application already. To see it, you need to start a web server on your development machine. You can do this by running:
+Aslında şu ana kadar yaptıklarınızla aktif bir Rails uygulamanız hazır. Bunu görmek için geliştirme makinenizde web server'ı başlatmanız gerekiyor:
 
 <shell>
 $ rails server
 </shell>
 
-This will fire up an instance of the WEBrick web server by default (Rails can also use several other web servers). To see your application in action, open a browser window and navigate to "http://localhost:3000":http://localhost:3000. You should see Rails' default information page:
+Bu default olarak bir Mongrel web server başlatacaktır.(Rails diğer farklı server'lar da kullanabilir, mesela mongrel yoksa otomatikman webrick çalışır). Uygulamanızı çalışır şekilde görmek için bir tarayıcı açın ve "http://localhost:3000":http://localhost:3000 adresini girin. Rails'in default bilgilendirme ekranı gelecektir:
 
 !images/rails_welcome.png(Welcome Aboard screenshot)!
 
-TIP: To stop the web server, hit Ctrl+C in the terminal window where it's running. In development mode, Rails does not generally require you to stop the server; changes you make in files will be automatically picked up by the server.
+İPUCU: Web server'ı durdurmak için çalıştırdığınız konsol ekranında Ctrl+C basmanız gerekir. Geliştirme modunda, genellikle Rails server'ı durdurmanız gerekmez; dosyalarda yaptığınız değişiklikler server'a otomatik yüklenecektir.
 
-The "Welcome Aboard" page is the _smoke test_ for a new Rails application: it makes sure that you have your software configured correctly enough to serve a page.  You can also click on the _About your application’s environment_ link to see a summary of your Application's environment.
+“Welcome Aboard” yeni bir Rails uygulamasının tüten buharıdır: uygulamanızın server'dan yayınlanması için herşeyn uygun olduğundan emin olmak içindir. Ayrıca _About your application’s environment_ bağlantısına tıklayarak uygulamanızın kullandığı ortam hakkında bilgi edinebilirsiniz.
 
-h4. Say "Hello", Rails
+h4. "Merhaba" de Rails
 
-To get Rails saying "Hello", you need to create at minimum a controller and a view. Fortunately, you can do that in a single command. Enter this command in your terminal:
+Railsin "Merhaba" demesi için, en az bir kontrolör ve bir görsel ihtiyacınız vardır. Çok şükür ki bunu tek komutla yapabilirsiniz. Şu komutu terminalden girin:
 
 <shell>
 $ rails generate controller home index
 </shell>
 
-TIP: If you're on Windows, or your Ruby is set up in some non-standard fashion, you may need to explicitly pass Rails +rails+ commands to Ruby: +ruby \path\to\rails controller home index+.
+İPUCU: Eğer Windows'taysanız yada Ruby kurulumunuz standart olmayan bir kurulumdaysa Ruby'ye rails komutunun yolunu da net olarak belirtmeniz gerekir: +ruby \path\to\rails generate controller home index+.
 
-Rails will create several files for you, including +app/views/home/index.html.erb+. This is the template that will be used to display the results of the +index+ action (method) in the +home+ controller. Open this file in your text editor and edit it to contain a single line of code:
+Rails sizin için bazı dosyalar üretecektir. Biri de +app/views/home/index.html.erb+. Bu +home+ kontrolörünün +index+ eylemi sayfasını göstermekte kullanılacak olan kalıp dosyadır. Bu dosyayı editörde açıp içine sadece şu satırı koyun gerisini silin:
 
 <code class="html">
-<h1>Hello, Rails!</h1>
+<h1>Merhaba Rails!</h1>
 </code>
 
-h4. Setting the Application Home Page
+h4. Uygulamanın Ana Sayfasının Ayarlanması
 
-Now that we have made the controller and view, we need to tell Rails when we want "Hello Rails" to show up.  In our case, we want it to show up when we navigate to the root URL of our site, "http://localhost:3000":http://localhost:3000, instead of the "Welcome Aboard" smoke test.
+Şimdiye kadar kontrolör ve görsel dosyasını hazırladık, Rails'e "Merhaba Rails" mesajını görmek istediğimizi anlatmalıyız. Bu durumda "http://localhost:3000":http://localhost:3000 adresi girince "Welcome Aboard" yerine hazırladığımız görselin çıkmasını istiyoruz.
 
-The first step to doing this is to delete the default page from your application:
+Bunu yapmanın ilk adımı uygulamanın default sayfasını silmek:
 
 <shell>
 $ rm public/index.html
 </shell>
 
-We need to do this as Rails will deliver any static file in the +public+ directory in preference to any dynamic content we generate from the controllers.
+Rails yayınlama yaparken +public+ klasöründeki statik dosyaları bizim kontrolörle ürettiğimiz dinamik dosyalara tercih edeceği için bunu yapmamız gerekir.
 
-Now, you have to tell Rails where your actual home page is located. Open the file +config/routes.rb+ in your editor. This is your application's _routing file_ which holds entries in a special DSL (domain-specific language) that tells Rails how to connect incoming requests to controllers and actions. This file contains many sample routes on commented lines, and one of them actually shows you how to connect the root of your site to a specific controller and action. Find the line beginning with +root :to+, uncomment it and change it like the following:
+Şimdi Rails'e gerçek ana sayfanın nerede olduğunu anlamanız gerekiyor. +config/routes.rb+ dosyasını editörde açın. Bu uygulamanızın Rails'e gelen çağrılarını nasıl yönlendireceğini anlatan DSL(Domain Spesific Language) girdileri olan yönlendirme dosyasıdır. Bu dosyada başta sadece yorumlar vardır, bu yorumlarda örnek yönlendirmeler vardır. +root :to+ ile başlayan satırın yorum tikini kaldırın ve şu hale getirin:
 
 <ruby>
 Blog::Application.routes.draw do
@@ -327,46 +327,46 @@ Blog::Application.routes.draw do
   root :to => "home#index"
 </ruby>
 
-The +root :to => "home#index"+ tells Rails to map the root action to the home controller's index action.
++root :to => "home#index"+ satırı Rails'e root eylemini "home" kontrolörü "index" eylemine yönlendirmesini anlatır. 
 
-Now if you navigate to "http://localhost:3000":http://localhost:3000 in your browser, you'll see +Hello, Rails!+.
+Eğer şimdi "http://localhost:3000":http://localhost:3000 adresine gidersek +Merhaba Rails!+ mesajını görebiliriz. 
 
-NOTE. For more information about routing, refer to "Rails Routing from the Outside In":routing.html.
+NOT. Daha fazla bilgi için "Rails Routing from the Outside In":routing.html adresine bakınız.
 
-h3. Getting Up and Running Quickly with Scaffolding
+h3. Scaffolding ile hızlı hazırlık ve çalıştırma.
 
-Rails _scaffolding_ is a quick way to generate some of the major pieces of an application. If you want to create the models, views, and controllers for a new resource in a single operation, scaffolding is the tool for the job.
+Rails _Scaffolding_ uygulamanın ana parçalarının üretilmesi için hızlı bir yoldur. Modeller, görseller ve kontrolörleri bir kerede üretmek isterseniz scaffolding size gereken araçtır.
 
-h3. Creating a Resource
+h3. Bir Kaynak Üretmek
 
-In the case of the blog application, you can start by generating a scaffolded Post resource: this will represent a single blog posting. To do this, enter this command in your terminal:
+Blog uygulamasına göre gönderilerin kaydedileceği bir "Post" kaynağı üreterek başlamak gerekir: bu bir tane blog gönderisi barındıracaktır. Bunu yapmak için konsoldan şu komutu girin:
 
 <shell>
 $ rails generate scaffold Post name:string title:string content:text
 </shell>
 
-NOTE. While scaffolding will get you up and running quickly, the "one size fits all" code that it generates is unlikely to be a perfect fit for your application. In most cases, you'll need to customize the generated code. Many experienced Rails developers avoid scaffolding entirely, preferring to write all or most of their source code from scratch.
+NOT. Scaffolding'in kendi doğrultusunda hazırladığı kodu sizin tercihlerinize uymayabilir. Çoğunlukla ürettiği kodları değiştirmek gerekecektir. Uzmanlık kazanmış programcılar genellikle kodlarını baştan kendileri üretir. Ama başlangıç seviyesi için gereklidir.
 
-The scaffold generator will build 15 files in your application, along with some folders, and edit one more. Here's a quick overview of what it creates:
+Scaffold jeneratör uygulamanıza 15 dosya üretir, bazı klasörler üretir ve bazılarını da edit eder. Şimdi bunlara kısaca bakalım:
 
-|_.File                                       |_.Purpose|
-|db/migrate/20100207214725_create_posts.rb    |Migration to create the posts table in your database (your name will include a different timestamp)|
-|app/models/post.rb                           |The Post model|
-|test/fixtures/posts.yml                      |Dummy posts for use in testing|
-|app/controllers/posts_controller.rb          |The Posts controller|
-|app/views/posts/index.html.erb               |A view to display an index of all posts |
-|app/views/posts/edit.html.erb                |A view to edit an existing post|
-|app/views/posts/show.html.erb                |A view to display a single post|
-|app/views/posts/new.html.erb                 |A view to create a new post|
-|app/views/posts/_form.html.erb               |A partial to control the overall look and feel of the form used in edit and new views|
-|app/helpers/posts_helper.rb                  |Helper functions to be used from the post views|
-|test/unit/post_test.rb                       |Unit testing harness for the posts model|
-|test/functional/posts_controller_test.rb     |Functional testing harness for the posts controller|
-|test/unit/helpers/posts_helper_test.rb       |Unit testing harness for the posts helper|
-|config/routes.rb                             |Edited to include routing information for posts|
-|public/stylesheets/scaffold.css              |Cascading style sheet to make the scaffolded views look better|
+|_.Dosya                                       |_.Amacı|
+|db/migrate/20100207214725_create_posts.rb    |Veritabanınızda posts tablosunu üretmek için birleştirme dosyasıdır. Dosya isminde üretildiği anın tarihi olduğu için sizin dosyanızın ismi değişik olacaktır.|
+|app/models/post.rb                           |"Post" modelinin dosyası|
+|test/fixtures/posts.yml                      |Test amaçlı hazırlanmış sahte gönderi verileri|
+|app/controllers/posts_controller.rb          |Gönderilerin kontrolör dosyası|
+|app/views/posts/index.html.erb               |Tüm gönderilerin yer aldığı görsel dosyası |
+|app/views/posts/edit.html.erb                |Bir gönderiyi düzenlemek için görsel sayfası|
+|app/views/posts/show.html.erb                |Birtek gönderiyi göstermek için görsel dosyası|
+|app/views/posts/new.html.erb                 |Yeni bir gönderi hazırlama görseli|
+|app/views/posts/_form.html.erb               |Hem edit hem new eyleminde kullanılan form görüntüsü parçası|
+|app/helpers/posts_helper.rb                  |Post görsellerinde kullanmak için yardımcı fonksiyonlar|
+|test/unit/post_test.rb                       |Gönderilerin modeli (posts) için birim test kalıbı|
+|test/functional/posts_controller_test.rb     |Gönderilerin kontrolörü için fonksiyonel test kalıbı|
+|test/unit/helpers/posts_helper_test.rb       |Yardımcılar için test kalıbı|
+|config/routes.rb                             |Gönderiler için yönlendirmeler amacıyla düzenlendi|
+|public/stylesheets/scaffold.css              |Scaffold ile hazırlanan görseller için hazırlanmış CSS dosyası|
 
-h4. Running a Migration
+h4. Veritabanı Birleştirme Yapılması (Migration)
 
 One of the products of the +rails generate scaffold+ command is a _database migration_. Migrations are Ruby classes that are designed to make it simple to create and modify database tables. Rails uses rake commands to run migrations, and it's possible to undo a migration after it's been applied to your database. Migration filenames include a timestamp to ensure that they're processed in the order that they were created.
 
