@@ -13,11 +13,11 @@ UYARI. Bu klavuz Rails 3.0 a göre düzenlenmiştir. Burada gösterilen bazı ko
 
 h3. Klavuzun Varsayımları
 
-This guide is designed for beginners who want to get started with a Rails application from scratch. It does not assume that you have any prior experience with Rails. However, to get the most out of it, you need to have some prerequisites installed:
+Bu klavuz Rails'e sıfırdan başlamak isteyen yeni programcılar için düzenlenmiştir. Daha önceden herhangi bir Rails bilginiz olmasını beklemez. Ancak, başlamadan önce şu bileşenlerin kurulu olması gerekir:
 
-* The "Ruby":http://www.ruby-lang.org/en/downloads language version 1.8.7 or higher
+* "Ruby":http://www.ruby-lang.org/en/downloads programlama dili versiyon 1.8.7 ya da daha yüksek olmalı
 
-TIP: Note that Ruby 1.8.7 p248 and p249 have marshaling bugs that crash Rails 3.0. Ruby Enterprise Edition have these fixed since release 1.8.7-2010.02 though. On the 1.9 front, Ruby 1.9.1 is not usable because it outright segfaults on Rails 3.0, so if you want to use Rails 3 with 1.9.x jump on 1.9.2 for smooth sailing.
+İPUCU: Ruby 1.8.7 p248 ve p249 Rails 3.0'ın çakılmasına neden olan bug'lar içeriyordu. Ruby Enterprise Edition release 1.8.7-2010.02 den itibaren bu düzeltildi. Ruby 1.9.1 ise Rails 3.0'da segfault hataları veriyor, o yüzden 1.9.x serisiyle Rails 3.0 kullanmak isterseniz Ruby 1.9.2 den itibaren kullanın.
 
 * The "RubyGems":http://rubyforge.org/frs/?group_id=126 packaging system
 * A working installation of the "SQLite3 Database":http://www.sqlite.org
