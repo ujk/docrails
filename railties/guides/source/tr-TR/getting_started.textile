@@ -2,16 +2,16 @@ h2. Rails'e Başlamak
 
 Bu klavuz Ruby on Rails'i kurmanız ve çalıştırmanız için gerekenleri içerir. Onu okuduktan sonra şu konularda bilgi sahibi olacaksınız:
 
-* Installing Rails, creating a new Rails application, and connecting your application to a database
-* The general layout of a Rails application
-* The basic principles of MVC (Model, View Controller) and RESTful design
-* How to quickly generate the starting pieces of a Rails application.
+* Rails Kurulumu, yeni bir Rails uygulaması üretimi ve uygulamanızın bir veritabanına bağlantısı
+* Bir Rails uygulamasının genel yapısı
+* MVC (Model, View Controller) ve RESTful tasarımın temel prensipleri
+* Bir Rails uygulamasının başlangıç kısımlarını nasıl çabukça üretirsiniz.
 
 endprologue.
 
-WARNING. This Guide is based on Rails 3.0. Some of the code shown here will not work in earlier versions of Rails.
+UYARI. Bu klavuz Rails 3.0 a göre düzenlenmiştir. Burada gösterilen bazı kodlar önceki Rails versiyonlarında çalışmaz.
 
-h3. Guide Assumptions
+h3. Klavuzun Varsayımları
 
 This guide is designed for beginners who want to get started with a Rails application from scratch. It does not assume that you have any prior experience with Rails. However, to get the most out of it, you need to have some prerequisites installed:
 
