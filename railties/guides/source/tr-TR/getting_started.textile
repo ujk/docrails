@@ -171,49 +171,47 @@ Uygulamanın üretilmesini hata mesajı almadan birçok dosya oluşturulmasında
 $ cd blog
 </shell>
 
-In any case, Rails will create a folder in your working directory called <tt>blog</tt>. Open up that folder and explore its contents. Most of the work in this tutorial will happen in the <tt>app/</tt> folder, but here's a basic rundown on the function of each folder that Rails creates in a new application by default:
+Rails blog adında bir klasör oluşturdu. Bu klasörü açın ve inceleyin. Bu tutorial'de çoğunlukla "app" klasöründe çalışılacak fakat Rails'in ürettiği klasörlerde basit bir gezinti yapalım:
 
-|_.File/Folder|_.Purpose|
-|Gemfile|This file allows you to specify what gem dependencies are needed for your Rails application.|
-|README|This is a brief instruction manual for your application. Use it to tell others what your application does, how to set it up, and so on.|
-|Rakefile|This file contains batch jobs that can be run from the terminal.|
-|app/|Contains the controllers, models, and views for your application. You'll focus on this folder for the remainder of this guide.|
-|config/|Configure your application's runtime rules, routes, database, and more.|
-|config.ru|Rack configuration for Rack based servers used to start the application.|
-|db/|Shows your current database schema, as well as the database migrations. You'll learn about migrations shortly.|
-|doc/|In-depth documentation for your application.|
-|lib/|Extended modules for your application (not covered in this guide).|
-|log/|Application log files.|
-|public/|The only folder seen to the world as-is.  This is where your images, javascript, stylesheets (CSS), and other static files go.|
-|script/|Contains the rails script that starts your app and can contain other scripts you use to deploy or run your application.|
-|test/|Unit tests, fixtures, and other test apparatus. These are covered in "Testing Rails Applications":testing.html|
-|tmp/|Temporary files|
-|vendor/|A place for all third-party code. In a typical Rails application, this includes Ruby Gems, the Rails source code (if you install it into your project) and plugins containing additional prepackaged functionality.|
+|_.Dosya/Klasör|_.Amacı|
+|Gemfile| Bu dosya Rails uygulamanızın hangi Gem'lere bağlantılı olduğunu belirtir.|
+|README|README dosyası uygulamanız hakkında kısa bilgi bulundurmalıdır. Onda uygulamanızın ne iş yaptığını, nasıl ayarlandığını vb. bilgileri bulundurmalısınız.|
+|Rakefile|Bu dosyada terminalden çalıştırılabilen batch işler bulunur.|
+|app/|Bu klasörde uygulamanızın kontrolör ve görselleri bulunur. Bu klavuzun geri kalan kısmında bu klasöre yoğunlaşacaksınız.|
+|config/|uygulamanızın çalışma kuralları. yönlendirmeleri, ve veritabanı ayarlamaları vs. bu klasördedir.|
+|config.ru|Rack temelli serverlar için uygulamayı başlatma konfigürasyonları.|
+|db/|Veritabanınızın yapısını barındırır. Ayrıca veritabanı birleştirmelerini (Migration) içerir. Birleştirmeleri ilerde göreceksiniz.|
+|doc/|Uygulamanızın dokümanları bu klasördedir.|
+|lib/|Uygulamanızın genişlemesi için modüller buradadır. (bu klavuzda anlatılmamıştır).|
+|log/|Uygulamanın log dosyaları.|
+|public/|Dış dünyadan olduğu şekliyle ulaşılabilen yegane dosyalar buradadır. Burada tüm resimleriniz, javascriptleriniz, stilleriniz ve diğer sunacağınız dosyalar bulunur.|
+|script/|Uygulamanızı çalıştırmak ve yükleme ve diğer çalışma işlevlerinin script'leri içeren klasör.|
+|test/|Test işlemleri , bağlayıcılar ve diğer test yardımcıları buradadır. Bu konular "Rails uygulamasının test edilmesi":testing.html bölümünde işlenecek.|
+|tmp/|Geçici dosyalar|
+|vendor/|Tüm 3. parti yazılımları buradadır. Tipik bir Rails uygulamasında, Gem dosyaları, pluginler ve projenizin içine gömecekseniz Rails kaynak kodu bulunur.|
 
-h4. Installing the Required Gems
+h4. Gerekli Gemlerin Kurulması
 
-Rails applications manage gem dependencies with "Bundler":http://gembundler.com/v1.0/index.html by default. As we don't need any other gems beyond the ones in the generated +Gemfile+ we can directly run
+Rails uygulamanızın kullandığı tüm gemleri vendor klasöründe işlemek için "Bundler":http://gembundler.com/v1.0/index.html gemi kullanır. Default olan dışında özel bir gem kullanmayacağımız için sadece şunu yapmamız gerekiyor:
 
 <shell>
 # bundle install
 </shell>
 
-to have them ready.
+h4. Bir Veritabanı Tanıtmak
 
-h4. Configuring a Database
+Hemen tüm Rails uygulamaları bir veritabanı kullanır. Kullanılacak veritabanı +config/database.yml+ dosyasında tarif edilir. 
+Eğer yeni bir Rails uygulamasında bu dosyayı açarsanız SQLITE3 bir veritabanı tarif edildiğini görürsünüz. Bu dosyada Railsin kullandığı 3 değişik ortama ait kısımlar vardır:
 
-Just about every Rails application will interact with a database. The database to use is specified in a configuration file, +config/database.yml+.
-If you open this file in a new Rails application, you'll see a default database configuration using SQLite3. The file contains sections for three different environments in which Rails can run by default:
+* +Development+ (geliştirme) ortamı uygulamanızı geliştirirken manual iletişim kurabileceğiniz ortamdır.
+* +Test+ ortamı uygulamanın otomatize testlerini çalıştırabileceğiniz ortamdır.
+* +Production+ (üretim) ortamı uygulamanızı dünyanın kullanımı için yayınlamanızda kullanılır.
 
-* The +development+ environment is used on your development computer as you interact manually with the application
-* The +test+ environment is used to run automated tests
-* The +production+ environment is used when you deploy your application for the world to use.
+h5. Bir SQLite3 veritabanı düzenlemek
 
-h5. Configuring an SQLite3 Database
+Rails, hafif server'sız bir veritabanı olan SQLite3 desteği ile gelir. Çok çalışan uygulamalar SQLite3 veritabanını zorlasa da geliştirme ortamı için idealdir. Rails yeni bir uygulama başlattığında SQLite3 olarak yapılanır ama istediğiniz zaman değiştirebilirsiniz.
 
-Rails comes with built-in support for "SQLite3":http://www.sqlite.org, which is a lightweight serverless database application. While a busy production environment may overload SQLite, it works well for development and testing. Rails defaults to using an SQLite database when creating a new project, but you can always change it later.
-
-Here's the section of the default configuration file (<tt>config/database.yml</tt>) with connection information for the development environment:
+Bunlar geliştirme ortamı bölümü için (<tt>config/database</tt>) dosyasının default yapılandırması :
 
 <yaml>
 development:
@@ -223,11 +221,11 @@ development:
   timeout: 5000
 </yaml>
 
-NOTE: In this guide we are using an SQLite3 database for data storage, because it is a zero configuration database that just works. Rails also supports MySQL and PostgreSQL "out of the box", and has plugins for many database systems. If you are using a database in a production environment Rails most likely has an adapter for it.
+NOTE: Bu klavuzda verilerimizi saklamak için bir SQLite3 veritabanı kullanıyoruz, bu yüzden veritabanı konfigürasyon dosyasında bir değişiklik yapmamıza gerek yok. Rails ayrıca MySQL ve PrstgreSQL destekler ve diğer birçok veritabanları için plugin'leri  vardır. Eğer halihazırda kullandığınız bir veritabanı varsa Rails'in yüksek ihtimalle ona uygun bir adaptörü vardır.
 
-h5. Configuring a MySQL Database
+h5. MySQL Veritabanı Konfigürasyonu
 
-If you choose to use MySQL instead of the shipped Sqlite3 database, your +config/database.yml+ will look a little different. Here's the development section:
+Eğer birlikte gelen SQLite3 veritabanı yerine MySQL kullanmayı tercih ederseniz, database.yml dosyanız farklı olmalıdır. İşte geliştirme ortamı bölümü:
 
 <yaml>
 development:
@@ -240,11 +238,11 @@ development:
   socket: /tmp/mysql.sock
 </yaml>
 
-If your development computer's MySQL installation includes a root user with an empty password, this configuration should work for you. Otherwise, change the username and password in the +development+ section as appropriate.
+Eğer geliştirme yatığınız bilgisayardaki MySQL server root kullanıcısı boş şifreyle çalışıyorsa bu konfigürasyon çalışacaktır. Aksi halde kullanıcı adı ve şifrenin server kullanıcısına uygun şekilde değiştirilmesi gerekir.
 
-h5. Configuring a PostgreSQL Database
+h5. PostgreSQL veritabanı konfigürasyonu
 
-Finally if you choose to use PostgreSQL, your +config/database.yml+ will be customized to use PostgreSQL databases:
+Son olarak, eğer PostgreSQL veritabanı kullanmayı tercih ederseniz "config/database.yml" dosyanız buna göre ayarlanmalıdır:
 
 <yaml>
 development:
@@ -256,19 +254,19 @@ development:
   password:
 </yaml>
 
-Change the username and password in the +development+ section as appropriate.
+Kullanıcı adı ve şifreyi doğru şekilde değiştirin.
 
-h4. Creating the Database
+h4. Veritabanı Oluşturulması
 
-Now that you have your database configured, it's time to have Rails create an empty database for you. You can do this by running a rake command:
+Şu anda veritabanı konfigürasyonunuz tamam, şimdi Rails'in sizin için boş bir veritabanı üretmesinin zamanı. Bunu şu komutu girerek yapabilirsiniz:
 
 <shell>
 $ rake db:create
 </shell>
 
-This will create your development and test SQLite3 databases inside the <tt>db/</tt> folder.
+Bu komut <tt>db/</tt> klasöründe geliştirme ve test veritabanlarınızı oluşturur.
 
-TIP: Rake is a general-purpose command-runner that Rails uses for many things. You can see the list of available rake commands in your application by running +rake -T+.
+İPUCU: Rake komutu Rails'in birçok şey için kullandığı genel amaçlı bir kod çalıştırıcıdır. Olası komutları +rake -T+ komutu girerek görebilirsiniz.
 
 h3. Hello, Rails!
 
