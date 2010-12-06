@@ -86,86 +86,86 @@ Action Controller, bir Rails uygulamasında kontrolörleri yönetir. Action Cont
 
 h5. Action View (görsel eylemleri)
 
-Action View manages the views of your Rails application. It can create both HTML and XML output by default. Action View manages rendering templates, including nested and partial templates, and includes built-in AJAX support.
+Action View, Rails uygulamanızdaki görselleri yönetir. Default olarak HTML ve XML çıktı üretebilir. Action View, görsel kalıpları yönetir. Bunlar içinde içiçe kalıpların işlenmesi ve Ajax desteği de vardır.
 
-h5. Action Dispatch
+h5. Action Dispatch (dağıtım eylemleri)
 
-Action Dispatch handles routing of web requests and dispatches them as you want, either to your application or any other Rack application.
+Action Dispatch, gelen web isteklerinin yönlendirilmesini yönetir ve istediğiniz şekilde sizin uygulamanıza veya diğer bir Rack uygulamasına dağıtımını sağlar. 
 
 h5. Action Mailer
 
-Action Mailer is a framework for building e-mail services. You can use Action Mailer to receive and process incoming email and send simple plain text or complex multipart emails based on flexible templates.
+Action Mailer, e-mail servisleri üretmek için bir iskelettir. Action Mailer'ı gelen mailleri işlemekte ve basit bir yazıdan birçok kalıplarda komplex e-maillere kadar mail hazırlayıp göndermede kullanabilirsiniz.
 
 h5. Active Model
 
-Active Model provides a defined interface between the Action Pack gem services and Object Relationship Mapping gems such as Active Record.  Active Model allows Rails to utilize other ORM frameworks in place of Active Record if your application needs this.
+Active Model, Action Pack gem servisleri ve Active Record gibi obje ilişkileri yönlendirme gemleri arasında bir bağlaşım sağlar. Active Model ile Active Record yerine eğer uygulmanızın ihtiyacı varsa diğer ORM iskeletleri de kullanabilirsiniz.
 
 h5. Active Record
 
-Active Record is the base for the models in a Rails application. It provides database independence, basic CRUD functionality, advanced finding capabilities, and the ability to relate models to one another, among other services.
+Active Record bir Rails uygulamasında modeller için temeldir. Veri tabanından bağımsız olmayı, basit CRUD işlevlerini ve modellerin bir diğerleriyle ilişkisini sağlar.
 
 h5. Active Resource
 
-Active Resource provides a framework for managing the connection between business objects and RESTful web services. It implements a way to map web-based resources to local objects with CRUD semantics.
+Active Resource, işlevsel nesnelerle REST temelli web servisleri arasında bağlantı sağlayan bir iskelet sağlar. CRUD mantığıyla web temelli kaynaklar ve yerel nesneler arasında bir yol çizer.
 
 h5. Active Support
 
-Active Support is an extensive collection of utility classes and standard Ruby library extensions that are used in Rails, both by the core code and by your applications.
+Active Support, Rails uygulamaları için yazılmış, hem merkezde hem uygulamanızda kullanılan gelişmiş birçok Ruby kütüphane ilaveleri içerir.
 
 h5. Railties
 
-Railties is the core Rails code that builds new Rails applications and glues the various frameworks and plugins together in any Rails application.
+Railties yeni bir Rails uygulaması için kod üretmekte ve değişik iskeletlerle plugin'leri Rails uygulamasında içermek için kullanılan merkez ünitedir.
 
 h4. REST
 
-Rest stands for Representational State Transfer and is the foundation of the RESTful architecture. This is generally considered to be Roy Fielding's doctoral thesis, "Architectural Styles and the Design of Network-based Software Architectures":http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm. While you can read through the thesis, REST in terms of Rails boils down to two main principles:
+Rest, Representational State Transfer cümlesini ifade eder ve RESTfull mimarisinin temelidir. Bu Roy Fielding'in ağ temelli yazılım mimarileri ve stillerini belirten doktora tezinden esinlenmiştir. Bu teze göre Rails uygulamasına şu ana özellikler kazandırılmıştır :
 
-* Using resource identifiers such as URLs to represent resources.
-* Transferring representations of the state of that resource between system components.
+* Kaynakları gösteren URL ler benzeri kaynak imleri kullanmak.
+* Sistem bileşenleri arasında kaynakların durumunu taşımak.
 
-For example, to a Rails application a request such as this:
+Örneğin Bir Rails uygulamasına şöyle bir istek gelsin :
 
 <tt>DELETE /photos/17</tt>
 
-would be understood to refer to a photo resource with the ID of 17, and to indicate a desired action - deleting that resource. REST is a natural style for the architecture of web applications, and Rails hooks into this shielding you from many of the RESTful complexities and browser quirks.
+ yazımından anlaşılacağı gibi id'si 17 olan bir fotoğrafın silinmesi isteğidir. REST web uygulamaları için doğal bir yöntemdir ve Rails bunu yöneterek sizi birçok karmaşık işten ve tarayıcı süprizlerinden kurtarır.
 
-If you'd like more details on REST as an architectural style, these resources are more approachable than Fielding's thesis:
+Eğer REST yapısı hakkında ve Fielding'in tezi hakkında daha fazla bilgi sahibi olmak isterseniz bu kaynaklara bakabilirsiniz :
 
 * "A Brief Introduction to REST":http://www.infoq.com/articles/rest-introduction by Stefan Tilkov
 * "An Introduction to REST":http://bitworking.org/news/373/An-Introduction-to-REST (video tutorial) by Joe Gregorio
 * "Representational State Transfer":http://en.wikipedia.org/wiki/Representational_State_Transfer article in Wikipedia
 * "How to GET a Cup of Coffee":http://www.infoq.com/articles/webber-rest-workflow by Jim Webber, Savas Parastatidis & Ian Robinson
 
-h3. Creating a New Rails Project
+h3. Yeni Bir Rails Projesi Üretmek
 
-If you follow this guide, you'll create a Rails project called <tt>blog</tt>, a (very) simple weblog. Before you can start building the application, you need to make sure that you have Rails itself installed.
+Eğer bu klavuzu takip ederseniz, <tt>blog</tt> adında bir Rails uygulaması üreteceksiniz, çok basit bir web günlüğü. Uygulamayı inşa etmeye başlamadan önce, Rails'in sisteminizde kurulu olduğundan emin olmalısınız.
 
-h4. Installing Rails
+h4. Rails Kurulumu
 
-In most cases, the easiest way to install Rails is to take advantage of RubyGems:
+Birçok durumda, Rails kurmanın en kolay yolu RubyGems avantajını kullanmak olacaktır:
 
 <shell>
-Usually run this as the root user:
+Genellikle bu komutu root kullanıcı olarak çalıştırmanız gerekir: 
 # gem install rails
 </shell>
 
-TIP. If you're working on Windows, you should be aware that the vast majority of Rails development is done in Unix environments. While Ruby and Rails themselves install easily using for example "Ruby Installer":http://rubyinstaller.org/, the supporting ecosystem often assumes you are able to build C-based rubygems and work in a command window. If at all possible, we suggest that you install a Linux virtual machine and use that for Rails development, instead of using Windows.
+İPUCU. Eğer Windows kullanıyorsanız, Instant Rails'in kurulumunu daha basit bulacaksınız. Gerçi Instant Rails en son versiyondan genelde geride kalıyor ama. Ayrıca windos üzerinde Rails geliştirme yapmak diğer sistemlere nazaran daha keyifsizdir. Eğer mümkünse tavsiyemiz windows yerine bir Linux sanal makina yardımıyla Rails çalışmanızdır.
 
-h4. Creating the Blog Application
+h4. Blog Uygulmasını Üretmek
 
-The best way to use this guide is to follow each step as it happens, no code or step needed to make this example application has been left out, so you can literally follow along step by step.  If you need to see the completed code, you can download it from "Getting Started Code":http://github.com/mikel/getting-started-code.
+Bu klavuzu kullanmanın en iyi yolu sırası geldiğinde her adımı takip etmek, bu örneği yapmak için gereken hiçbir kodlama dışarda bırakılmamıştır. Bu yüzden adım adım izleyebilirsiniz. Eğer bitmiş kodu görmek isterseniz, "Getting Started Code":http://github.com/mikel/getting-started-code dan indirebilirsiniz.
 
-To begin, open a terminal, navigate to a folder where you have rights to create files, and type:
+Başlamak için bir konsol (terminal) açın ve uygulamanızı koymak istediğiniz ve dosya yazma hakkınızın bulunduğu bir klasöre gidin ve şunu yazın:
 
 <shell>
 $ rails new blog
 </shell>
 
-This will create a Rails application called Blog in a directory called blog.
+Bu "blog" adlı klasör içinde Blog ismi verilen bir uygulama üretecektir.
 
-TIP: You can see all of the switches that the Rails application builder accepts by running <tt>rails -h</tt>.
+İPUCU: Rails Uygulama Üretecinin tüm komut satır parametrelerini <tt>rails -h</tt> komutuyla görebilirsiniz.
 
-After you create the blog application, switch to its folder to continue work directly in that application:
+Uygulamanın üretilmesini hata mesajı almadan birçok dosya oluşturulmasından gördükten sonra uygulamanın bulunduğu klasöre geçin:
 
 <shell>
 $ cd blog
