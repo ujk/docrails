@@ -19,50 +19,50 @@ Bu klavuz Rails'e sıfırdan başlamak isteyen yeni programcılar için düzenle
 
 İPUCU: Ruby 1.8.7 p248 ve p249 Rails 3.0'ın çakılmasına neden olan bug'lar içeriyordu. Ruby Enterprise Edition release 1.8.7-2010.02 den itibaren bu düzeltildi. Ruby 1.9.1 ise Rails 3.0'da segfault hataları veriyor, o yüzden 1.9.x serisiyle Rails 3.0 kullanmak isterseniz Ruby 1.9.2 den itibaren kullanın.
 
-* The "RubyGems":http://rubyforge.org/frs/?group_id=126 packaging system
-* A working installation of the "SQLite3 Database":http://www.sqlite.org
+* "RubyGems":http://rubyforge.org/frs/?group_id=126 paketleme sistemi
+* Çalışan bir "SQLite3 Veritabanı":http://www.sqlite.org
 
-Rails is a web application framework running on the Ruby programming language. If you have no prior experience with Ruby, you will find a very steep learning curve diving straight into Rails.  There are some good free resources on the internet for learning Ruby, including:
+Rails, Ruby programlama dili üzerinden çalışan bir web uygulama geliştirme iskeletidir. Eğer Ruby hakkında önceden bilginiz yoksa, Rails öğrenirken zorlanacaksınız. Ruby öğrenmek için birçok bedava kaynak vardır, bazıları şunlar:
 
 * "Mr. Neighborly's Humble Little Ruby Book":http://www.humblelittlerubybook.com
 * "Programming Ruby":http://www.ruby-doc.org/docs/ProgrammingRuby/
 * "Why's (Poignant) Guide to Ruby":http://mislav.uniqpath.com/poignant-guide/
 
-h3. What is Rails?
+h3. Rails Nedir?
 
-Rails is a web application development framework written in the Ruby language. It is designed to make programming web applications easier by making assumptions about what every developer needs to get started. It allows you to write less code while accomplishing more than many other languages and frameworks. Experienced Rails developers also report that it makes web application development more fun.
+Rails, Ruby programlama dili üzerinden çalışan bir web uygulama geliştirme iskeletidir. Her geliştiricinin başlarken ihtiyaç duyacağı şeyler hakkında varsayımlarda bulunarak web uygulamalarının yapılmasını kolaylaştırmak için tasarlanmıştır. Diğer benzerlerinden çok daha az kod yazarak başarıya ulaşmanızı sağlar. Uzmanlaşmış Rails kullanıcıları web uygulaması geliştirmenin eğlenceli hale getirildiğini de söyler.
 
-Rails is opinionated software. It makes the assumption that there is a "best" way to do things, and it's designed to encourage that way - and in some cases to discourage alternatives. If you learn "The Rails Way" you'll probably discover a tremendous increase in productivity. If you persist in bringing old habits from other languages to your Rails development, and trying to use patterns you learned elsewhere, you may have a less happy experience.
+Rails dikkafalı bir yazılımdır. Birşeyleri yapmanın en iyi yolu olduğunu ve kendisinin bu yolu kullandığını savunur ve bazen diğer yolları da inkar eder. Eğer "Rails yolu"nu öğrenirseniz, yüksek ihtimalle üretkenliğinizde büyük bir atış olduğunu göreceksiniz. Eğer daha önceki tecrübelerinizden yada bildiğiniz dillerden birşeyleri uygulamaya kalkarsanız daha başarısız olursunuz.
 
-The Rails philosophy includes several guiding principles:
+Rails filozofisi birkaç temel üzerine oturmuştur :
 
-* DRY - "Don't Repeat Yourself" - suggests that writing the same code over and over again is a bad thing.
-* Convention Over Configuration - means that Rails makes assumptions about what you want to do and how you're going to do it, rather than requiring you to specify every little thing through endless configuration files.
-* REST is the best pattern for web applications - organizing your application around resources and standard HTTP verbs is the fastest way to go.
+* DRY - "Dont Repeat Yourself (kendini tekrar edip durma)" - Aynı kodu tekrar tekrar yazmanın kötü birşey olduğunu savunur.
+* Convention Over Configuration - Konfigürasyon kuralları koyar. Rails sizin na yapacağınıza ve nasıl yapacağınıza dair varsayımlarda bulunarak her küçük ayrıntıyı sayısız defa ayarlamanızı engeller.
+* REST kaynaklarınızı ve standart HTTP işlerini en hızlı ilerlenecek şekilde ayarlayan bir web uygulama düzenidir.
 
-h4. The MVC Architecture
+h4. MVC Mimarisi
 
-At the core of Rails is the Model, View, Controller architecture, usually just called MVC. MVC benefits include:
+Rails'in merkezi Model, View, Controller mimarisidir, genellikle MVC diye çağrılır. MVC'nin avantajları şunlar :
 
-* Isolation of business logic from the user interface
-* Ease of keeping code DRY
-* Making it clear where different types of code belong for easier maintenance
+* Kullanıcı arabirimi ile iş yapan lojiği biribrinden ayırır.
+* DRY prensiplerine bağlı kalmayı kolaylaştırır.
+* Farklı tiplerde kodlamaların berraklığı sayesinde bakım ve modifikasyon kolaylaşır.
 
-h5. Models
+h5. Modeller
 
-A model represents the information (data) of the application and the rules to manipulate that data. In the case of Rails, models are primarily used for managing the rules of interaction with a corresponding database table. In most cases, one table in your database will correspond to one model in your application. The bulk of your application's business logic will be concentrated in the models.
+Bir model, uygulama ve verileri arasındaki işlemleri sağlar. Rails yapısında modeller esas olarak bağlı veritabanı ile iletişimin kurallarını yönetir. Birçok durumda veri tabanınızdaki her tabloya karşı uygulamanızda bir model olacaktır. Uygulamanızın arkaplandaki lojiği çoğunlukla bu modeller üzerinde işlem yapacaktır.
 
-h5. Views
+h5. View'lar (Görseller)
 
-Views represent the user interface of your application. In Rails, views are often HTML files with embedded Ruby code that perform tasks related solely to the presentation of the data. Views handle the job of providing data to the web browser or other tool that is used to make requests from your application.
+Görseller uygulamanızın kullanıcı arabirimini oluştururlar. Rails'de görseller, genellikle görevleri veriyi sunmak olan ruby kodlarıyla birleştirilmiş HTML dosyalarıdır. Görseller internet tarayıcılarında verileri göstermek veya uygulamanızdan yapılacak istekleri iletmede kullanılır.
 
-h5. Controllers
+h5. Controller'lar 
 
-Controllers provide the "glue" between models and views. In Rails, controllers are responsible for processing the incoming requests from the web browser, interrogating the models for data, and passing that data on to the views for presentation.
+Kontrolörler, modeller ve görseller arasında birleştirici görevi yaparlar. Rails'de kontrolörler, webten gelen istekleri işlemekle, modelleri veri için sorgulamakla ve verileri kullanıcıya sunulması için görsellere iletmekle sorumludurlar.
 
-h4. The Components of Rails
+h4. Rails'in Bileşenleri
 
-Rails ships as many individual components.
+Rails, birçok özgün bileşenle birlikte gelir.
 
 * Action Pack
   ** Action Controller
@@ -76,15 +76,15 @@ Rails ships as many individual components.
 * Railties
 
 
-h5. Action Pack
+h5. Action Pack (Eylem Paketi)
 
-Action Pack is a single gem that contains Action Controller, Action View and Action Dispatch.  The "VC" part of "MVC".
+Action Pack içinde Action Controller, Action View ve Action Dispatch bileşenlerinden oluşan tek bir gem'dir. MVC'nin VC parçasını oluşturur.
 
-h5. Action Controller
+h5. Action Controller (kontrolör eylemleri)
 
-Action Controller is the component that manages the controllers in a Rails application. The Action Controller framework processes incoming requests to a Rails application, extracts parameters, and dispatches them to the intended action. Services provided by Action Controller include session management, template rendering, and redirect management.
+Action Controller, bir Rails uygulamasında kontrolörleri yönetir. Action Controller, Rails uygulamasına gelen istekleri işleyerek parametreleri ayırır ve onları ilgili eylemlere dağıtır. Action Controller tarafından sağlanan servisler içinde oturum yönetimi, görsel kalıpların yayınlanması ve yönlendirmeler vardır.
 
-h5. Action View
+h5. Action View (görsel eylemleri)
 
 Action View manages the views of your Rails application. It can create both HTML and XML output by default. Action View manages rendering templates, including nested and partial templates, and includes built-in AJAX support.
 
