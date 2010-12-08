@@ -480,9 +480,9 @@ Konsol yüklendikten sonra, onu uygulamanızın modelleri ile çalışmak için 
                    :name=>["can't be blank"] }>
 </shell>
 
-This code shows creating a new +Post+ instance, attempting to save it and getting +false+ for a return value (indicating that the save failed), and inspecting the +errors+ of the post.
+Bu kod yeni bir +Post+ örneği oluşturulduğunu, kaydetmeye kalkınca +false+ cevabı alındığını (ki bu kayıt işleminin gerçekleşmediğini gösterir) ve gönderi verisindeki hatayı +errors+ ile görmeyi gösteriyor.
 
-When you're finished, type +exit+ and hit +return+ to exit the console.
+Bitirdiğinizde +exit+ yazın ve +return+ basarak konsoldan çıkabilirsiniz.
 
 TIP: Unlike the development web server, the console does not automatically load your code afresh for each line. If you make changes to your models while the console is open, type +reload!+ at the console prompt to load them.
 
