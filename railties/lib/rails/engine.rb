@@ -494,7 +494,7 @@ module Rails
     end
 
     initializer :append_asset_paths do
-      config.asset_path ||= "/#{railtie_name}%s"
+      config.asset_path ||= default_asset_path
 
       public_path = paths["public"].first
       if config.compiled_asset_path && File.exist?(public_path)
@@ -548,6 +548,11 @@ module Rails
     end
 
   protected
+
+    def default_asset_path
+      "/#{railtie_name}%s"
+    end
+
     def routes?
       defined?(@routes)
     end
