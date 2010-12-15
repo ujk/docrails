@@ -484,13 +484,13 @@ Bu kod yeni bir +Post+ örneği oluşturulduğunu, kaydetmeye kalkınca +false+ 
 
 Bitirdiğinizde +exit+ yazın ve +return+ basarak konsoldan çıkabilirsiniz.
 
-TIP: Unlike the development web server, the console does not automatically load your code afresh for each line. If you make changes to your models while the console is open, type +reload!+ at the console prompt to load them.
+İPUCU: Geliştirme modundaki web server'ın aksine konsol her seferinde kodunuzu tekrar yüklemez. Bu yüzden konsol açıkken modelde değişiklik yaparsanız +reload+ komutu girerek tazeleme sağlamalısınız.
 
-h4. Listing All Posts
+h4. Tüm Gönderilerin Listelenmesi
 
-The easiest place to start looking at functionality is with the code that lists all posts. Open the file +app/controllers/posts_controller.rb+ and look at the +index+ action:
+Çalışmanın incelenmesinde en kolay yol gönderilerin listelendiği sayfayı incelemek. +app/controllers/posts_controller.rb+ dosyasını açın ve +index+ eylemine bakın:
 
-<ruby>
+<pre>
 def index
   @posts = Post.all
 
@@ -499,15 +499,15 @@ def index
     format.xml  { render :xml => @posts }
   end
 end
-</ruby>
+</pre>
 
-+Post.all+ calls the +Post+ model to return all of the posts currently in the database. The result of this call is an array of posts that we store in a instance variable called +@posts+.
++Post.all+ deyimi +Post+ modelinden veritabanındaki tüm gönderileri getirir. Bunun sonucunda +@posts+ değişkeninde bir array olarak gönderileri saklıyoruz.
 
-TIP: For more information on finding records with Active Record, see "Active Record Query Interface":active_record_querying.html.
+İPUCU: Active Record hakkında daha fazla bilgi için "Active Record Query Interface":active_record_querying.html başlığına bakınız.
 
-The +respond_to+ block handles both HTML and XML calls to this action. If you browse to "http://localhost:3000/posts.xml":http://localhost:3000/posts.xml, you'll see all of the posts in XML format. The HTML format looks for a view in +app/views/posts/+ with a name that corresponds to the action name. Rails makes all of the instance variables from the action available to the view. Here's +app/views/posts/index.html.erb+:
++respond_to+ bloğu hem HTML hem XML olarak gelen çağrıları cevaplar. Eğer tarayıcıda "http://localhost:3000/posts.xml":http://localhost:3000/posts.xml adresine giderseniz tüm göderileri XML formatında görürsünüz. HTML formatı +app/views/posts/+ içindeki view dosyalarından ilgili eylemin dosyasına göre bir görüntü döner. Rails ilgili eylem içindeki tüm instance değişkenleri görsel için de kullanılabilir hale getirir. +app/views/posts/index.html.erb+ dosyasını inceleyelim:
 
-<erb>
+<pre>
 <h1>Listing posts</h1>
 
 <table>
@@ -535,22 +535,22 @@ The +respond_to+ block handles both HTML and XML calls to this action. If you br
 <br />
 
 <%= link_to 'New post', new_post_path %>
-</erb>
+</pre>
 
-This view iterates over the contents of the +@posts+ array to display content and links. A few things to note in the view:
+Bu görsel dosyası, +@posts+ array değişkeni üzerinden gönderileri listeliyor ve ilgili linkleri elde ediyor. Görsel içinde birkaç noktaya dikkat edersek:
 
-* +link_to+ builds a hyperlink to a particular destination
-* +edit_post_path+ and +new_post_path+ are helpers that Rails provides as part of RESTful routing. You'll see a variety of these helpers for the different actions that the controller includes.
+* +link_to+ bir hyperlink bağlantısı oluşturur
+* +edit_post_path+ ve +new_post_path+ Rails'in RESTful yönlendirmelerinde kullandığı yardımcı tekniklerinden gelir. Kontrolörler içinde bu yardımcılardan birçok daha göreceksiniz.
 
-NOTE. In previous versions of Rails, you had to use +&lt;%=h post.name %&gt;+ so that any HTML would be escaped before being inserted into the page.  In Rails 3.0, this is now the default.  To get unescaped HTML, you now use +&lt;%= raw post.name %&gt;+.
+NOT. Rails'in önceki versiyonunda, +&lt;%=h post.name %&gt;+ kullanarak veri içine konan HTML kodlarının sayfada işlem yapması ve sayfanın saldırıya uğraması engellenirdi. Rails 3.0'da bu işlem default olarak yapılır. HTML kodların çalışmasını istiyorsanız +&lt;%= raw post.name %&gt;+ şeklinde yazmalısınız.
 
-TIP: For more details on the rendering process, see "Layouts and Rendering in Rails":layouts_and_rendering.html.
+İPUCU: Render işlemi için ayrıntılı bilgiyi "Layouts and Rendering in Rails":layouts_and_rendering.html. adresinde bulabilirsiniz.
 
-h4. Customizing the Layout
+h4. Yerleşimin Düzenlenmesi
 
-The view is only part of the story of how HTML is displayed in your web browser. Rails also has the concept of +layouts+, which are containers for views. When Rails renders a view to the browser, it does so by putting the view's HTML into a layout's HTML. In previous versions of Rails, the +rails generate scaffold+ command would automatically create a controller specific layout, like +app/views/layouts/posts.html.erb+, for the posts controller. However this has been changed in Rails 3.0. An application specific +layout+ is used for all the controllers and can be found in +app/views/layouts/application.html.erb+. Open this layout in your editor and modify the +body+ tag:
+Görsel dosyalarında sadece tarayıcıda HTML'in nasıl görüneceği bilgisi vardır. Rails'de bundan başka +yerleşimler+ (layout) de bulunur. Bunlar görsellerin içine konacağı dosyalardır. Rails tarayıcıya bir görseli dönerken, görselin HTML kodunu yerleşimin HTML kodu içersine yerleştirir ve bu birleşimi döndürür. Rails'in önceki versiyonunda +rails generate scaffold+ komutu çalışınca otomatik olarak kontrolöre ait bir yerleşim dosyası (app/views/layouts/posts.html.erb gibi) üretilirdi. Rails 3.0'da bu değişti. Uygulama çapında bir +yerleşim+ tüm kontrolörler için kullanılır, +app/views/layouts/application.html.erb+. Bu yerleşim dosyasını editörde açın ve +body+ tag'ini değiştirin:
 
-<erb>
+<pre>
 <!DOCTYPE html>
 <html>
 <head>
@@ -565,15 +565,15 @@ The view is only part of the story of how HTML is displayed in your web browser.
 
 </body>
 </html>
-</erb>
+</pre>
 
-Now when you refresh the +/posts+ page, you'll see a gray background to the page. This same gray background will be used throughout all the views for posts.
+Şimdi +/posts+ sayfasını tazelediğinizde sayfa arkaplanın gri renk olduğunu göreceksiniz. Aynı arkaplan tüm görsellerde gri olacaktır.
 
-h4. Creating New Posts
+h4. Yeni Gönderiler Oluşturmak
 
-Creating a new post involves two actions. The first is the +new+ action, which instantiates an empty +Post+ object:
+Yeni gönderi oluşturmak iki eylemden oluşur. İlkönce +new+ eylemi boş bir +Post+ objesi başlatarak yeni gönderi oluşturur:
 
-<ruby>
+<pre>
 def new
   @post = Post.new
 
@@ -582,26 +582,26 @@ def new
     format.xml  { render :xml => @post }
   end
 end
-</ruby>
+</pre>
 
-The +new.html.erb+ view displays this empty Post to the user:
++new.html.erb+ görseli kullanıcıya boş bir gönderi gösterir:
 
-<erb>
-<h1>New post</h1>
+<pre>
+  <h1>New post</h1>
 
-<%= render 'form' %>
+  <%= render 'form' %>
 
-<%= link_to 'Back', posts_path %>
-</erb>
+  <%= link_to 'Back', posts_path %>
+</pre>
 
-The +&lt;%= render 'form' %&gt;+ line is our first introduction to _partials_ in Rails.  A partial is a snippet of HTML and Ruby code that can be reused in multiple locations.  In this case, the form used to make a new post, is basically identical to a form used to edit a post, both have text fields for the name and title and a text area for the content with a button to make a new post or update the existing post.
++&lt;%= render 'form' %&gt;+ satırı Rails'de _partial_ konusuna ilk girişimizi oluşturacak. Bir partial (kısmi kod), birçok yerde tekrar kullanmak için hazırlanmış Ruby ve HTML kodlardan oluşan kod parçasıdır. Bizim uygulamamızda yeni gönderi oluşturmak için kullanılan form ile olan bir gönderiyi değiştirmek için kullanılan form aynıdır. Her ikisinde de isim ve başlık için birer text field, içerik için bir text area ve gönderiyi kaydetmek için bir buton vardır.
 
-If you take a look at +views/posts/_form.html.erb+ file, you will see the following:
+Eğer +views/posts/_form.html.erb+ dosyasına bakarsanız, şunları göreceksiniz:
 
-<erb>
+<pre>
 <%= form_for(@post) do |f| %>
   <% if @post.errors.any? %>
-  <div id="errorExplanation">
+  <div id="error_explanation">
     <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
     <ul>
     <% @post.errors.full_messages.each do |msg| %>
@@ -627,21 +627,21 @@ If you take a look at +views/posts/_form.html.erb+ file, you will see the follow
     <%= f.submit %>
   </div>
 <% end %>
-</erb>
+</pre>
 
-This partial receives all the instance variables defined in the calling view file, so in this case, the controller assigned the new Post object to +@post+ and so, this is available in both the view and partial as +@post+.
+Bu kısmi kod tüm instance değişkenleri kendisini çağıran görselden alır ve kullanır, burada yeni gönderi kontrolör tarafından +@post+ değişkenine konur. Hem yeni gönderi hem değiştirme yaparken kontrolör +@post+ değişkenini kullanmaktadır. 
 
-For more information on partials, refer to the "Layouts and Rendering in Rails":layouts_and_rendering.html#using-partials guide.
+Kısmi kodlar hakkında daha fazla bilgi "Layouts and Rendering in Rails":layouts_and_rendering.html#using-partials klavuzunda bulunabilir.
 
-The +form_for+ block is used to create an HTML form. Within this block, you have access to methods to build various controls on the form. For example, +f.text_field :name+ tells Rails to create a text input on the form, and to hook it up to the +name+ attribute of the instance being displayed. You can only use these methods with attributes of the model that the form is based on (in this case +name+, +title+, and +content+). Rails uses +form_for+ in preference to having you write raw HTML because the code is more succinct, and because it explicitly ties the form to a particular model instance.
++form_for+ bloğu bir HTML form üretmek için kullanılır. Bu blok içinde form içerisinde değişik kontroller oluşturmak için metodlar kullanabilirsiniz. Örneğin, +f.text_field :name+ komutu Rails'e form üzerinde bir text input oluşturmasını ve bunu instance değişkenin +name+ sütununu gösterecek şekilde bağlamasını anlatır. Bu metodları sadece formun bağlı olduğu modelin sütunlarına bağlamak için kullanabilirsiniz (yani burada +name+, +title+ ve +content+ ). Rails, +form_for+ yapısını az kodlama yapma amacıyla ve bir modelle direk bağlantı yaptığı için HTML koda tercih eder.
 
-The +form_for+ block is also smart enough to work out if you are doing a _New Post_ or an _Edit Post_ action, and will set the form +action+ tags and submit button names appropriately in the HTML output.
++form_for+ bloğu ayrıca yeni gönderi veya gönderi değiştirme eylemlerinin hangisinin istendiğini çözecek ve formun +action+ tag'i ve gönderi butonu etiketini isteğe göre tayin edecek kadar akıllıdır.
 
-TIP: If you need to create an HTML form that displays arbitrary fields, not tied to a model, you should use the +form_tag+ method, which provides shortcuts for building forms that are not necessarily tied to a model instance.
+İPUCU: Eğer bir modele bağlı olmayan keyfi alanları olan bir HTML form oluşturmak isterseniz +form_tag+ metodunu kullanın. Bu bir modele bağlı olmayan formlar oluşturmak için gereken metodları kullanır.
 
-When the user clicks the +Create Post+ button on this form, the browser will send information back to the +create+ method of the controller (Rails knows to call the +create+ method because the form is sent with an HTTP POST request; that's one of the conventions that I mentioned earlier):
+Kullanıcı bu form üzerindeki +Create Post+ düğmesini tıkladığında tarayıcı bilgiyi kontrolörün +create+ eylemine gönderir (Rails +create+ metodunu çağıracağını bilir çünkü form bir HTTP POST isteği ile gönderilmiştir, bu daha önce anlattığımız geleneklerdendir):
 
-<ruby>
+<pre>
 def create
   @post = Post.new(params[:post])
 
@@ -658,19 +658,19 @@ def create
     end
   end
 end
-</ruby>
+</pre>
 
-The +create+ action instantiates a new Post object from the data supplied by the user on the form, which Rails makes available in the +params+ hash. After successfully saving the new post, +create+ returns the appropriate format that the user has requested (HTML in our case). It then redirects the user to the resulting post +show+ action and sets a notice to the user that the Post was successfully created.
++create+ eylemi formun gönderdiği verilerle yeni bir Post nesnesi üretir, veriyi +params+ hash yapısından alır. Yeni gönderiyi sağlıklı bir şekilde kaydederse +create+ eylemi kullanıcının girişi yaptığı formatta (burada HTML) kaydı gösteren sayfaya döner. Kullanıcıyı üretilen gönderinin +show+ eylemine yönlendirir ve bir bildiriyle kullanıcıya işlemin başarısını bildirir.
 
-If the post was not successfully saved, due to a validation error, then the controller returns the user back to the +new+ action with any error messages so that the user has the chance to fix the error and try again.
+Eğer gönderi sağlıklı kaydedilemediyse, mesela denetleme hatası olduysa, kullanıcı tekrar +new+ eylemine yönlendirilip düzeltilip tekrar girilmesini belirten bir hata mesajı verilir.
 
-The "Post was successfully created." message is stored inside of the Rails +flash+ hash, (usually just called _the flash_) so that messages can be carried over to another action, providing the user with useful information on the status of their request. In the case of +create+, the user never actually sees any page rendered during the Post creation process, because it immediately redirects to the new Post as soon Rails saves the record. The Flash carries over a message to the next action, so that when the user is redirected back to the +show+ action, they are presented with a message saying "Post was successfully created."
+"Post was successfully created." mesajı Rails'in +flash+ hash yapısında saklanır ve böylece mesaj kullanıcıyı yönlendirecek yardımcı bir mesajla diğer bir eyleme taşınabilir. +create+ eylemi kaydı saklarken başka bir görsele gitmeyip saklamanın ardından +show+ eylemine yönlendiği için bu sayfanın üzerinde "Post was successfully created." mesajı çıkar.
 
-h4. Showing an Individual Post
+h4. Bir Gönderinin Ayrıntısının Gösterilmesi
 
-When you click the +show+ link for a post on the index page, it will bring you to a URL like +http://localhost:3000/posts/1+. Rails interprets this as a call to the +show+ action for the resource, and passes in +1+ as the +:id+ parameter. Here's the +show+ action:
+Index sayfasında bir gönderinin +show+ linkine tıkladığınızda, sizi +http://localhost:3000/posts/2+ gibi bir sayfaya yönlendirir. Rails bunu +show+ eylemine bir çağrı olarak işler ve +2+ sayısını +:id+ parametresi olarak algılar. İşte +show+ eylemi:
 
-<ruby>
+<pre>
 def show
   @post = Post.find(params[:id])
 
@@ -679,7 +679,7 @@ def show
     format.xml  { render :xml => @post }
   end
 end
-</ruby>
+</pre>
 
 The +show+ action uses +Post.find+ to search for a single record in the database by its id value. After finding the record, Rails displays it by using +show.html.erb+:
 
