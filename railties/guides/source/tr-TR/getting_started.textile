@@ -706,32 +706,32 @@ end
 <%= link_to 'Back', posts_path %>
 </pre>
 
-h4. Editing Posts
+h4. Gönderileri Düzenlemek
 
-Like creating a new post, editing a post is a two-part process. The first step is a request to +edit_post_path(@post)+ with a particular post. This calls the +edit+ action in the controller:
+Yeni gönderi oluştururken olduğu gibi bir gönderiyi düzenlemek de iki adımdır. İlk adım +edit_post_path(@post)+ adresine ilgili gönderiye bağlı bir çağrıdır. Bu kontrolördeki +edit+ eylemini çağırır:
 
-<ruby>
+<pre>
 def edit
   @post = Post.find(params[:id])
 end
-</ruby>
+</pre>
 
-After finding the requested post, Rails uses the +edit.html.erb+ view to display it:
+Talep edilen gönderiyi bulduktan sonra Rails +edit.html.erb+ 'yi kullanarak gönderiyi size gösterir:
 
-<erb>
+<pre>
 <h1>Editing post</h1>
 
 <%= render 'form' %>
 
 <%= link_to 'Show', @post %> |
 <%= link_to 'Back', posts_path %>
-</erb>
+</pre>
 
-Again, as with the +new+ action, the +edit+ action is using the +form+ partial, this time however, the form will do a PUT action to the PostsController and the submit button will display "Update Post"
+Yine +new+ eyleminde olduğu gibi +edit+ eylemi de +form+ kısmi kodunu kullanır. Ama bu sefer kontrolöre PUT eylemi gönderirlir ve gönderi butonu etiketinde "Update Post" yazar.
 
-Submitting the form created by this view will invoke the +update+ action within the controller:
+Bu görsel tarafından oluşturulan form, kontrolördeki +update+ eylemine yönlenir:
 
-<ruby>
+<pre>
 def update
   @post = Post.find(params[:id])
 
@@ -747,15 +747,15 @@ def update
     end
   end
 end
-</ruby>
+</pre>
 
-In the +update+ action, Rails first uses the +:id+ parameter passed back from the edit view to locate the database record that's being edited. The +update_attributes+ call then takes the rest of the parameters from the request and applies them to this record. If all goes well, the user is redirected to the post's +show+ view. If there are any problems, it's back to the +edit+ view to correct them.
++update+ eyleminde Rails ilk önce "edit" görselinden gelen +:id+ parametresi yardımı ile düzenlenecek kaydı veritabanından bulur. +update_attributes+ methodu ile de gelen istek içerisinden tüm diğer kayıt bileşenlerini bulur. Eğer herşey başarılı giderse kullanıcı tekrar +show+ görseline yönlendirilir. Eğer bir problem varsa tekrar +edit+ görseline dönülerek hatanın düzeltilmesi istenir.
 
-h4. Destroying a Post
+h4. Bir Gönderinin Silinmesi
 
-Finally, clicking one of the +destroy+ links sends the associated id to the +destroy+ action:
+Son olarak, +destroy+ linklerinden birine tıkladığınızda ilgili satırın id'sini +destroy+ eylemine gönderir:
 
-<ruby>
+<pre>
 def destroy
   @post = Post.find(params[:id])
   @post.destroy
@@ -765,41 +765,41 @@ def destroy
     format.xml  { head :ok }
   end
 end
-</ruby>
+</pre>
 
-The +destroy+ method of an Active Record model instance removes the corresponding record from the database. After that's done, there isn't any record to display, so Rails redirects the user's browser to the index view for the model.
++destroy+ metodu ilgili kaydı veritabanından silen bir Active Record model metodudur. Bunu yaptıktan sonra, gösterilecek birşey olmadığı için, Rails kullanıcıyı tekrar index görseline yönlendirir.
 
-h3. Adding a Second Model
+h3. İkinci bir Model Eklenmesi
 
-Now that you've seen how a model built with scaffolding looks like, it's time to add a second model to the application. The second model will handle comments on blog posts.
+Şimdiye kadar scaffold ile yapılan modelin nasıl olduğunu gördünüz, artık uygulamaya yeni bir model ekleme zamanı. İkinci model gönderilere yapılan yorumların işleneceği bir model olacak.
 
-h4. Generating a Model
+h4. Bir Model Üretilmesi
 
-Models in Rails use a singular name, and their corresponding database tables use a plural name. For the model to hold comments, the convention is to use the name Comment. Even if you don't want to use the entire apparatus set up by scaffolding, most Rails developers still use generators to make things like models and controllers. To create the new model, run this command in your terminal:
+Rails'de Model'ler tekil isimdedir ve onlara karşı gelen veritabanı tabloları çoğul isimdedir. Yorumların saklandığı model için gelenek olarak Comment isimli bir model oluşturulur. Eğer scaffold'un tüm üretimlerini kullanmayacaksanız bile hala diğer model ve kontrolör üretimlerinde de jeneratör kullanabilirsiniz. Yeni bir model oluşturmak için terminalde şu komutu çalıştırın:
 
-<shell>
+<pre>
 $ rails generate model Comment commenter:string body:text post:references
-</shell>
+</pre>
 
-This command will generate four files:
+Bu komut şu dosyaları oluşturacak:
 
-* +app/models/comment.rb+ - The model
-* +db/migrate/20100207235629_create_comments.rb+ - The migration
-* +test/unit/comment_test.rb+ and +test/fixtures/comments.yml+ - The test harness.
+* +app/models/comment.rb+ - model dosyası
+* +db/migrate/20100207235629_create_comments.rb+ - migration dosyası
+* +test/unit/comment_test.rb+ and +test/fixtures/comments.yml+ - test verileri.
 
-First, take a look at +comment.rb+:
+Önce +comment.rb+ dosyasına bakalım:
 
-<ruby>
+<pre>
 class Comment < ActiveRecord::Base
   belongs_to :post
 end
-</ruby>
+</pre>
 
-This is very similar to the +post.rb+ model that you saw earlier. The difference is the line +belongs_to :post+, which sets up an Active Record _association_. You'll learn a little about associations in the next section of this guide.
+Bu daha önce gördüğünüz +post.rb+ modeline benzer. Farkı +belongs_to :post+ satırı, bu satır bir Active Record bağlantısı kurar. Bu klavuzun ilerki bölümünde tablo bağlantıları hakkında bilgi edineceksiniz.
 
-In addition to the model, Rails has also made a migration to create the corresponding database table:
+Modele ilave olarak, Rails ilgili tablonun üretilmesi için bir veritabanı birleştirme dosyası üretir:
 
-<ruby>
+<pre>
 class CreateComments < ActiveRecord::Migration
   def self.up
     create_table :comments do |t|
@@ -815,24 +815,24 @@ class CreateComments < ActiveRecord::Migration
     drop_table :comments
   end
 end
-</ruby>
+</pre>
 
-The +t.references+ line sets up a foreign key column for the association between the two models. Go ahead and run the migration:
++t.references+ satırı iki model arasında bir tablo ilişkisi kurar. Şimdi birleştirmeyi çalıştırın:
 
-<shell>
+<pre>
 $ rake db:migrate
-</shell>
+</pre>
 
-Rails is smart enough to only execute the migrations that have not already been run against the current database, so in this case you will just see:
+Rails sadece şimdiye kadar yapılmamış birleştirmeleri yapacak kadar akıllıdır, bu yüzden sadece şu satırları görürsünüz:
 
-<shell>
+<pre>
 ==  CreateComments: migrating =================================================
 -- create_table(:comments)
    -> 0.0017s
 ==  CreateComments: migrated (0.0018s) ========================================
-</shell>
+</pre>
 
-h4. Associating Models
+h4. Modelleri İlişkilendirmek
 
 Active Record associations let you easily declare the relationship between two models. In the case of comments and posts, you could write out the relationships this way:
 
