@@ -77,10 +77,6 @@ module ActiveRecord
           end
         end
 
-        def target_obsolete?
-          false
-        end
-
         def construct_conditions
           if @reflection.options[:as]
             sql =
