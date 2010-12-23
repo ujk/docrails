@@ -1,7 +1,6 @@
-== Welcome to \Rails
+== \Rails'e Hoşgeldiniz
 
-\Rails is a web-application framework that includes everything needed to create
-database-backed web applications according to the Model-View-Control pattern.
+\Rails bir web uygulama geliştirme iskeletidir. Veritabanına dayalı Model-View-Controller temelli web uygulamaları yaratmak için gereken herşeye sahiptir. 
 
 This pattern splits the view (also called the presentation) into "dumb"
 templates that are primarily responsible for inserting pre-built data in between

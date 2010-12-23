@@ -834,22 +834,22 @@ Rails sadece şimdiye kadar yapılmamış birleştirmeleri yapacak kadar akıll�
 
 h4. Modelleri İlişkilendirmek
 
-Active Record associations let you easily declare the relationship between two models. In the case of comments and posts, you could write out the relationships this way:
+Active Record bağlamaları sayesinde iki model birbiriyle kolayca ilişkilendirilebilir. Buradaki gönderiler ve yorumları düşünülürse şöyle bir ilişkilendirme yapılmalıdır:
 
-* Each comment belongs to one post
-* One post can have many comments
+* Her yorum birtek gönderiye aittir
+* Her gönderinin birçok yorumu olabilir
 
-In fact, this is very close to the syntax that Rails uses to declare this association. You've already seen the line of code inside the Comment model that makes each comment belong to a Post:
+Gerçekte yukardaki anlatımların ingilizcesi Rails'in ilikilendirme için kullandığı komutlarla nerdeyse aynıdır. Comment modeli içersinde zaten bir tanesini gördünüz, bu satırla her yorumun birtek gönderiye ilişkilendirildiği anlatılıyor:
 
-<ruby>
+<pre>
 class Comment < ActiveRecord::Base
   belongs_to :post
 end
-</ruby>
+</pre>
 
-You'll need to edit the +post.rb+ file to add the other side of the association:
+İkinci ilişkilendirmeyi yapmak için +post.rb+ model dosyasını düzenlemeniz gerekir:
 
-<ruby>
+<pre>
 class Post < ActiveRecord::Base
   validates :name,  :presence => true
   validates :title, :presence => true,
@@ -857,47 +857,47 @@ class Post < ActiveRecord::Base
 
   has_many :comments
 end
-</ruby>
+</pre>
 
-These two declarations enable a good bit of automatic behavior. For example, if you have an instance variable +@post+ containing a post, you can retrieve all the comments belonging to that post as the array +@post.comments+.
+Bu iki tanıtma komutuyla bir kısım faydalı otomatik işlemi aktif etmiş oluyorsunuz. Örneğin +@post+ adında birtek gönderi içeren instance değişkeniniz olsun, bunun tüm yorumlarını +@post.comments+ metodu ile çağırabilirsiniz.
 
-TIP: For more information on Active Record associations, see the "Active Record Associations":association_basics.html guide.
+İPUCU: Active Record ilişkilendirmeleri hakkında daha fazla bilgi için "Active Record Associations":association_basics.html klavuzuna bakınız.
 
-h4. Adding a Route for Comments
+h4. Yorumlar İçin bir Yönlendirme Eklenmesi
 
-As with the +home+ controller, we will need to add a route so that Rails knows where we would like to navigate to see +comments+.  Open up the +config/routes.rb+ file again, you will see an entry that was added automatically for +posts+ near the top by the scaffold generator, +resources :posts+, edit it as follows:
++home+ kontrolöründe olduğu gibi Rails'e yorumları nerede belirtmemiz gerekiyor. +config/routes.rb+ dosyasını tekrar açalım, en üstte gönderiler için scaffold komutu sayesinde eklenmiş olan +resources :posts+ satırını göreceksiniz bu satırı şöyle düzenleyin:
 
-<ruby>
+<pre>
 resources :posts do
   resources :comments
 end
-</ruby>
+</pre>
 
-This creates +comments+ as a _nested resource_ within +posts+. This is another part of capturing the hierarchical relationship that exists between posts and comments.
+Bu +yorumları+ +gönderiler+ altında _nested resource_ olarak yerleştirir. Bu gönderiler ile yorumları arasındaki hiyerarşik ilişkinin yönetilmesinin bir diğer parçasıdır.
 
-TIP: For more information on routing, see the "Rails Routing from the Outside In":routing.html guide.
+İPUCU: Routing (yönlendirme) hakkında daha fazla bilgi için "Rails Routing from the Outside In":routing.html klavuzuna bakınız.
 
-h4. Generating a Controller
+h4. Bir Kontrolör Üretilmesi
 
-With the model in hand, you can turn your attention to creating a matching controller. Again, there's a generator for this:
+Bu elimizdek modele karşı gelen bir kontrolör üretmeniz gerekiyor. Tabiiki bunu bir generator ile yapacaksnız:
 
-<shell>
+<pre>
 $ rails generate controller Comments
-</shell>
+</pre>
 
-This creates four files and one empty directory:
+Bu dört dosya ve boş bir klasör oluşturur:
 
-* +app/controllers/comments_controller.rb+ - The controller
-* +app/helpers/comments_helper.rb+ - A view helper file
-* +test/functional/comments_controller_test.rb+ - The functional tests for the controller
-* +test/unit/helpers/comments_helper_test.rb+ - The unit tests for the helper
-* +app/views/comments/+ - Views of the controller are stored here
+* +app/controllers/comments_controller.rb+ - Kontrolör
+* +app/helpers/comments_helper.rb+ - Görsel yardımcı dosyası
+* +test/functional/comments_controller_test.rb+ - Kontrolör için fonksiyon testleri
+* +test/unit/helpers/comments_helper_test.rb+ - Helper için birim testleri
+* +app/views/comments/+ - Kontrolörün görselleri buraya konacak
 
-Like with any blog, our readers will create their comments directly after reading the post, and once they have added their comment, will be sent back to the post show page to see their comment now listed.  Due to this, our +CommentsController+ is there to provide a method to create comments and delete SPAM comments when they arrive.
+Tüm bloglarda olduğu gibi bizim okuyucularımız da yorumlarını gönderinin hemen altında yapmak isterler. Arkasından da tekrar gönderi sayfasının tazelenip yorumlarının eklenmiş olduğunu görmek isterler. Bunu yapmak için +CommentsController+ yorumları üretecek ve SPAM yorumları ayıklayacak metodlara sahip olmalıdır.
 
-So first, we'll wire up the Post show template (+/app/views/posts/show.html.erb+) to let us make a new comment:
+İlk önce, Post kontrolörün +show+ görselinde yorum eklemek için değişiklik yapacağız (+/app/views/posts/show.html.erb+) dosyasını açın:
 
-<erb>
+<pre>
 <p class="notice"><%= notice %></p>
 
 <p>
@@ -932,11 +932,11 @@ So first, we'll wire up the Post show template (+/app/views/posts/show.html.erb+
 
 <%= link_to 'Edit Post', edit_post_path(@post) %> |
 <%= link_to 'Back to Posts', posts_path %> |
-</erb>
+</pre>
 
-This adds a form on the Post show page that creates a new comment, which will call the +CommentsController+ +create+ action, so let's wire that up:
+Bu sayede gönderilerin gösterildiği sayfaya yeni yorum eklemeye yarayan bir form eklenir. Bu form +CommentsControlle+ in +create+ eylemini çağırır, şimdi bu eylemi yazalım:
 
-<ruby>
+<pre>
 class CommentsController < ApplicationController
   def create
     @post = Post.find(params[:post_id])
@@ -944,15 +944,15 @@ class CommentsController < ApplicationController
     redirect_to post_path(@post)
   end
 end
-</ruby>
+</pre>
 
-You'll see a bit more complexity here than you did in the controller for posts. That's a side-effect of the nesting that you've set up; each request for a comment has to keep track of the post to which the comment is attached, thus the initial find action to the Post model to get the post in question.
+Burda gönderilerin PostController'inden daha karmaşık işler var. Bu içiçe çalışmanın yan etkisi olarak her yorumun hangi gönderiye bağlı olduğunu bulmak için yapmanız gereken ayarlamalar. Bu yüzden ilk adımda ilgili gönderi find metoduyla bulunuyor.
 
-In addition, the code takes advantage of some of the methods available for an association. We use the +create+ method on +@post.comments+ to create and save the comment. This will automatically link the comment so that it belongs to that particular post.
+Ek olarak, kod içinde ilişkilendirmenin getirdiği yardımcı bazı metodlar kullanılıyor. +@post.comments+ in (gönderi yorumlarının) +create+ metodunu kullanark yeni yorumu üretiyor ve kaydediyoruz. Bu sayede yorum otomatik olarak gönderiye bağlı olarak tabloya kaydedilecektir.
 
-Once we have made the new comment, we send the user back to the original post using the +post_path(@post)+ helper. As we have already seen, this calls the +show+ action of the +PostsController+ which in turn renders the +show.html.erb+ template. This is where we want the comment to show, so let's add that to the +app/views/posts/show.html.erb+.
+Yeni yorum üretilince kullanıcıyı +post_path(@post)+ yardımcısını kullanarak tekrar orjinal gönderi gösterim sayfasına yönlendiriyoruz. Daha önce gördüğümüz gibi bu +PostController+ in +show+ eylemine gönderir ve bu da +show.html.erb+ görselini gösterir. Yorumları da bu sayfada göstermemiz gerekiyor, bu yüzden +app/views/posts/show.html.erb+ dosyasını şöyle düzenleyelim.
 
-<erb>
+<pre>
 <p class="notice"><%= notice %></p>
 
 <p>
@@ -1002,7 +1002,7 @@ Once we have made the new comment, we send the user back to the original post us
 
 <%= link_to 'Edit Post', edit_post_path(@post) %> |
 <%= link_to 'Back to Posts', posts_path %> |
-</erb>
+</pre>
 
 Now you can add posts and comments to your blog and have them show up in the right places.
 
