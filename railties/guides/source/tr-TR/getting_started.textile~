@@ -9,7 +9,7 @@ Bu klavuz Ruby on Rails'i kurmanız ve çalıştırmanız için gerekenleri içe
 
 endprologue.
 
-UYARI. Bu klavuz Rails 3.0 a göre düzenlenmiştir. Burada gösterilen bazı kodlar önceki Rails versiyonlarında çalışmaz.
+WARNING. Bu klavuz Rails 3.0 a göre düzenlenmiştir. Burada gösterilen bazı kodlar önceki Rails versiyonlarında çalışmaz.
 
 h3. Klavuzun Varsayımları
 
@@ -17,7 +17,7 @@ Bu klavuz Rails'e sıfırdan başlamak isteyen yeni programcılar için düzenle
 
 * "Ruby":http://www.ruby-lang.org/en/downloads programlama dili versiyon 1.8.7 ya da daha yüksek olmalı
 
-İPUCU: Ruby 1.8.7 p248 ve p249 Rails 3.0'ın çakılmasına neden olan bug'lar içeriyordu. Ruby Enterprise Edition release 1.8.7-2010.02 den itibaren bu düzeltildi. Ruby 1.9.1 ise Rails 3.0'da segfault hataları veriyor, o yüzden 1.9.x serisiyle Rails 3.0 kullanmak isterseniz Ruby 1.9.2 den itibaren kullanın.
+TIP: Ruby 1.8.7 p248 ve p249 Rails 3.0'ın çakılmasına neden olan bug'lar içeriyordu. Ruby Enterprise Edition release 1.8.7-2010.02 den itibaren bu düzeltildi. Ruby 1.9.1 ise Rails 3.0'da segfault hataları veriyor, o yüzden 1.9.x serisiyle Rails 3.0 kullanmak isterseniz Ruby 1.9.2 den itibaren kullanın.
 
 * "RubyGems":http://rubyforge.org/frs/?group_id=126 paketleme sistemi
 * Çalışan bir "SQLite3 Veritabanı":http://www.sqlite.org
@@ -149,7 +149,7 @@ Genellikle bu komutu root kullanıcı olarak çalıştırmanız gerekir:
 # gem install rails
 </shell>
 
-İPUCU. Eğer Windows kullanıyorsanız, Instant Rails'in kurulumunu daha basit bulacaksınız. Gerçi Instant Rails en son versiyondan genelde geride kalıyor ama. Ayrıca windos üzerinde Rails geliştirme yapmak diğer sistemlere nazaran daha keyifsizdir. Eğer mümkünse tavsiyemiz windows yerine bir Linux sanal makina yardımıyla Rails çalışmanızdır.
+TIP. Eğer Windows kullanıyorsanız, Instant Rails'in kurulumunu daha basit bulacaksınız. Gerçi Instant Rails en son versiyondan genelde geride kalıyor ama. Ayrıca windos üzerinde Rails geliştirme yapmak diğer sistemlere nazaran daha keyifsizdir. Eğer mümkünse tavsiyemiz windows yerine bir Linux sanal makina yardımıyla Rails çalışmanızdır.
 
 h4. Blog Uygulmasını Üretmek
 
@@ -163,7 +163,7 @@ $ rails new blog
 
 Bu "blog" adlı klasör içinde Blog ismi verilen bir uygulama üretecektir.
 
-İPUCU: Rails Uygulama Üretecinin tüm komut satır parametrelerini <tt>rails -h</tt> komutuyla görebilirsiniz.
+TIP: Rails Uygulama Üretecinin tüm komut satır parametrelerini <tt>rails -h</tt> komutuyla görebilirsiniz.
 
 Uygulamanın üretilmesini hata mesajı almadan birçok dosya oluşturulmasından gördükten sonra uygulamanın bulunduğu klasöre geçin:
 
@@ -266,7 +266,7 @@ $ rake db:create
 
 Bu komut <tt>db/</tt> klasöründe geliştirme ve test veritabanlarınızı oluşturur.
 
-İPUCU: Rake komutu Rails'in birçok şey için kullandığı genel amaçlı bir kod çalıştırıcıdır. Olası komutları +rake -T+ komutu girerek görebilirsiniz.
+TIP: Rake komutu Rails'in birçok şey için kullandığı genel amaçlı bir kod çalıştırıcıdır. Olası komutları +rake -T+ komutu girerek görebilirsiniz.
 
 h3. Merhaba Rails!
 
@@ -284,7 +284,7 @@ Bu default olarak bir Mongrel web server başlatacaktır.(Rails diğer farklı s
 
 !images/rails_welcome.png(Welcome Aboard screenshot)!
 
-İPUCU: Web server'ı durdurmak için çalıştırdığınız konsol ekranında Ctrl+C basmanız gerekir. Geliştirme modunda, genellikle Rails server'ı durdurmanız gerekmez; dosyalarda yaptığınız değişiklikler server'a otomatik yüklenecektir.
+TIP: Web server'ı durdurmak için çalıştırdığınız konsol ekranında Ctrl+C basmanız gerekir. Geliştirme modunda, genellikle Rails server'ı durdurmanız gerekmez; dosyalarda yaptığınız değişiklikler server'a otomatik yüklenecektir.
 
 “Welcome Aboard” yeni bir Rails uygulamasının tüten buharıdır: uygulamanızın server'dan yayınlanması için herşeyn uygun olduğundan emin olmak içindir. Ayrıca _About your application’s environment_ bağlantısına tıklayarak uygulamanızın kullandığı ortam hakkında bilgi edinebilirsiniz.
 
@@ -296,7 +296,7 @@ Railsin "Merhaba" demesi için, en az bir kontrolör ve bir görsel ihtiyacını
 $ rails generate controller home index
 </shell>
 
-İPUCU: Eğer Windows'taysanız yada Ruby kurulumunuz standart olmayan bir kurulumdaysa Ruby'ye rails komutunun yolunu da net olarak belirtmeniz gerekir: +ruby \path\to\rails generate controller home index+.
+TIP: Eğer Windows'taysanız yada Ruby kurulumunuz standart olmayan bir kurulumdaysa Ruby'ye rails komutunun yolunu da net olarak belirtmeniz gerekir: +ruby \path\to\rails generate controller home index+.
 
 Rails sizin için bazı dosyalar üretecektir. Biri de +app/views/home/index.html.erb+. Bu +home+ kontrolörünün +index+ eylemi sayfasını göstermekte kullanılacak olan kalıp dosyadır. Bu dosyayı editörde açıp içine sadece şu satırı koyun gerisini silin:
 
@@ -331,7 +331,7 @@ Blog::Application.routes.draw do
 
 Eğer şimdi "http://localhost:3000":http://localhost:3000 adresine gidersek +Merhaba Rails!+ mesajını görebiliriz. 
 
-NOT. Daha fazla bilgi için "Rails Routing from the Outside In":routing.html adresine bakınız.
+NOTE. Daha fazla bilgi için "Rails Routing from the Outside In":routing.html adresine bakınız.
 
 h3. Scaffolding ile hızlı hazırlık ve çalıştırma.
 
@@ -345,7 +345,7 @@ Blog uygulamasına göre gönderilerin kaydedileceği bir "Post" kaynağı üret
 $ rails generate scaffold Post name:string title:string content:text
 </shell>
 
-NOT. Scaffolding'in kendi doğrultusunda hazırladığı kodu sizin tercihlerinize uymayabilir. Çoğunlukla ürettiği kodları değiştirmek gerekecektir. Uzmanlık kazanmış programcılar genellikle kodlarını baştan kendileri üretir. Ama başlangıç seviyesi için gereklidir.
+NOTE. Scaffolding'in kendi doğrultusunda hazırladığı kodu sizin tercihlerinize uymayabilir. Çoğunlukla ürettiği kodları değiştirmek gerekecektir. Uzmanlık kazanmış programcılar genellikle kodlarını baştan kendileri üretir. Ama başlangıç seviyesi için gereklidir.
 
 Scaffold jeneratör uygulamanıza 15 dosya üretir, bazı klasörler üretir ve bazılarını da edit eder. Şimdi bunlara kısaca bakalım:
 
@@ -407,7 +407,7 @@ Rails birleştirme komutunu işletecek ve size +posts+ tablosunu ürettiğini bi
 ==  CreatePosts: migrated (0.0020s) ===========================================
 </shell>
 
-NOT. Şu anda geliştirme ortamında çalıştığınız için bu komut +config/database.yml+ dosyasının +development+ kısmında belirtilen veritabanında işlem yapacaktır.
+NOTE. Şu anda geliştirme ortamında çalıştığınız için bu komut +config/database.yml+ dosyasının +development+ kısmında belirtilen veritabanında işlem yapacaktır.
 
 h4. Bir Bağlantı Eklemek
 
@@ -428,7 +428,7 @@ h4. Tarayıcıda Gönderileri Çalışmak
 
 Bu gönderilerin +index+ görsel sayfası için Rails'in sunusu sonucudur. Henüz veritabanında herhangibir gönderi yoktur, fakat +New Post+ bağlantısına tıklarsanız yeni bir tane üretebilirsiniz. Bundan sonra gönderileri düzenleyebilir, ayrıntılarını inceleyebilir ve silebilirsiniz. Tüm bu HTML ve lojik tek bir satır +rails generate scaffold+ komutuyla üretildi.
 
-İPUCU: Geliştirme modunda (default olarak bu modda çalışmaktasınız) Rails her tarayıcı isteğinde sayfaları tekrar yükler bu yüzden web server'ın kapatılıp açılmasına gerek yoktur.
+TIP: Geliştirme modunda (default olarak bu modda çalışmaktasınız) Rails her tarayıcı isteğinde sayfaları tekrar yükler bu yüzden web server'ın kapatılıp açılmasına gerek yoktur.
 
 Tebrikler, Rails'i kullanmaya başladınız! Şimdi hepsinin nasıl çalıştığını göreceksiniz.
 
@@ -484,13 +484,13 @@ Bu kod yeni bir +Post+ örneği oluşturulduğunu, kaydetmeye kalkınca +false+ 
 
 Bitirdiğinizde +exit+ yazın ve +return+ basarak konsoldan çıkabilirsiniz.
 
-İPUCU: Geliştirme modundaki web server'ın aksine konsol her seferinde kodunuzu tekrar yüklemez. Bu yüzden konsol açıkken modelde değişiklik yaparsanız +reload+ komutu girerek tazeleme sağlamalısınız.
+TIP: Geliştirme modundaki web server'ın aksine konsol her seferinde kodunuzu tekrar yüklemez. Bu yüzden konsol açıkken modelde değişiklik yaparsanız +reload+ komutu girerek tazeleme sağlamalısınız.
 
 h4. Tüm Gönderilerin Listelenmesi
 
 Çalışmanın incelenmesinde en kolay yol gönderilerin listelendiği sayfayı incelemek. +app/controllers/posts_controller.rb+ dosyasını açın ve +index+ eylemine bakın:
 
-<pre>
+<ruby>
 def index
   @posts = Post.all
 
@@ -499,15 +499,15 @@ def index
     format.xml  { render :xml => @posts }
   end
 end
-</pre>
+</ruby>
 
 +Post.all+ deyimi +Post+ modelinden veritabanındaki tüm gönderileri getirir. Bunun sonucunda +@posts+ değişkeninde bir array olarak gönderileri saklıyoruz.
 
-İPUCU: Active Record hakkında daha fazla bilgi için "Active Record Query Interface":active_record_querying.html başlığına bakınız.
+TIP: Active Record hakkında daha fazla bilgi için "Active Record Query Interface":active_record_querying.html başlığına bakınız.
 
 +respond_to+ bloğu hem HTML hem XML olarak gelen çağrıları cevaplar. Eğer tarayıcıda "http://localhost:3000/posts.xml":http://localhost:3000/posts.xml adresine giderseniz tüm göderileri XML formatında görürsünüz. HTML formatı +app/views/posts/+ içindeki view dosyalarından ilgili eylemin dosyasına göre bir görüntü döner. Rails ilgili eylem içindeki tüm instance değişkenleri görsel için de kullanılabilir hale getirir. +app/views/posts/index.html.erb+ dosyasını inceleyelim:
 
-<pre>
+<erb>
 <h1>Listing posts</h1>
 
 <table>
@@ -535,22 +535,22 @@ end
 <br />
 
 <%= link_to 'New post', new_post_path %>
-</pre>
+</erb>
 
 Bu görsel dosyası, +@posts+ array değişkeni üzerinden gönderileri listeliyor ve ilgili linkleri elde ediyor. Görsel içinde birkaç noktaya dikkat edersek:
 
 * +link_to+ bir hyperlink bağlantısı oluşturur
 * +edit_post_path+ ve +new_post_path+ Rails'in RESTful yönlendirmelerinde kullandığı yardımcı tekniklerinden gelir. Kontrolörler içinde bu yardımcılardan birçok daha göreceksiniz.
 
-NOT. Rails'in önceki versiyonunda, +&lt;%=h post.name %&gt;+ kullanarak veri içine konan HTML kodlarının sayfada işlem yapması ve sayfanın saldırıya uğraması engellenirdi. Rails 3.0'da bu işlem default olarak yapılır. HTML kodların çalışmasını istiyorsanız +&lt;%= raw post.name %&gt;+ şeklinde yazmalısınız.
+NOTE. Rails'in önceki versiyonunda, +&lt;%=h post.name %&gt;+ kullanarak veri içine konan HTML kodlarının sayfada işlem yapması ve sayfanın saldırıya uğraması engellenirdi. Rails 3.0'da bu işlem default olarak yapılır. HTML kodların çalışmasını istiyorsanız +&lt;%= raw post.name %&gt;+ şeklinde yazmalısınız.
 
-İPUCU: Render işlemi için ayrıntılı bilgiyi "Layouts and Rendering in Rails":layouts_and_rendering.html. adresinde bulabilirsiniz.
+TIP: Render işlemi için ayrıntılı bilgiyi "Layouts and Rendering in Rails":layouts_and_rendering.html. adresinde bulabilirsiniz.
 
 h4. Yerleşimin Düzenlenmesi
 
 Görsel dosyalarında sadece tarayıcıda HTML'in nasıl görüneceği bilgisi vardır. Rails'de bundan başka +yerleşimler+ (layout) de bulunur. Bunlar görsellerin içine konacağı dosyalardır. Rails tarayıcıya bir görseli dönerken, görselin HTML kodunu yerleşimin HTML kodu içersine yerleştirir ve bu birleşimi döndürür. Rails'in önceki versiyonunda +rails generate scaffold+ komutu çalışınca otomatik olarak kontrolöre ait bir yerleşim dosyası (app/views/layouts/posts.html.erb gibi) üretilirdi. Rails 3.0'da bu değişti. Uygulama çapında bir +yerleşim+ tüm kontrolörler için kullanılır, +app/views/layouts/application.html.erb+. Bu yerleşim dosyasını editörde açın ve +body+ tag'ini değiştirin:
 
-<pre>
+<erb>
 <!DOCTYPE html>
 <html>
 <head>
@@ -565,7 +565,7 @@ Görsel dosyalarında sadece tarayıcıda HTML'in nasıl görüneceği bilgisi v
 
 </body>
 </html>
-</pre>
+</erb>
 
 Şimdi +/posts+ sayfasını tazelediğinizde sayfa arkaplanın gri renk olduğunu göreceksiniz. Aynı arkaplan tüm görsellerde gri olacaktır.
 
@@ -573,7 +573,7 @@ h4. Yeni Gönderiler Oluşturmak
 
 Yeni gönderi oluşturmak iki eylemden oluşur. İlkönce +new+ eylemi boş bir +Post+ objesi başlatarak yeni gönderi oluşturur:
 
-<pre>
+<ruby>
 def new
   @post = Post.new
 
@@ -582,23 +582,23 @@ def new
     format.xml  { render :xml => @post }
   end
 end
-</pre>
+</ruby>
 
 +new.html.erb+ görseli kullanıcıya boş bir gönderi gösterir:
 
-<pre>
+<erb>
   <h1>New post</h1>
 
   <%= render 'form' %>
 
   <%= link_to 'Back', posts_path %>
-</pre>
+</erb>
 
 +&lt;%= render 'form' %&gt;+ satırı Rails'de _partial_ konusuna ilk girişimizi oluşturacak. Bir partial (kısmi kod), birçok yerde tekrar kullanmak için hazırlanmış Ruby ve HTML kodlardan oluşan kod parçasıdır. Bizim uygulamamızda yeni gönderi oluşturmak için kullanılan form ile olan bir gönderiyi değiştirmek için kullanılan form aynıdır. Her ikisinde de isim ve başlık için birer text field, içerik için bir text area ve gönderiyi kaydetmek için bir buton vardır.
 
 Eğer +views/posts/_form.html.erb+ dosyasına bakarsanız, şunları göreceksiniz:
 
-<pre>
+<erb>
 <%= form_for(@post) do |f| %>
   <% if @post.errors.any? %>
   <div id="error_explanation">
@@ -627,7 +627,7 @@ Eğer +views/posts/_form.html.erb+ dosyasına bakarsanız, şunları göreceksin
     <%= f.submit %>
   </div>
 <% end %>
-</pre>
+</erb>
 
 Bu kısmi kod tüm instance değişkenleri kendisini çağıran görselden alır ve kullanır, burada yeni gönderi kontrolör tarafından +@post+ değişkenine konur. Hem yeni gönderi hem değiştirme yaparken kontrolör +@post+ değişkenini kullanmaktadır. 
 
@@ -637,11 +637,11 @@ Kısmi kodlar hakkında daha fazla bilgi "Layouts and Rendering in Rails":layout
 
 +form_for+ bloğu ayrıca yeni gönderi veya gönderi değiştirme eylemlerinin hangisinin istendiğini çözecek ve formun +action+ tag'i ve gönderi butonu etiketini isteğe göre tayin edecek kadar akıllıdır.
 
-İPUCU: Eğer bir modele bağlı olmayan keyfi alanları olan bir HTML form oluşturmak isterseniz +form_tag+ metodunu kullanın. Bu bir modele bağlı olmayan formlar oluşturmak için gereken metodları kullanır.
+TIP: Eğer bir modele bağlı olmayan keyfi alanları olan bir HTML form oluşturmak isterseniz +form_tag+ metodunu kullanın. Bu bir modele bağlı olmayan formlar oluşturmak için gereken metodları kullanır.
 
 Kullanıcı bu form üzerindeki +Create Post+ düğmesini tıkladığında tarayıcı bilgiyi kontrolörün +create+ eylemine gönderir (Rails +create+ metodunu çağıracağını bilir çünkü form bir HTTP POST isteği ile gönderilmiştir, bu daha önce anlattığımız geleneklerdendir):
 
-<pre>
+<ruby>
 def create
   @post = Post.new(params[:post])
 
@@ -658,7 +658,7 @@ def create
     end
   end
 end
-</pre>
+</ruby>
 
 +create+ eylemi formun gönderdiği verilerle yeni bir Post nesnesi üretir, veriyi +params+ hash yapısından alır. Yeni gönderiyi sağlıklı bir şekilde kaydederse +create+ eylemi kullanıcının girişi yaptığı formatta (burada HTML) kaydı gösteren sayfaya döner. Kullanıcıyı üretilen gönderinin +show+ eylemine yönlendirir ve bir bildiriyle kullanıcıya işlemin başarısını bildirir.
 
@@ -670,7 +670,7 @@ h4. Bir Gönderinin Ayrıntısının Gösterilmesi
 
 Index sayfasında bir gönderinin +show+ linkine tıkladığınızda, sizi +http://localhost:3000/posts/2+ gibi bir sayfaya yönlendirir. Rails bunu +show+ eylemine bir çağrı olarak işler ve +2+ sayısını +:id+ parametresi olarak algılar. İşte +show+ eylemi:
 
-<pre>
+<ruby>
 def show
   @post = Post.find(params[:id])
 
@@ -679,9 +679,9 @@ def show
     format.xml  { render :xml => @post }
   end
 end
-</pre>
+</ruby>
 
-The +show+ action uses +Post.find+ to search for a single record in the database by its id value. After finding the record, Rails displays it by using +show.html.erb+:
++show+ eylemi +id+ değerine göre veritabanından bir gönderiyi bulmak için +Post.find+ metodunu kullanır. Kaydı bulduktan sonra Rails +show.html.erb+ ile bu veriyi gösterir:
 
 <erb>
 <p class="notice"><%= notice %></p>
@@ -706,9 +706,9 @@ The +show+ action uses +Post.find+ to search for a single record in the database
 <%= link_to 'Back', posts_path %>
 </erb>
 
-h4. Editing Posts
+h4. Gönderileri Düzenlemek
 
-Like creating a new post, editing a post is a two-part process. The first step is a request to +edit_post_path(@post)+ with a particular post. This calls the +edit+ action in the controller:
+Yeni gönderi oluştururken olduğu gibi bir gönderiyi düzenlemek de iki adımdır. İlk adım +edit_post_path(@post)+ adresine ilgili gönderiye bağlı bir çağrıdır. Bu kontrolördeki +edit+ eylemini çağırır:
 
 <ruby>
 def edit
@@ -716,7 +716,7 @@ def edit
 end
 </ruby>
 
-After finding the requested post, Rails uses the +edit.html.erb+ view to display it:
+Talep edilen gönderiyi bulduktan sonra Rails +edit.html.erb+ 'yi kullanarak gönderiyi size gösterir:
 
 <erb>
 <h1>Editing post</h1>
@@ -727,9 +727,9 @@ After finding the requested post, Rails uses the +edit.html.erb+ view to display
 <%= link_to 'Back', posts_path %>
 </erb>
 
-Again, as with the +new+ action, the +edit+ action is using the +form+ partial, this time however, the form will do a PUT action to the PostsController and the submit button will display "Update Post"
+Yine +new+ eyleminde olduğu gibi +edit+ eylemi de +form+ kısmi kodunu kullanır. Ama bu sefer kontrolöre PUT eylemi gönderirlir ve gönderi butonu etiketinde "Update Post" yazar.
 
-Submitting the form created by this view will invoke the +update+ action within the controller:
+Bu görsel tarafından oluşturulan form, kontrolördeki +update+ eylemine yönlenir:
 
 <ruby>
 def update
@@ -749,11 +749,11 @@ def update
 end
 </ruby>
 
-In the +update+ action, Rails first uses the +:id+ parameter passed back from the edit view to locate the database record that's being edited. The +update_attributes+ call then takes the rest of the parameters from the request and applies them to this record. If all goes well, the user is redirected to the post's +show+ view. If there are any problems, it's back to the +edit+ view to correct them.
++update+ eyleminde Rails ilk önce "edit" görselinden gelen +:id+ parametresi yardımı ile düzenlenecek kaydı veritabanından bulur. +update_attributes+ methodu ile de gelen istek içerisinden tüm diğer kayıt bileşenlerini bulur. Eğer herşey başarılı giderse kullanıcı tekrar +show+ görseline yönlendirilir. Eğer bir problem varsa tekrar +edit+ görseline dönülerek hatanın düzeltilmesi istenir.
 
-h4. Destroying a Post
+h4. Bir Gönderinin Silinmesi
 
-Finally, clicking one of the +destroy+ links sends the associated id to the +destroy+ action:
+Son olarak, +destroy+ linklerinden birine tıkladığınızda ilgili satırın id'sini +destroy+ eylemine gönderir:
 
 <ruby>
 def destroy
@@ -767,27 +767,27 @@ def destroy
 end
 </ruby>
 
-The +destroy+ method of an Active Record model instance removes the corresponding record from the database. After that's done, there isn't any record to display, so Rails redirects the user's browser to the index view for the model.
++destroy+ metodu ilgili kaydı veritabanından silen bir Active Record model metodudur. Bunu yaptıktan sonra, gösterilecek birşey olmadığı için, Rails kullanıcıyı tekrar index görseline yönlendirir.
 
-h3. Adding a Second Model
+h3. İkinci bir Model Eklenmesi
 
-Now that you've seen how a model built with scaffolding looks like, it's time to add a second model to the application. The second model will handle comments on blog posts.
+Şimdiye kadar scaffold ile yapılan modelin nasıl olduğunu gördünüz, artık uygulamaya yeni bir model ekleme zamanı. İkinci model gönderilere yapılan yorumların işleneceği bir model olacak.
 
-h4. Generating a Model
+h4. Bir Model Üretilmesi
 
-Models in Rails use a singular name, and their corresponding database tables use a plural name. For the model to hold comments, the convention is to use the name Comment. Even if you don't want to use the entire apparatus set up by scaffolding, most Rails developers still use generators to make things like models and controllers. To create the new model, run this command in your terminal:
+Rails'de Model'ler tekil isimdedir ve onlara karşı gelen veritabanı tabloları çoğul isimdedir. Yorumların saklandığı model için gelenek olarak Comment isimli bir model oluşturulur. Eğer scaffold'un tüm üretimlerini kullanmayacaksanız bile hala diğer model ve kontrolör üretimlerinde de jeneratör kullanabilirsiniz. Yeni bir model oluşturmak için terminalde şu komutu çalıştırın:
 
 <shell>
 $ rails generate model Comment commenter:string body:text post:references
 </shell>
 
-This command will generate four files:
+Bu komut şu dosyaları oluşturacak:
 
-* +app/models/comment.rb+ - The model
-* +db/migrate/20100207235629_create_comments.rb+ - The migration
-* +test/unit/comment_test.rb+ and +test/fixtures/comments.yml+ - The test harness.
+* +app/models/comment.rb+ - model dosyası
+* +db/migrate/20100207235629_create_comments.rb+ - migration dosyası
+* +test/unit/comment_test.rb+ and +test/fixtures/comments.yml+ - test verileri.
 
-First, take a look at +comment.rb+:
+Önce +comment.rb+ dosyasına bakalım:
 
 <ruby>
 class Comment < ActiveRecord::Base
@@ -795,9 +795,9 @@ class Comment < ActiveRecord::Base
 end
 </ruby>
 
-This is very similar to the +post.rb+ model that you saw earlier. The difference is the line +belongs_to :post+, which sets up an Active Record _association_. You'll learn a little about associations in the next section of this guide.
+Bu daha önce gördüğünüz +post.rb+ modeline benzer. Farkı +belongs_to :post+ satırı, bu satır bir Active Record bağlantısı kurar. Bu klavuzun ilerki bölümünde tablo bağlantıları hakkında bilgi edineceksiniz.
 
-In addition to the model, Rails has also made a migration to create the corresponding database table:
+Modele ilave olarak, Rails ilgili tablonun üretilmesi için bir veritabanı birleştirme dosyası üretir:
 
 <ruby>
 class CreateComments < ActiveRecord::Migration
@@ -817,13 +817,13 @@ class CreateComments < ActiveRecord::Migration
 end
 </ruby>
 
-The +t.references+ line sets up a foreign key column for the association between the two models. Go ahead and run the migration:
++t.references+ satırı iki model arasında bir tablo ilişkisi kurar. Şimdi birleştirmeyi çalıştırın:
 
 <shell>
 $ rake db:migrate
 </shell>
 
-Rails is smart enough to only execute the migrations that have not already been run against the current database, so in this case you will just see:
+Rails sadece şimdiye kadar yapılmamış birleştirmeleri yapacak kadar akıllıdır, bu yüzden sadece şu satırları görürsünüz:
 
 <shell>
 ==  CreateComments: migrating =================================================
@@ -832,14 +832,14 @@ Rails is smart enough to only execute the migrations that have not already been 
 ==  CreateComments: migrated (0.0018s) ========================================
 </shell>
 
-h4. Associating Models
+h4. Modelleri İlişkilendirmek
 
-Active Record associations let you easily declare the relationship between two models. In the case of comments and posts, you could write out the relationships this way:
+Active Record bağlamaları sayesinde iki model birbiriyle kolayca ilişkilendirilebilir. Buradaki gönderiler ve yorumları düşünülürse şöyle bir ilişkilendirme yapılmalıdır:
 
-* Each comment belongs to one post
-* One post can have many comments
+* Her yorum birtek gönderiye aittir
+* Her gönderinin birçok yorumu olabilir
 
-In fact, this is very close to the syntax that Rails uses to declare this association. You've already seen the line of code inside the Comment model that makes each comment belong to a Post:
+Gerçekte yukardaki anlatımların ingilizcesi Rails'in ilikilendirme için kullandığı komutlarla nerdeyse aynıdır. Comment modeli içersinde zaten bir tanesini gördünüz, bu satırla her yorumun birtek gönderiye ilişkilendirildiği anlatılıyor:
 
 <ruby>
 class Comment < ActiveRecord::Base
@@ -847,7 +847,7 @@ class Comment < ActiveRecord::Base
 end
 </ruby>
 
-You'll need to edit the +post.rb+ file to add the other side of the association:
+İkinci ilişkilendirmeyi yapmak için +post.rb+ model dosyasını düzenlemeniz gerekir:
 
 <ruby>
 class Post < ActiveRecord::Base
@@ -859,13 +859,13 @@ class Post < ActiveRecord::Base
 end
 </ruby>
 
-These two declarations enable a good bit of automatic behavior. For example, if you have an instance variable +@post+ containing a post, you can retrieve all the comments belonging to that post as the array +@post.comments+.
+Bu iki tanıtma komutuyla bir kısım faydalı otomatik işlemi aktif etmiş oluyorsunuz. Örneğin +@post+ adında birtek gönderi içeren instance değişkeniniz olsun, bunun tüm yorumlarını +@post.comments+ metodu ile çağırabilirsiniz.
 
-TIP: For more information on Active Record associations, see the "Active Record Associations":association_basics.html guide.
+TIP: Active Record ilişkilendirmeleri hakkında daha fazla bilgi için "Active Record Associations":association_basics.html klavuzuna bakınız.
 
-h4. Adding a Route for Comments
+h4. Yorumlar İçin bir Yönlendirme Eklenmesi
 
-As with the +home+ controller, we will need to add a route so that Rails knows where we would like to navigate to see +comments+.  Open up the +config/routes.rb+ file again, you will see an entry that was added automatically for +posts+ near the top by the scaffold generator, +resources :posts+, edit it as follows:
++home+ kontrolöründe olduğu gibi Rails'e yorumları nerede belirtmemiz gerekiyor. +config/routes.rb+ dosyasını tekrar açalım, en üstte gönderiler için scaffold komutu sayesinde eklenmiş olan +resources :posts+ satırını göreceksiniz bu satırı şöyle düzenleyin:
 
 <ruby>
 resources :posts do
@@ -873,29 +873,29 @@ resources :posts do
 end
 </ruby>
 
-This creates +comments+ as a _nested resource_ within +posts+. This is another part of capturing the hierarchical relationship that exists between posts and comments.
+Bu +yorumları+ +gönderiler+ altında _nested resource_ olarak yerleştirir. Bu gönderiler ile yorumları arasındaki hiyerarşik ilişkinin yönetilmesinin bir diğer parçasıdır.
 
-TIP: For more information on routing, see the "Rails Routing from the Outside In":routing.html guide.
+TIP: Routing (yönlendirme) hakkında daha fazla bilgi için "Rails Routing from the Outside In":routing.html klavuzuna bakınız.
 
-h4. Generating a Controller
+h4. Bir Kontrolör Üretilmesi
 
-With the model in hand, you can turn your attention to creating a matching controller. Again, there's a generator for this:
+Bu elimizdek modele karşı gelen bir kontrolör üretmeniz gerekiyor. Tabiiki bunu bir generator ile yapacaksnız:
 
 <shell>
 $ rails generate controller Comments
 </shell>
 
-This creates four files and one empty directory:
+Bu dört dosya ve boş bir klasör oluşturur:
 
-* +app/controllers/comments_controller.rb+ - The controller
-* +app/helpers/comments_helper.rb+ - A view helper file
-* +test/functional/comments_controller_test.rb+ - The functional tests for the controller
-* +test/unit/helpers/comments_helper_test.rb+ - The unit tests for the helper
-* +app/views/comments/+ - Views of the controller are stored here
+* +app/controllers/comments_controller.rb+ - Kontrolör
+* +app/helpers/comments_helper.rb+ - Görsel yardımcı dosyası
+* +test/functional/comments_controller_test.rb+ - Kontrolör için fonksiyon testleri
+* +test/unit/helpers/comments_helper_test.rb+ - Helper için birim testleri
+* +app/views/comments/+ - Kontrolörün görselleri buraya konacak
 
-Like with any blog, our readers will create their comments directly after reading the post, and once they have added their comment, will be sent back to the post show page to see their comment now listed.  Due to this, our +CommentsController+ is there to provide a method to create comments and delete SPAM comments when they arrive.
+Tüm bloglarda olduğu gibi bizim okuyucularımız da yorumlarını gönderinin hemen altında yapmak isterler. Arkasından da tekrar gönderi sayfasının tazelenip yorumlarının eklenmiş olduğunu görmek isterler. Bunu yapmak için +CommentsController+ yorumları üretecek ve SPAM yorumları ayıklayacak metodlara sahip olmalıdır.
 
-So first, we'll wire up the Post show template (+/app/views/posts/show.html.erb+) to let us make a new comment:
+İlk önce, Post kontrolörün +show+ görselinde yorum eklemek için değişiklik yapacağız (+/app/views/posts/show.html.erb+) dosyasını açın:
 
 <erb>
 <p class="notice"><%= notice %></p>
@@ -934,7 +934,7 @@ So first, we'll wire up the Post show template (+/app/views/posts/show.html.erb+
 <%= link_to 'Back to Posts', posts_path %> |
 </erb>
 
-This adds a form on the Post show page that creates a new comment, which will call the +CommentsController+ +create+ action, so let's wire that up:
+Bu sayede gönderilerin gösterildiği sayfaya yeni yorum eklemeye yarayan bir form eklenir. Bu form +CommentsControlle+ in +create+ eylemini çağırır, şimdi bu eylemi yazalım:
 
 <ruby>
 class CommentsController < ApplicationController
@@ -946,11 +946,11 @@ class CommentsController < ApplicationController
 end
 </ruby>
 
-You'll see a bit more complexity here than you did in the controller for posts. That's a side-effect of the nesting that you've set up; each request for a comment has to keep track of the post to which the comment is attached, thus the initial find action to the Post model to get the post in question.
+Burda gönderilerin PostController'inden daha karmaşık işler var. Bu içiçe çalışmanın yan etkisi olarak her yorumun hangi gönderiye bağlı olduğunu bulmak için yapmanız gereken ayarlamalar. Bu yüzden ilk adımda ilgili gönderi find metoduyla bulunuyor.
 
-In addition, the code takes advantage of some of the methods available for an association. We use the +create+ method on +@post.comments+ to create and save the comment. This will automatically link the comment so that it belongs to that particular post.
+Ek olarak, kod içinde ilişkilendirmenin getirdiği yardımcı bazı metodlar kullanılıyor. +@post.comments+ in (gönderi yorumlarının) +create+ metodunu kullanark yeni yorumu üretiyor ve kaydediyoruz. Bu sayede yorum otomatik olarak gönderiye bağlı olarak tabloya kaydedilecektir.
 
-Once we have made the new comment, we send the user back to the original post using the +post_path(@post)+ helper. As we have already seen, this calls the +show+ action of the +PostsController+ which in turn renders the +show.html.erb+ template. This is where we want the comment to show, so let's add that to the +app/views/posts/show.html.erb+.
+Yeni yorum üretilince kullanıcıyı +post_path(@post)+ yardımcısını kullanarak tekrar orjinal gönderi gösterim sayfasına yönlendiriyoruz. Daha önce gördüğümüz gibi bu +PostController+ in +show+ eylemine gönderir ve bu da +show.html.erb+ görselini gösterir. Yorumları da bu sayfada göstermemiz gerekiyor, bu yüzden +app/views/posts/show.html.erb+ dosyasını şöyle düzenleyelim.
 
 <erb>
 <p class="notice"><%= notice %></p>
@@ -1004,15 +1004,15 @@ Once we have made the new comment, we send the user back to the original post us
 <%= link_to 'Back to Posts', posts_path %> |
 </erb>
 
-Now you can add posts and comments to your blog and have them show up in the right places.
+Şimdi gönderilere yorumlar ekleyebilir ve gönderi ile aynı sayfada izleyebilirsiniz.
 
-h3. Refactoring
+h3. Düzeltmeler
 
-Now that we have Posts and Comments working, if we take a look at the +app/views/posts/show.html.erb+ template, it's getting long and awkward. We can use partials to clean this up.
+Şimdi gönderilerimiz ve yorumlarımız çalışıyor, +app/views/posts/show.html.erb+ kalıp dosyasına baktığımızda çok uzun ve sakil görünmekte. Bunu temizlemek için kısmi kodlar kullanabiliriz.
 
-h4. Rendering Partial Collections
+h4. Kısmi Kodların Yayınlaması
 
-First we will make a comment partial to extract showing all the comments for the post. Create the file +app/views/comments/_comment.html.erb+ and put the following into it:
+İlk önce gönderilerin yorumlarının gösterilebilmesi için bir yorumlar kısmi kodu yapacağız. +app/views/comments/_comment.html.erb+ adında bir dosya üretin ve şunları içine koyun:
 
 <erb>
 <p>
@@ -1026,7 +1026,7 @@ First we will make a comment partial to extract showing all the comments for the
 </p>
 </erb>
 
-Then in the +app/views/posts/show.html.erb+ you can change it to look like the following:
+Daha sonra +app/views/posts/show.html.erb+ içerisinde şu değişiklikleri yapın:
 
 <erb>
 <p class="notice"><%= notice %></p>
@@ -1070,11 +1070,11 @@ Then in the +app/views/posts/show.html.erb+ you can change it to look like the f
 <%= link_to 'Back to Posts', posts_path %> |
 </erb>
 
-This will now render the partial in +app/views/comments/_comment.html.erb+ once for each comment that is in the +@post.comments+ collection.  As the +render+ method iterates over the <tt>@post.comments</tt> collection, it assigns each comment to a local variable named the same as the partial, in this case +comment+ which is then available in the partial for us to show.
+Bu kod ile +@post.comments+ array'inin her elemanı için +app/views/comments/_comment.html.erb+ kısmi kodu çağırılacaktır. +render+ metodu <tt>@post.comments</tt> elemanlarının içinde iterasyon yaptığı için, her yorumu kısmi kod içindeki aynı isimde bir yerel değişkene atar bu sayede kısmi kod içinde yorum işlenebilir.
 
-h4. Rendering a Partial Form
+h4. Kısmi Form Yayınlanması
 
-Lets also move that new comment section out to it's own partial, again, you create a file +app/views/comments/_form.html.erb+ and in it you put:
+Şimdi yorumların yenisini girmek için kullanılan formu da olması gereken yerine gönderelim. +app/views/comments/_form.html.erb+ dosyasını üretin ve içine şunları koyun:
 
 <erb>
 <%= form_for([@post, @post.comments.build]) do |f| %>
@@ -1092,7 +1092,7 @@ Lets also move that new comment section out to it's own partial, again, you crea
 <% end %>
 </erb>
 
-Then you make the +app/views/posts/show.html.erb+ look like the following:
+Daha sonra +app/views/posts/show.html.erb+ dosyasını şöyle düzeltin:
 
 <erb>
 <p class="notice"><%= notice %></p>
@@ -1124,15 +1124,15 @@ Then you make the +app/views/posts/show.html.erb+ look like the following:
 <%= link_to 'Back to Posts', posts_path %> |
 </erb>
 
-The second render just defines the partial template we want to render, <tt>comments/form</tt>, Rails is smart enough to spot the forward slash in that string and realize that you want to render the <tt>_form.html.erb</tt> file in the <tt>app/views/comments</tt> directory.
+İkinci render satırı <tt>comments/form</tt> kısmi formu yayınlar, Rails buna bakınca  <tt>app/views/comments</tt> klasöründeki <tt>_form.html.erb</tt> dosyasını göstereceğini anlayacak kadar akıllıdır.
 
-The +@post+ object is available to any partials rendered in the view because we defined it as an instance variable.
++@post+ nesnesi instance değişken olduğu için her kısmi koddan görülebilir.
 
-h3. Deleting Comments
+h3. Yorumların Silinmesi
 
-Another important feature on a blog is being able to delete SPAM comments.  To do this, we need to implement a link of some sort in the view and a +DELETE+ action in the +CommentsController+.
+Bir blogda diğer önemli özellikte SPAM yorumların silinmesidir. Bunu yapmak için, +CommentsController+ in +DELETE+ eylemini çağıran bir bağlantı eklememiz gerekiyor.
 
-So first, let's add the delete link in the +app/views/comments/_comment.html.erb+ partial:
+İlk önce +app/views/comments/_comment.html.erb+ kısmi koduna delete bağlantısını ekleyelim:
 
 <erb>
 <p>
@@ -1152,7 +1152,7 @@ So first, let's add the delete link in the +app/views/comments/_comment.html.erb
 </p>
 </erb>
 
-Clicking this new "Destroy Comment" link will fire off a <tt>DELETE /posts/:id/comments/:id</tt> to our +CommentsController+, which can then use this to find the comment we want to delete, so let's add a destroy action to our controller:
+Bu yeni "Destroy Comment" bağlantısına tıklayınca +CommentsController+ in <tt>DELETE /posts/:id/comments/:id</tt> eylemi çağrılır ve silmek istediğimiz yorum belirlenmiş olur. Şimdi comments kontrolörüne destroy eylemi ekleme zamanı:
 
 <ruby>
 class CommentsController < ApplicationController
@@ -1173,12 +1173,12 @@ class CommentsController < ApplicationController
 end
 </ruby>
 
-The +destroy+ action will find the post we are looking at, locate the comment within the <tt>@post.comments</tt> collection, and then remove it from the database and send us back to the show action for the post.
++destroy+ eylemi aradığımız yorumu bulur onu <tt>@post.comments</tt> grubu içinde işaretler ve sildikten sonra tekrar gönderinin gösterildiği görsele geri yönlendirir.
 
 
-h4. Deleting Associated Objects
+h4. İlişkili Nesnelerin Silinmesi
 
-If you delete a post then its associated comments will also need to be deleted. Otherwise they would simply occupy space in the database. Rails allows you to use the +dependent+ option of an association to achieve this. Modify the Post model, +app/models/post.rb+, as follows:
+Eğer bir gönderiyi silerseniz bağlantılı yorumları da silmek gerekir. Diğer durumda en azından veri tabanını boşyere işgal etmiş oluruz (gerçi veritabanı çok şişmeyecekse kayıtların silinmesi yerine pasifleştirilmesi tercih edilmelidir ama). Rails buna benzer durumlar için +dependent+ opsiyonunu kullanır. Post modelini , +app/models/post.rb+, şöyle değiştirin:
 
 <ruby>
 class Post < ActiveRecord::Base
@@ -1189,11 +1189,11 @@ class Post < ActiveRecord::Base
 end
 </ruby>
 
-h3. Security
+h3. Güvenlik
 
-If you were to publish your blog online, anybody would be able to add, edit and delete posts or delete comments.
+Eğer bloğunuzu online yayınlamışsanız, herkes gönderiler ve yorumlar eklemeye , değiştirmeye ve silmeye yetkili olacaktır.
 
-Rails provides a very simple HTTP authentication system that will work nicely in this situation. First, we enable simple HTTP based authentication in our <tt>app/controllers/application_controller.rb</tt>:
+Rails bu durumlar için çok basit bir HTTP yetkilendirme sistemi sağlar. İlkönce bu basit yetkilendiriciyi <tt>app/controllers/application_controller.rb</tt> dosyamızda aktif edelim:
 
 <ruby>
 class ApplicationController < ActionController::Base
@@ -1210,11 +1210,11 @@ class ApplicationController < ActionController::Base
 end
 </ruby>
 
-You can obviously change the username and password to whatever you want.  We put this method inside of +ApplicationController+ so that it is available to all of our controllers.
+Tabiiki kullanıcı adı ve şifreyi istediğiniz gibi değiştirebilirsiniz. Bu metodu +ApplicationController+ içine koyduğumuz için tüm uygulamadan erişilebilir.
 
-Then in the +PostsController+ we need to have a way to block access to the various actions if the person is not authenticated, here we can use the Rails <tt>before_filter</tt> method, which allows us to specify that Rails must run a method and only then allow access to the requested action if that method allows it.
+Sonra +PostsController+ içinde yetkisiz kişilerin işlem yapmasını engellemek için birşeyler yapmalıyız, burada Rails'in <tt>before_filter</tt> metodunu kullanabiliriz. Bu metod Rails'e önce bir metod çalıştırmsını ve metod sonucu izin verirse işleme devam edilmesini anlatır.
 
-To use the before filter, we specify it at the top of our +PostsController+, in this case, we want the user to be authenticated on every action, except for +index+ and +show+, so we write that:
+Before filter metodu kullanmak için bunu +PostsController+ in en başında +index+ ve +show+ dışında her eylem öncesi yetki istediğimizi belirtmeliyiz, bunun için şöyle yazın:
 
 <ruby>
 class PostsController < ApplicationController
@@ -1229,7 +1229,7 @@ class PostsController < ApplicationController
 # snipped for brevity
 </ruby>
 
-We also only want to allow authenticated users to delete comments, so in the +CommentsController+ we write:
+Ayrıca sadece yetkili kişilerin yorumları silmesine izin vermek için +CommentsController+ açın ve şunu yazın:
 
 <ruby>
 class CommentsController < ApplicationController
@@ -1238,31 +1238,31 @@ class CommentsController < ApplicationController
 
   def create
     @post = Post.find(params[:post_id])
-# snipped for brevity
+# kalabalık etmesin diye kısaltıldı
 </ruby>
 
-Now if you try to create a new post, you will be greeted with a basic HTTP Authentication challenge
+Eğer şimdi yeni bir gönderi üretmeye kalkarsanız, basit HTTP yetkilendirme şifre giriş ekranı karşınıza çıkacaktır
 
 !images/challenge.png(Basic HTTP Authentication Challenge)!
 
 
-h3. Building a Multi-Model Form
+h3. Çok Modelli bir Form Yapmak
 
-Another feature of your average blog is the ability to tag posts. To implement this feature your application needs to interact with more than one model on a single form. Rails offers support for nested forms.
+Yaptığınız bloğun bir diğer özelliği de gönderileri tag'leyebilmek olmalı. Bu özelliği sağlamak için uygulamanız aynı form içinde birden fazla modelle iletişim kurmalıdır. Rails içiçe formlar için destek vermektedir.
 
-To demonstrate this, we will add support for giving each post multiple tags, right in the form where you create the post. First, create a new model to hold the tags:
+Bunu göstermek için, her gönderiye birçok tag bağlamak için gönderiyi oluşturduğunuz formun sağında bir yer açacağız. Önce tag'leri saklamak için yeni bir model oluşturalım:
 
 <shell>
 $ rails generate model tag name:string post:references
 </shell>
 
-Again, run the migration to create the database table:
+Tekrar birleştirmeyi çalıştırarak veritabanında tabloyu oluşturalım:
 
 <shell>
 $ rake db:migrate
 </shell>
 
-Next, edit the +post.rb+ file to create the other side of the association, and to tell Rails (via the +accepts_nested_attributes_for+ macro) that you intend to edit tags via posts:
+Sonra, ilişkilendirmenin diğer tarafı için +post.rb+ dosyasını düzenleyin ve Rails'e tag'eri gönderilerle beraber düzenleyeceğinizi ( +accepts_nested_attributes_for+ makrosu yoluyla) anlatın:
 
 <ruby>
 class Post < ActiveRecord::Base
@@ -1278,9 +1278,9 @@ class Post < ActiveRecord::Base
 end
 </ruby>
 
-The +:allow_destroy+ option on the nested attribute declaration tells Rails to display a "remove" checkbox on the view that you'll build shortly. The +:reject_if+ option prevents saving new tags that do not have any attributes filled in.
+İçiçe özellik tanımlamasındaki +:allow_destroy+ opsiyonu Rails'e ilerde yapacağınız görsel içinde "remove" checkbox bulunması gerektiğini anlatır. +:reject_if+ opsiyonu hiç bir özelliği tanımlanmamış yeni tag'lerin kaydedilmesini engeller.
 
-We will modify +views/posts/_form.html.erb+ to render a partial to make a tag:
++views/posts/_form.html.erb+ dosyasını tag üreten bir kısmi kod haline getirmek için değiştirin:
 
 <erb>
 <% @post.tags.build %>
@@ -1317,13 +1317,13 @@ We will modify +views/posts/_form.html.erb+ to render a partial to make a tag:
 <% end %>
 </erb>
 
-Note that we have changed the +f+ in +form_for(@post) do |f|+ to +post_form+ to make it easier to understand what is going on.
+Dikkat ederseniz ne olduğunu daha iyi anlamak için +form_for(@post) do |f|+ deki +f+ yerine +post_form+ yazdık.
 
-This example shows another option of the render helper, being able to pass in local variables, in this case, we want the local variable +form+ in the partial to refer to the +post_form+ object.
+Bu örnek render yardımcısının bir diğer opsiyonunu gösteriyor, yerel değşkenlere erişme kabiliyeti, bu konumda yerel değişken +form+ un +post_form+ nesnesine bağlanmasını istiyoruz.
 
-We also add a <tt>@post.tags.build</tt> at the top of this form, this is to make sure there is a new tag ready to have it's name filled in by the user.  If you do not build the new tag, then the form will not appear as there is no new Tag object ready to create.
+Ayrıca formun en üstüne <tt>@post.tags.build</tt> ekledik, bu kullanıcı tarafından adı girilmiş yeni bir tag olduğundan emin olmak içindir. Eğer yeni bir tag yapılmadıysa form da görünmeyecektir.
 
-Now create the folder <tt>app/views/tags</tt> and make a file in there called <tt>_form.html.erb</tt> which contains the form for the tag:
+Şimdi <tt>app/views/tags</tt> klasörünü ve içinde tag için formu içeren <tt>_form.html.erb</tt> dosyasını üretin:
 
 <erb>
 <%= form.fields_for :tags do |tag_form| %>
@@ -1340,7 +1340,7 @@ Now create the folder <tt>app/views/tags</tt> and make a file in there called <t
 <% end %>
 </erb>
 
-Finally, we will edit the <tt>app/views/posts/show.html.erb</tt> template to show our tags.
+Son olarak, <tt>app/views/posts/show.html.erb</tt> kalıbını tag'lermizi gösterecek şekilde düzenleyeceğiz.
 
 <erb>
 <p class="notice"><%= notice %></p>
@@ -1376,25 +1376,25 @@ Finally, we will edit the <tt>app/views/posts/show.html.erb</tt> template to sho
 <%= link_to 'Back to Posts', posts_path %> |
 </erb>
 
-With these changes in place, you'll find that you can edit a post and its tags directly on the same view.
+Bu değişikliklerle birlikte aynı görüntü içinde gönderilerle beraber tag'lerin de düzenlenebildiğini göreceksiniz.
 
-However, that method call <tt>@post.tags.map { |t| t.name }.join(", ")</tt> is awkward, we could handle this by making a helper method.
+Bununla beraber şu metod çağrısı <tt>@post.tags.map { |t| t.name }.join(", ")</tt> çirkin oldu bunu bir yardımcı (helper) metod yaparak düzenleyebiliriz.
 
-h3. View Helpers
+h3. Görsel Yardımcıları
 
-View Helpers live in <tt>app/helpers</tt> and provide small snippets of reusable code for views.  In our case, we want a method that strings a bunch of objects together using their name attribute and joining them with a comma.  As this is for the Post show template, we put it in the PostsHelper.
+Görsel yardımcıları <tt>app/helpers</tt> klasöründe yaşar ve görseller için tekrar tekrar kullanabilen kod parçalarıdır. Bizim konumuzda bir kaç nesnenin name özelliğini toplayıp aralarına virgül koyarak birleştiren bir koda ihtiyacımız var. Bu işlem Post görselinde lazım olduğu için PostHelper içine kodumuzu koyacağız.
 
-Open up <tt>app/helpers/posts_helper.rb</tt> and add the following:
+<tt>app/helpers/posts_helper.rb</tt> dosyasını açın ve şunları yazın:
 
-<erb>
+<ruby>
 module PostsHelper
   def join_tags(post)
     post.tags.map { |t| t.name }.join(", ")
   end
 end
-</erb>
+</ruby>
 
-Now you can edit the view in <tt>app/views/posts/show.html.erb</tt> to look like this:
+Şimdi <tt>app/views/posts/show.html.erb</tt> görelini şöyle düzenleyebilirsiniz:
 
 <erb>
 <p class="notice"><%= notice %></p>
@@ -1430,9 +1430,9 @@ Now you can edit the view in <tt>app/views/posts/show.html.erb</tt> to look like
 <%= link_to 'Back to Posts', posts_path %> |
 </erb>
 
-h3. What's Next?
+h3. Sırada Ne Var?
 
-Now that you've seen your first Rails application, you should feel free to update it and experiment on your own. But you don't have to do everything without help. As you need assistance getting up and running with Rails, feel free to consult these support resources:
+Artık ilk Rails uygulamanız hazır, istediğiniz gibi tecrübe edebilir ve değiştirebilirsiniz. Ama bunu yardımsız yapmak zorunda değilsiniz. Rails çalışmalarınız esnasında yrdıma ihtiyaç duyarsanız bu kaynaklara başvurabilirsiniz:
 
 * The "Ruby on Rails guides":index.html
 * The "Ruby on Rails Tutorial":http://railstutorial.org/book
@@ -1440,32 +1440,29 @@ Now that you've seen your first Rails application, you should feel free to updat
 * The "#rubyonrails":irc://irc.freenode.net/#rubyonrails channel on irc.freenode.net
 * The "Rails Wiki":http://wiki.rubyonrails.org/
 
-Rails also comes with built-in help that you can generate using the rake command-line utility:
+Rails içinde de bir help vardır bunu rake komutu ile hazırlamanız gerekir:
 
-* Running +rake doc:guides+ will put a full copy of the Rails Guides in the +doc/guides+ folder of your application. Open +doc/guides/index.html+ in your web browser to explore the Guides.
-* Running +rake doc:rails+ will put a full copy of the API documentation for Rails in the +doc/api+ folder of your application. Open +doc/api/index.html+ in your web browser to explore the API documentation.
+* +rake doc:guides+ komutuyla tüm Rails klavuzları uygulamanızın +doc/guides+ klasörüne konur. +doc/guides/index.html+ dosyasını tarayıcınızda açın ve klavuzları inceleyin.
+* +rake doc:rails+ komutuyla API dökümanın bir kopyası uygulamanızın +doc/api+ klasörüne konur. +doc/api/index.html+ dosyasını tarayıcınızda açın ve inceleyin.
 
-h3. Configuration Gotchas
+h3. Konfigürasyon İpuçları
 
-The easiest way to work with Rails is to store all external data as UTF-8. If you don't, Ruby libraries and Rails will often be able to convert your native data into UTF-8, but this doesn't always work reliably, so you're better off ensuring that all external data is UTF-8.
+Rails ile çalışmanın en kolay yolu tüm harici verilerinizi UTF-8 olarak saklamanızdır. Eğer böyle yapmazsanız Ruby kütüphaneleri Rails sizin kendi dilnizin verilerini UTF-8 e dönüştürmeye çalışacak ama herzaman başarılı olamayacaktır. En iyisi tüm harici verileri UTF-8 saklamak olacaktır.
 
-If you have made a mistake in this area, the most common symptom is a black diamond with a question mark inside appearing in the browser. Another common symptom is characters like "Ã¼" appearing instead of "ü". Rails takes a number of internal steps to mitigate common causes of these problems that can be automatically detected and corrected. However, if you have external data that is not stored as UTF-8, it can occasionally result in these kinds of issues that cannot be automatically detected by Rails and corrected.
+Bu hatayı yaptığınızda en belirgin görüntüsü tarayıcınızdaki içinde soru işareti olan siyah baklava olacaktır. Bir diğer belirti de "ü" harfinin "Ã¼" gibi görünmesidir. Rails takes a number of internal steps to mitigate common causes of these problems that can be automatically detected and corrected. However, if you have external data that is not stored as UTF-8, it can occasionally result in these kinds of issues that cannot be automatically detected by Rails and corrected.
 
-Two very common sources of data that are not UTF-8:
-* Your text editor: Most text editors (such as Textmate), default to saving files as
-  UTF-8. If your text editor does not, this can result in special characters that you
-  enter in your templates (such as é) to appear as a diamond with a question mark inside
-  in the browser. This also applies to your I18N translation files.
-  Most editors that do not already default to UTF-8 (such as some versions of
-  Dreamweaver) offer a way to change the default to UTF-8. Do so.
-* Your database. Rails defaults to converting data from your database into UTF-8 at
-  the boundary. However, if your database is not using UTF-8 internally, it may not
-  be able to store all characters that your users enter. For instance, if your database
-  is using Latin-1 internally, and your user enters a Russian, Hebrew, or Japanese
-  character, the data will be lost forever once it enters the database. If possible,
-  use UTF-8 as the internal storage of your database.
+Kaynak dosyalarınızın UTF-8 olmamasının iki sebebi vardır:
+* Text editorünüz: Birçok text editörü dosyaları UTF-8 kaydeder. Eğer sizin editörünüz bu
+  şekilde kaydetmiyorsa tarayıcıda görsellerde kullanmak üzere yazılarınızın karakterleri
+  görünmeyecektir. Bu ayrıca I18N tercüme dosyalarınızı da etkiler. Mesela Dreamviewer
+  default karakter seti UTF-8 değildir, ayarlanması gerekir.
+* Veri Tabanınız: Rails default olarak veritabanınızdan gelen veriyi UTF-8 e çevirir.
+  Ama veritabanınız içerde UTF-8 kullanmıyorsa kullanıcının girdiği tüm verileri
+  saklamayabilir. Mesela veritabanınız Latin-1 kullanıyorsa ve kullanıcı Rusça veya
+  Japonca gibi yazılar girerse veritbanına kaydedildiği anda veri kaybolacaktır.
+  Mümkünse veritabanınızın içinde kayıtları UTF-8 olarak saklayın.
 
-h3. Changelog
+h3. Değişiklikler
 
 * August 30, 2010: Minor editing after Rails 3 release by "Joost Baaij":http://www.spacebabies.nl
 * July 12, 2010: Fixes, editing and updating of code samples by "Jaime Iniesta":http://jaimeiniesta.com

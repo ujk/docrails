@@ -9,7 +9,7 @@ Bu klavuz Ruby on Rails'i kurmanız ve çalıştırmanız için gerekenleri içe
 
 endprologue.
 
-UYARI. Bu klavuz Rails 3.0 a göre düzenlenmiştir. Burada gösterilen bazı kodlar önceki Rails versiyonlarında çalışmaz.
+WARNING. Bu klavuz Rails 3.0 a göre düzenlenmiştir. Burada gösterilen bazı kodlar önceki Rails versiyonlarında çalışmaz.
 
 h3. Klavuzun Varsayımları
 
@@ -17,7 +17,7 @@ Bu klavuz Rails'e sıfırdan başlamak isteyen yeni programcılar için düzenle
 
 * "Ruby":http://www.ruby-lang.org/en/downloads programlama dili versiyon 1.8.7 ya da daha yüksek olmalı
 
-İPUCU: Ruby 1.8.7 p248 ve p249 Rails 3.0'ın çakılmasına neden olan bug'lar içeriyordu. Ruby Enterprise Edition release 1.8.7-2010.02 den itibaren bu düzeltildi. Ruby 1.9.1 ise Rails 3.0'da segfault hataları veriyor, o yüzden 1.9.x serisiyle Rails 3.0 kullanmak isterseniz Ruby 1.9.2 den itibaren kullanın.
+TIP: Ruby 1.8.7 p248 ve p249 Rails 3.0'ın çakılmasına neden olan bug'lar içeriyordu. Ruby Enterprise Edition release 1.8.7-2010.02 den itibaren bu düzeltildi. Ruby 1.9.1 ise Rails 3.0'da segfault hataları veriyor, o yüzden 1.9.x serisiyle Rails 3.0 kullanmak isterseniz Ruby 1.9.2 den itibaren kullanın.
 
 * "RubyGems":http://rubyforge.org/frs/?group_id=126 paketleme sistemi
 * Çalışan bir "SQLite3 Veritabanı":http://www.sqlite.org
@@ -149,7 +149,7 @@ Genellikle bu komutu root kullanıcı olarak çalıştırmanız gerekir:
 # gem install rails
 </shell>
 
-İPUCU. Eğer Windows kullanıyorsanız, Instant Rails'in kurulumunu daha basit bulacaksınız. Gerçi Instant Rails en son versiyondan genelde geride kalıyor ama. Ayrıca windos üzerinde Rails geliştirme yapmak diğer sistemlere nazaran daha keyifsizdir. Eğer mümkünse tavsiyemiz windows yerine bir Linux sanal makina yardımıyla Rails çalışmanızdır.
+TIP. Eğer Windows kullanıyorsanız, Instant Rails'in kurulumunu daha basit bulacaksınız. Gerçi Instant Rails en son versiyondan genelde geride kalıyor ama. Ayrıca windos üzerinde Rails geliştirme yapmak diğer sistemlere nazaran daha keyifsizdir. Eğer mümkünse tavsiyemiz windows yerine bir Linux sanal makina yardımıyla Rails çalışmanızdır.
 
 h4. Blog Uygulmasını Üretmek
 
@@ -163,7 +163,7 @@ $ rails new blog
 
 Bu "blog" adlı klasör içinde Blog ismi verilen bir uygulama üretecektir.
 
-İPUCU: Rails Uygulama Üretecinin tüm komut satır parametrelerini <tt>rails -h</tt> komutuyla görebilirsiniz.
+TIP: Rails Uygulama Üretecinin tüm komut satır parametrelerini <tt>rails -h</tt> komutuyla görebilirsiniz.
 
 Uygulamanın üretilmesini hata mesajı almadan birçok dosya oluşturulmasından gördükten sonra uygulamanın bulunduğu klasöre geçin:
 
@@ -266,7 +266,7 @@ $ rake db:create
 
 Bu komut <tt>db/</tt> klasöründe geliştirme ve test veritabanlarınızı oluşturur.
 
-İPUCU: Rake komutu Rails'in birçok şey için kullandığı genel amaçlı bir kod çalıştırıcıdır. Olası komutları +rake -T+ komutu girerek görebilirsiniz.
+TIP: Rake komutu Rails'in birçok şey için kullandığı genel amaçlı bir kod çalıştırıcıdır. Olası komutları +rake -T+ komutu girerek görebilirsiniz.
 
 h3. Merhaba Rails!
 
@@ -284,7 +284,7 @@ Bu default olarak bir Mongrel web server başlatacaktır.(Rails diğer farklı s
 
 !images/rails_welcome.png(Welcome Aboard screenshot)!
 
-İPUCU: Web server'ı durdurmak için çalıştırdığınız konsol ekranında Ctrl+C basmanız gerekir. Geliştirme modunda, genellikle Rails server'ı durdurmanız gerekmez; dosyalarda yaptığınız değişiklikler server'a otomatik yüklenecektir.
+TIP: Web server'ı durdurmak için çalıştırdığınız konsol ekranında Ctrl+C basmanız gerekir. Geliştirme modunda, genellikle Rails server'ı durdurmanız gerekmez; dosyalarda yaptığınız değişiklikler server'a otomatik yüklenecektir.
 
 “Welcome Aboard” yeni bir Rails uygulamasının tüten buharıdır: uygulamanızın server'dan yayınlanması için herşeyn uygun olduğundan emin olmak içindir. Ayrıca _About your application’s environment_ bağlantısına tıklayarak uygulamanızın kullandığı ortam hakkında bilgi edinebilirsiniz.
 
@@ -296,7 +296,7 @@ Railsin "Merhaba" demesi için, en az bir kontrolör ve bir görsel ihtiyacını
 $ rails generate controller home index
 </shell>
 
-İPUCU: Eğer Windows'taysanız yada Ruby kurulumunuz standart olmayan bir kurulumdaysa Ruby'ye rails komutunun yolunu da net olarak belirtmeniz gerekir: +ruby \path\to\rails generate controller home index+.
+TIP: Eğer Windows'taysanız yada Ruby kurulumunuz standart olmayan bir kurulumdaysa Ruby'ye rails komutunun yolunu da net olarak belirtmeniz gerekir: +ruby \path\to\rails generate controller home index+.
 
 Rails sizin için bazı dosyalar üretecektir. Biri de +app/views/home/index.html.erb+. Bu +home+ kontrolörünün +index+ eylemi sayfasını göstermekte kullanılacak olan kalıp dosyadır. Bu dosyayı editörde açıp içine sadece şu satırı koyun gerisini silin:
 
@@ -331,7 +331,7 @@ Blog::Application.routes.draw do
 
 Eğer şimdi "http://localhost:3000":http://localhost:3000 adresine gidersek +Merhaba Rails!+ mesajını görebiliriz. 
 
-NOT. Daha fazla bilgi için "Rails Routing from the Outside In":routing.html adresine bakınız.
+NOTE. Daha fazla bilgi için "Rails Routing from the Outside In":routing.html adresine bakınız.
 
 h3. Scaffolding ile hızlı hazırlık ve çalıştırma.
 
@@ -345,7 +345,7 @@ Blog uygulamasına göre gönderilerin kaydedileceği bir "Post" kaynağı üret
 $ rails generate scaffold Post name:string title:string content:text
 </shell>
 
-NOT. Scaffolding'in kendi doğrultusunda hazırladığı kodu sizin tercihlerinize uymayabilir. Çoğunlukla ürettiği kodları değiştirmek gerekecektir. Uzmanlık kazanmış programcılar genellikle kodlarını baştan kendileri üretir. Ama başlangıç seviyesi için gereklidir.
+NOTE. Scaffolding'in kendi doğrultusunda hazırladığı kodu sizin tercihlerinize uymayabilir. Çoğunlukla ürettiği kodları değiştirmek gerekecektir. Uzmanlık kazanmış programcılar genellikle kodlarını baştan kendileri üretir. Ama başlangıç seviyesi için gereklidir.
 
 Scaffold jeneratör uygulamanıza 15 dosya üretir, bazı klasörler üretir ve bazılarını da edit eder. Şimdi bunlara kısaca bakalım:
 
@@ -407,7 +407,7 @@ Rails birleştirme komutunu işletecek ve size +posts+ tablosunu ürettiğini bi
 ==  CreatePosts: migrated (0.0020s) ===========================================
 </shell>
 
-NOT. Şu anda geliştirme ortamında çalıştığınız için bu komut +config/database.yml+ dosyasının +development+ kısmında belirtilen veritabanında işlem yapacaktır.
+NOTE. Şu anda geliştirme ortamında çalıştığınız için bu komut +config/database.yml+ dosyasının +development+ kısmında belirtilen veritabanında işlem yapacaktır.
 
 h4. Bir Bağlantı Eklemek
 
@@ -428,7 +428,7 @@ h4. Tarayıcıda Gönderileri Çalışmak
 
 Bu gönderilerin +index+ görsel sayfası için Rails'in sunusu sonucudur. Henüz veritabanında herhangibir gönderi yoktur, fakat +New Post+ bağlantısına tıklarsanız yeni bir tane üretebilirsiniz. Bundan sonra gönderileri düzenleyebilir, ayrıntılarını inceleyebilir ve silebilirsiniz. Tüm bu HTML ve lojik tek bir satır +rails generate scaffold+ komutuyla üretildi.
 
-İPUCU: Geliştirme modunda (default olarak bu modda çalışmaktasınız) Rails her tarayıcı isteğinde sayfaları tekrar yükler bu yüzden web server'ın kapatılıp açılmasına gerek yoktur.
+TIP: Geliştirme modunda (default olarak bu modda çalışmaktasınız) Rails her tarayıcı isteğinde sayfaları tekrar yükler bu yüzden web server'ın kapatılıp açılmasına gerek yoktur.
 
 Tebrikler, Rails'i kullanmaya başladınız! Şimdi hepsinin nasıl çalıştığını göreceksiniz.
 
@@ -484,13 +484,13 @@ Bu kod yeni bir +Post+ örneği oluşturulduğunu, kaydetmeye kalkınca +false+ 
 
 Bitirdiğinizde +exit+ yazın ve +return+ basarak konsoldan çıkabilirsiniz.
 
-İPUCU: Geliştirme modundaki web server'ın aksine konsol her seferinde kodunuzu tekrar yüklemez. Bu yüzden konsol açıkken modelde değişiklik yaparsanız +reload+ komutu girerek tazeleme sağlamalısınız.
+TIP: Geliştirme modundaki web server'ın aksine konsol her seferinde kodunuzu tekrar yüklemez. Bu yüzden konsol açıkken modelde değişiklik yaparsanız +reload+ komutu girerek tazeleme sağlamalısınız.
 
 h4. Tüm Gönderilerin Listelenmesi
 
 Çalışmanın incelenmesinde en kolay yol gönderilerin listelendiği sayfayı incelemek. +app/controllers/posts_controller.rb+ dosyasını açın ve +index+ eylemine bakın:
 
-<pre>
+<ruby>
 def index
   @posts = Post.all
 
@@ -499,15 +499,15 @@ def index
     format.xml  { render :xml => @posts }
   end
 end
-</pre>
+</ruby>
 
 +Post.all+ deyimi +Post+ modelinden veritabanındaki tüm gönderileri getirir. Bunun sonucunda +@posts+ değişkeninde bir array olarak gönderileri saklıyoruz.
 
-İPUCU: Active Record hakkında daha fazla bilgi için "Active Record Query Interface":active_record_querying.html başlığına bakınız.
+TIP: Active Record hakkında daha fazla bilgi için "Active Record Query Interface":active_record_querying.html başlığına bakınız.
 
 +respond_to+ bloğu hem HTML hem XML olarak gelen çağrıları cevaplar. Eğer tarayıcıda "http://localhost:3000/posts.xml":http://localhost:3000/posts.xml adresine giderseniz tüm göderileri XML formatında görürsünüz. HTML formatı +app/views/posts/+ içindeki view dosyalarından ilgili eylemin dosyasına göre bir görüntü döner. Rails ilgili eylem içindeki tüm instance değişkenleri görsel için de kullanılabilir hale getirir. +app/views/posts/index.html.erb+ dosyasını inceleyelim:
 
-<pre>
+<erb>
 <h1>Listing posts</h1>
 
 <table>
@@ -535,22 +535,22 @@ end
 <br />
 
 <%= link_to 'New post', new_post_path %>
-</pre>
+</erb>
 
 Bu görsel dosyası, +@posts+ array değişkeni üzerinden gönderileri listeliyor ve ilgili linkleri elde ediyor. Görsel içinde birkaç noktaya dikkat edersek:
 
 * +link_to+ bir hyperlink bağlantısı oluşturur
 * +edit_post_path+ ve +new_post_path+ Rails'in RESTful yönlendirmelerinde kullandığı yardımcı tekniklerinden gelir. Kontrolörler içinde bu yardımcılardan birçok daha göreceksiniz.
 
-NOT. Rails'in önceki versiyonunda, +&lt;%=h post.name %&gt;+ kullanarak veri içine konan HTML kodlarının sayfada işlem yapması ve sayfanın saldırıya uğraması engellenirdi. Rails 3.0'da bu işlem default olarak yapılır. HTML kodların çalışmasını istiyorsanız +&lt;%= raw post.name %&gt;+ şeklinde yazmalısınız.
+NOTE. Rails'in önceki versiyonunda, +&lt;%=h post.name %&gt;+ kullanarak veri içine konan HTML kodlarının sayfada işlem yapması ve sayfanın saldırıya uğraması engellenirdi. Rails 3.0'da bu işlem default olarak yapılır. HTML kodların çalışmasını istiyorsanız +&lt;%= raw post.name %&gt;+ şeklinde yazmalısınız.
 
-İPUCU: Render işlemi için ayrıntılı bilgiyi "Layouts and Rendering in Rails":layouts_and_rendering.html. adresinde bulabilirsiniz.
+TIP: Render işlemi için ayrıntılı bilgiyi "Layouts and Rendering in Rails":layouts_and_rendering.html. adresinde bulabilirsiniz.
 
 h4. Yerleşimin Düzenlenmesi
 
 Görsel dosyalarında sadece tarayıcıda HTML'in nasıl görüneceği bilgisi vardır. Rails'de bundan başka +yerleşimler+ (layout) de bulunur. Bunlar görsellerin içine konacağı dosyalardır. Rails tarayıcıya bir görseli dönerken, görselin HTML kodunu yerleşimin HTML kodu içersine yerleştirir ve bu birleşimi döndürür. Rails'in önceki versiyonunda +rails generate scaffold+ komutu çalışınca otomatik olarak kontrolöre ait bir yerleşim dosyası (app/views/layouts/posts.html.erb gibi) üretilirdi. Rails 3.0'da bu değişti. Uygulama çapında bir +yerleşim+ tüm kontrolörler için kullanılır, +app/views/layouts/application.html.erb+. Bu yerleşim dosyasını editörde açın ve +body+ tag'ini değiştirin:
 
-<pre>
+<erb>
 <!DOCTYPE html>
 <html>
 <head>
@@ -565,7 +565,7 @@ Görsel dosyalarında sadece tarayıcıda HTML'in nasıl görüneceği bilgisi v
 
 </body>
 </html>
-</pre>
+</erb>
 
 Şimdi +/posts+ sayfasını tazelediğinizde sayfa arkaplanın gri renk olduğunu göreceksiniz. Aynı arkaplan tüm görsellerde gri olacaktır.
 
@@ -573,7 +573,7 @@ h4. Yeni Gönderiler Oluşturmak
 
 Yeni gönderi oluşturmak iki eylemden oluşur. İlkönce +new+ eylemi boş bir +Post+ objesi başlatarak yeni gönderi oluşturur:
 
-<pre>
+<ruby>
 def new
   @post = Post.new
 
@@ -582,23 +582,23 @@ def new
     format.xml  { render :xml => @post }
   end
 end
-</pre>
+</ruby>
 
 +new.html.erb+ görseli kullanıcıya boş bir gönderi gösterir:
 
-<pre>
+<erb>
   <h1>New post</h1>
 
   <%= render 'form' %>
 
   <%= link_to 'Back', posts_path %>
-</pre>
+</erb>
 
 +&lt;%= render 'form' %&gt;+ satırı Rails'de _partial_ konusuna ilk girişimizi oluşturacak. Bir partial (kısmi kod), birçok yerde tekrar kullanmak için hazırlanmış Ruby ve HTML kodlardan oluşan kod parçasıdır. Bizim uygulamamızda yeni gönderi oluşturmak için kullanılan form ile olan bir gönderiyi değiştirmek için kullanılan form aynıdır. Her ikisinde de isim ve başlık için birer text field, içerik için bir text area ve gönderiyi kaydetmek için bir buton vardır.
 
 Eğer +views/posts/_form.html.erb+ dosyasına bakarsanız, şunları göreceksiniz:
 
-<pre>
+<erb>
 <%= form_for(@post) do |f| %>
   <% if @post.errors.any? %>
   <div id="error_explanation">
@@ -627,7 +627,7 @@ Eğer +views/posts/_form.html.erb+ dosyasına bakarsanız, şunları göreceksin
     <%= f.submit %>
   </div>
 <% end %>
-</pre>
+</erb>
 
 Bu kısmi kod tüm instance değişkenleri kendisini çağıran görselden alır ve kullanır, burada yeni gönderi kontrolör tarafından +@post+ değişkenine konur. Hem yeni gönderi hem değiştirme yaparken kontrolör +@post+ değişkenini kullanmaktadır. 
 
@@ -637,11 +637,11 @@ Kısmi kodlar hakkında daha fazla bilgi "Layouts and Rendering in Rails":layout
 
 +form_for+ bloğu ayrıca yeni gönderi veya gönderi değiştirme eylemlerinin hangisinin istendiğini çözecek ve formun +action+ tag'i ve gönderi butonu etiketini isteğe göre tayin edecek kadar akıllıdır.
 
-İPUCU: Eğer bir modele bağlı olmayan keyfi alanları olan bir HTML form oluşturmak isterseniz +form_tag+ metodunu kullanın. Bu bir modele bağlı olmayan formlar oluşturmak için gereken metodları kullanır.
+TIP: Eğer bir modele bağlı olmayan keyfi alanları olan bir HTML form oluşturmak isterseniz +form_tag+ metodunu kullanın. Bu bir modele bağlı olmayan formlar oluşturmak için gereken metodları kullanır.
 
 Kullanıcı bu form üzerindeki +Create Post+ düğmesini tıkladığında tarayıcı bilgiyi kontrolörün +create+ eylemine gönderir (Rails +create+ metodunu çağıracağını bilir çünkü form bir HTTP POST isteği ile gönderilmiştir, bu daha önce anlattığımız geleneklerdendir):
 
-<pre>
+<ruby>
 def create
   @post = Post.new(params[:post])
 
@@ -658,7 +658,7 @@ def create
     end
   end
 end
-</pre>
+</ruby>
 
 +create+ eylemi formun gönderdiği verilerle yeni bir Post nesnesi üretir, veriyi +params+ hash yapısından alır. Yeni gönderiyi sağlıklı bir şekilde kaydederse +create+ eylemi kullanıcının girişi yaptığı formatta (burada HTML) kaydı gösteren sayfaya döner. Kullanıcıyı üretilen gönderinin +show+ eylemine yönlendirir ve bir bildiriyle kullanıcıya işlemin başarısını bildirir.
 
@@ -670,7 +670,7 @@ h4. Bir Gönderinin Ayrıntısının Gösterilmesi
 
 Index sayfasında bir gönderinin +show+ linkine tıkladığınızda, sizi +http://localhost:3000/posts/2+ gibi bir sayfaya yönlendirir. Rails bunu +show+ eylemine bir çağrı olarak işler ve +2+ sayısını +:id+ parametresi olarak algılar. İşte +show+ eylemi:
 
-<pre>
+<ruby>
 def show
   @post = Post.find(params[:id])
 
@@ -679,11 +679,11 @@ def show
     format.xml  { render :xml => @post }
   end
 end
-</pre>
+</ruby>
 
 +show+ eylemi +id+ değerine göre veritabanından bir gönderiyi bulmak için +Post.find+ metodunu kullanır. Kaydı bulduktan sonra Rails +show.html.erb+ ile bu veriyi gösterir:
 
-<pre>
+<erb>
 <p class="notice"><%= notice %></p>
 
 <p>
@@ -704,34 +704,34 @@ end
 
 <%= link_to 'Edit', edit_post_path(@post) %> |
 <%= link_to 'Back', posts_path %>
-</pre>
+</erb>
 
 h4. Gönderileri Düzenlemek
 
 Yeni gönderi oluştururken olduğu gibi bir gönderiyi düzenlemek de iki adımdır. İlk adım +edit_post_path(@post)+ adresine ilgili gönderiye bağlı bir çağrıdır. Bu kontrolördeki +edit+ eylemini çağırır:
 
-<pre>
+<ruby>
 def edit
   @post = Post.find(params[:id])
 end
-</pre>
+</ruby>
 
 Talep edilen gönderiyi bulduktan sonra Rails +edit.html.erb+ 'yi kullanarak gönderiyi size gösterir:
 
-<pre>
+<erb>
 <h1>Editing post</h1>
 
 <%= render 'form' %>
 
 <%= link_to 'Show', @post %> |
 <%= link_to 'Back', posts_path %>
-</pre>
+</erb>
 
 Yine +new+ eyleminde olduğu gibi +edit+ eylemi de +form+ kısmi kodunu kullanır. Ama bu sefer kontrolöre PUT eylemi gönderirlir ve gönderi butonu etiketinde "Update Post" yazar.
 
 Bu görsel tarafından oluşturulan form, kontrolördeki +update+ eylemine yönlenir:
 
-<pre>
+<ruby>
 def update
   @post = Post.find(params[:id])
 
@@ -747,7 +747,7 @@ def update
     end
   end
 end
-</pre>
+</ruby>
 
 +update+ eyleminde Rails ilk önce "edit" görselinden gelen +:id+ parametresi yardımı ile düzenlenecek kaydı veritabanından bulur. +update_attributes+ methodu ile de gelen istek içerisinden tüm diğer kayıt bileşenlerini bulur. Eğer herşey başarılı giderse kullanıcı tekrar +show+ görseline yönlendirilir. Eğer bir problem varsa tekrar +edit+ görseline dönülerek hatanın düzeltilmesi istenir.
 
@@ -755,7 +755,7 @@ h4. Bir Gönderinin Silinmesi
 
 Son olarak, +destroy+ linklerinden birine tıkladığınızda ilgili satırın id'sini +destroy+ eylemine gönderir:
 
-<pre>
+<ruby>
 def destroy
   @post = Post.find(params[:id])
   @post.destroy
@@ -765,7 +765,7 @@ def destroy
     format.xml  { head :ok }
   end
 end
-</pre>
+</ruby>
 
 +destroy+ metodu ilgili kaydı veritabanından silen bir Active Record model metodudur. Bunu yaptıktan sonra, gösterilecek birşey olmadığı için, Rails kullanıcıyı tekrar index görseline yönlendirir.
 
@@ -777,9 +777,9 @@ h4. Bir Model Üretilmesi
 
 Rails'de Model'ler tekil isimdedir ve onlara karşı gelen veritabanı tabloları çoğul isimdedir. Yorumların saklandığı model için gelenek olarak Comment isimli bir model oluşturulur. Eğer scaffold'un tüm üretimlerini kullanmayacaksanız bile hala diğer model ve kontrolör üretimlerinde de jeneratör kullanabilirsiniz. Yeni bir model oluşturmak için terminalde şu komutu çalıştırın:
 
-<pre>
+<shell>
 $ rails generate model Comment commenter:string body:text post:references
-</pre>
+</shell>
 
 Bu komut şu dosyaları oluşturacak:
 
@@ -789,17 +789,17 @@ Bu komut şu dosyaları oluşturacak:
 
 Önce +comment.rb+ dosyasına bakalım:
 
-<pre>
+<ruby>
 class Comment < ActiveRecord::Base
   belongs_to :post
 end
-</pre>
+</ruby>
 
 Bu daha önce gördüğünüz +post.rb+ modeline benzer. Farkı +belongs_to :post+ satırı, bu satır bir Active Record bağlantısı kurar. Bu klavuzun ilerki bölümünde tablo bağlantıları hakkında bilgi edineceksiniz.
 
 Modele ilave olarak, Rails ilgili tablonun üretilmesi için bir veritabanı birleştirme dosyası üretir:
 
-<pre>
+<ruby>
 class CreateComments < ActiveRecord::Migration
   def self.up
     create_table :comments do |t|
@@ -815,22 +815,22 @@ class CreateComments < ActiveRecord::Migration
     drop_table :comments
   end
 end
-</pre>
+</ruby>
 
 +t.references+ satırı iki model arasında bir tablo ilişkisi kurar. Şimdi birleştirmeyi çalıştırın:
 
-<pre>
+<shell>
 $ rake db:migrate
-</pre>
+</shell>
 
 Rails sadece şimdiye kadar yapılmamış birleştirmeleri yapacak kadar akıllıdır, bu yüzden sadece şu satırları görürsünüz:
 
-<pre>
+<shell>
 ==  CreateComments: migrating =================================================
 -- create_table(:comments)
    -> 0.0017s
 ==  CreateComments: migrated (0.0018s) ========================================
-</pre>
+</shell>
 
 h4. Modelleri İlişkilendirmek
 
@@ -841,15 +841,15 @@ Active Record bağlamaları sayesinde iki model birbiriyle kolayca ilişkilendir
 
 Gerçekte yukardaki anlatımların ingilizcesi Rails'in ilikilendirme için kullandığı komutlarla nerdeyse aynıdır. Comment modeli içersinde zaten bir tanesini gördünüz, bu satırla her yorumun birtek gönderiye ilişkilendirildiği anlatılıyor:
 
-<pre>
+<ruby>
 class Comment < ActiveRecord::Base
   belongs_to :post
 end
-</pre>
+</ruby>
 
 İkinci ilişkilendirmeyi yapmak için +post.rb+ model dosyasını düzenlemeniz gerekir:
 
-<pre>
+<ruby>
 class Post < ActiveRecord::Base
   validates :name,  :presence => true
   validates :title, :presence => true,
@@ -857,33 +857,33 @@ class Post < ActiveRecord::Base
 
   has_many :comments
 end
-</pre>
+</ruby>
 
 Bu iki tanıtma komutuyla bir kısım faydalı otomatik işlemi aktif etmiş oluyorsunuz. Örneğin +@post+ adında birtek gönderi içeren instance değişkeniniz olsun, bunun tüm yorumlarını +@post.comments+ metodu ile çağırabilirsiniz.
 
-İPUCU: Active Record ilişkilendirmeleri hakkında daha fazla bilgi için "Active Record Associations":association_basics.html klavuzuna bakınız.
+TIP: Active Record ilişkilendirmeleri hakkında daha fazla bilgi için "Active Record Associations":association_basics.html klavuzuna bakınız.
 
 h4. Yorumlar İçin bir Yönlendirme Eklenmesi
 
 +home+ kontrolöründe olduğu gibi Rails'e yorumları nerede belirtmemiz gerekiyor. +config/routes.rb+ dosyasını tekrar açalım, en üstte gönderiler için scaffold komutu sayesinde eklenmiş olan +resources :posts+ satırını göreceksiniz bu satırı şöyle düzenleyin:
 
-<pre>
+<ruby>
 resources :posts do
   resources :comments
 end
-</pre>
+</ruby>
 
 Bu +yorumları+ +gönderiler+ altında _nested resource_ olarak yerleştirir. Bu gönderiler ile yorumları arasındaki hiyerarşik ilişkinin yönetilmesinin bir diğer parçasıdır.
 
-İPUCU: Routing (yönlendirme) hakkında daha fazla bilgi için "Rails Routing from the Outside In":routing.html klavuzuna bakınız.
+TIP: Routing (yönlendirme) hakkında daha fazla bilgi için "Rails Routing from the Outside In":routing.html klavuzuna bakınız.
 
 h4. Bir Kontrolör Üretilmesi
 
 Bu elimizdek modele karşı gelen bir kontrolör üretmeniz gerekiyor. Tabiiki bunu bir generator ile yapacaksnız:
 
-<pre>
+<shell>
 $ rails generate controller Comments
-</pre>
+</shell>
 
 Bu dört dosya ve boş bir klasör oluşturur:
 
@@ -897,7 +897,7 @@ Tüm bloglarda olduğu gibi bizim okuyucularımız da yorumlarını gönderinin 
 
 İlk önce, Post kontrolörün +show+ görselinde yorum eklemek için değişiklik yapacağız (+/app/views/posts/show.html.erb+) dosyasını açın:
 
-<pre>
+<erb>
 <p class="notice"><%= notice %></p>
 
 <p>
@@ -932,11 +932,11 @@ Tüm bloglarda olduğu gibi bizim okuyucularımız da yorumlarını gönderinin 
 
 <%= link_to 'Edit Post', edit_post_path(@post) %> |
 <%= link_to 'Back to Posts', posts_path %> |
-</pre>
+</erb>
 
 Bu sayede gönderilerin gösterildiği sayfaya yeni yorum eklemeye yarayan bir form eklenir. Bu form +CommentsControlle+ in +create+ eylemini çağırır, şimdi bu eylemi yazalım:
 
-<pre>
+<ruby>
 class CommentsController < ApplicationController
   def create
     @post = Post.find(params[:post_id])
@@ -944,7 +944,7 @@ class CommentsController < ApplicationController
     redirect_to post_path(@post)
   end
 end
-</pre>
+</ruby>
 
 Burda gönderilerin PostController'inden daha karmaşık işler var. Bu içiçe çalışmanın yan etkisi olarak her yorumun hangi gönderiye bağlı olduğunu bulmak için yapmanız gereken ayarlamalar. Bu yüzden ilk adımda ilgili gönderi find metoduyla bulunuyor.
 
@@ -952,7 +952,7 @@ Ek olarak, kod içinde ilişkilendirmenin getirdiği yardımcı bazı metodlar k
 
 Yeni yorum üretilince kullanıcıyı +post_path(@post)+ yardımcısını kullanarak tekrar orjinal gönderi gösterim sayfasına yönlendiriyoruz. Daha önce gördüğümüz gibi bu +PostController+ in +show+ eylemine gönderir ve bu da +show.html.erb+ görselini gösterir. Yorumları da bu sayfada göstermemiz gerekiyor, bu yüzden +app/views/posts/show.html.erb+ dosyasını şöyle düzenleyelim.
 
-<pre>
+<erb>
 <p class="notice"><%= notice %></p>
 
 <p>
@@ -1002,7 +1002,7 @@ Yeni yorum üretilince kullanıcıyı +post_path(@post)+ yardımcısını kullan
 
 <%= link_to 'Edit Post', edit_post_path(@post) %> |
 <%= link_to 'Back to Posts', posts_path %> |
-</pre>
+</erb>
 
 Şimdi gönderilere yorumlar ekleyebilir ve gönderi ile aynı sayfada izleyebilirsiniz.
 
@@ -1014,7 +1014,7 @@ h4. Kısmi Kodların Yayınlaması
 
 İlk önce gönderilerin yorumlarının gösterilebilmesi için bir yorumlar kısmi kodu yapacağız. +app/views/comments/_comment.html.erb+ adında bir dosya üretin ve şunları içine koyun:
 
-<pre>
+<erb>
 <p>
   <b>Commenter:</b>
   <%= comment.commenter %>
@@ -1024,11 +1024,11 @@ h4. Kısmi Kodların Yayınlaması
   <b>Comment:</b>
   <%= comment.body %>
 </p>
-</pre>
+</erb>
 
 Daha sonra +app/views/posts/show.html.erb+ içerisinde şu değişiklikleri yapın:
 
-<pre>
+<erb>
 <p class="notice"><%= notice %></p>
 
 <p>
@@ -1068,7 +1068,7 @@ Daha sonra +app/views/posts/show.html.erb+ içerisinde şu değişiklikleri yap�
 
 <%= link_to 'Edit Post', edit_post_path(@post) %> |
 <%= link_to 'Back to Posts', posts_path %> |
-</pre>
+</erb>
 
 Bu kod ile +@post.comments+ array'inin her elemanı için +app/views/comments/_comment.html.erb+ kısmi kodu çağırılacaktır. +render+ metodu <tt>@post.comments</tt> elemanlarının içinde iterasyon yaptığı için, her yorumu kısmi kod içindeki aynı isimde bir yerel değişkene atar bu sayede kısmi kod içinde yorum işlenebilir.
 
@@ -1076,7 +1076,7 @@ h4. Kısmi Form Yayınlanması
 
 Şimdi yorumların yenisini girmek için kullanılan formu da olması gereken yerine gönderelim. +app/views/comments/_form.html.erb+ dosyasını üretin ve içine şunları koyun:
 
-<pre>
+<erb>
 <%= form_for([@post, @post.comments.build]) do |f| %>
   <div class="field">
     <%= f.label :commenter %><br />
@@ -1090,11 +1090,11 @@ h4. Kısmi Form Yayınlanması
     <%= f.submit %>
   </div>
 <% end %>
-</pre>
+</erb>
 
 Daha sonra +app/views/posts/show.html.erb+ dosyasını şöyle düzeltin:
 
-<pre>
+<erb>
 <p class="notice"><%= notice %></p>
 
 <p>
@@ -1122,7 +1122,7 @@ Daha sonra +app/views/posts/show.html.erb+ dosyasını şöyle düzeltin:
 
 <%= link_to 'Edit Post', edit_post_path(@post) %> |
 <%= link_to 'Back to Posts', posts_path %> |
-</pre>
+</erb>
 
 İkinci render satırı <tt>comments/form</tt> kısmi formu yayınlar, Rails buna bakınca  <tt>app/views/comments</tt> klasöründeki <tt>_form.html.erb</tt> dosyasını göstereceğini anlayacak kadar akıllıdır.
 
@@ -1134,7 +1134,7 @@ Bir blogda diğer önemli özellikte SPAM yorumların silinmesidir. Bunu yapmak 
 
 İlk önce +app/views/comments/_comment.html.erb+ kısmi koduna delete bağlantısını ekleyelim:
 
-<pre>
+<erb>
 <p>
   <b>Commenter:</b>
   <%= comment.commenter %>
@@ -1150,11 +1150,11 @@ Bir blogda diğer önemli özellikte SPAM yorumların silinmesidir. Bunu yapmak 
                :confirm => 'Are you sure?',
                :method => :delete %>
 </p>
-</pre>
+</erb>
 
 Bu yeni "Destroy Comment" bağlantısına tıklayınca +CommentsController+ in <tt>DELETE /posts/:id/comments/:id</tt> eylemi çağrılır ve silmek istediğimiz yorum belirlenmiş olur. Şimdi comments kontrolörüne destroy eylemi ekleme zamanı:
 
-<pre>
+<ruby>
 class CommentsController < ApplicationController
 
   def create
@@ -1171,7 +1171,7 @@ class CommentsController < ApplicationController
   end
 
 end
-</pre>
+</ruby>
 
 +destroy+ eylemi aradığımız yorumu bulur onu <tt>@post.comments</tt> grubu içinde işaretler ve sildikten sonra tekrar gönderinin gösterildiği görsele geri yönlendirir.
 
@@ -1180,14 +1180,14 @@ h4. İlişkili Nesnelerin Silinmesi
 
 Eğer bir gönderiyi silerseniz bağlantılı yorumları da silmek gerekir. Diğer durumda en azından veri tabanını boşyere işgal etmiş oluruz (gerçi veritabanı çok şişmeyecekse kayıtların silinmesi yerine pasifleştirilmesi tercih edilmelidir ama). Rails buna benzer durumlar için +dependent+ opsiyonunu kullanır. Post modelini , +app/models/post.rb+, şöyle değiştirin:
 
-<pre>
+<ruby>
 class Post < ActiveRecord::Base
   validates :name,  :presence => true
   validates :title, :presence => true,
                     :length => { :minimum => 5 }
   has_many :comments, :dependent => :destroy
 end
-</pre>
+</ruby>
 
 h3. Güvenlik
 
@@ -1195,7 +1195,7 @@ Eğer bloğunuzu online yayınlamışsanız, herkes gönderiler ve yorumlar ekle
 
 Rails bu durumlar için çok basit bir HTTP yetkilendirme sistemi sağlar. İlkönce bu basit yetkilendiriciyi <tt>app/controllers/application_controller.rb</tt> dosyamızda aktif edelim:
 
-<pre>
+<ruby>
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
@@ -1208,7 +1208,7 @@ class ApplicationController < ActionController::Base
   end
 
 end
-</pre>
+</ruby>
 
 Tabiiki kullanıcı adı ve şifreyi istediğiniz gibi değiştirebilirsiniz. Bu metodu +ApplicationController+ içine koyduğumuz için tüm uygulamadan erişilebilir.
 
@@ -1216,7 +1216,7 @@ Sonra +PostsController+ içinde yetkisiz kişilerin işlem yapmasını engelleme
 
 Before filter metodu kullanmak için bunu +PostsController+ in en başında +index+ ve +show+ dışında her eylem öncesi yetki istediğimizi belirtmeliyiz, bunun için şöyle yazın:
 
-<pre>
+<ruby>
 class PostsController < ApplicationController
 
   before_filter :authenticate, :except => [:index, :show]
@@ -1227,11 +1227,11 @@ class PostsController < ApplicationController
     @posts = Post.all
     respond_to do |format|
 # snipped for brevity
-</pre>
+</ruby>
 
 Ayrıca sadece yetkili kişilerin yorumları silmesine izin vermek için +CommentsController+ açın ve şunu yazın:
 
-<pre>
+<ruby>
 class CommentsController < ApplicationController
 
   before_filter :authenticate, :only => :destroy
@@ -1239,7 +1239,7 @@ class CommentsController < ApplicationController
   def create
     @post = Post.find(params[:post_id])
 # kalabalık etmesin diye kısaltıldı
-</pre>
+</ruby>
 
 Eğer şimdi yeni bir gönderi üretmeye kalkarsanız, basit HTTP yetkilendirme şifre giriş ekranı karşınıza çıkacaktır
 
@@ -1252,19 +1252,19 @@ Yaptığınız bloğun bir diğer özelliği de gönderileri tag'leyebilmek olma
 
 Bunu göstermek için, her gönderiye birçok tag bağlamak için gönderiyi oluşturduğunuz formun sağında bir yer açacağız. Önce tag'leri saklamak için yeni bir model oluşturalım:
 
-<pre>
+<shell>
 $ rails generate model tag name:string post:references
-</pre>
+</shell>
 
 Tekrar birleştirmeyi çalıştırarak veritabanında tabloyu oluşturalım:
 
-<pre>
+<shell>
 $ rake db:migrate
-</pre>
+</shell>
 
 Sonra, ilişkilendirmenin diğer tarafı için +post.rb+ dosyasını düzenleyin ve Rails'e tag'eri gönderilerle beraber düzenleyeceğinizi ( +accepts_nested_attributes_for+ makrosu yoluyla) anlatın:
 
-<pre>
+<ruby>
 class Post < ActiveRecord::Base
   validates :name,  :presence => true
   validates :title, :presence => true,
@@ -1276,13 +1276,13 @@ class Post < ActiveRecord::Base
   accepts_nested_attributes_for :tags, :allow_destroy => :true,
     :reject_if => proc { |attrs| attrs.all? { |k, v| v.blank? } }
 end
-</pre>
+</ruby>
 
 İçiçe özellik tanımlamasındaki +:allow_destroy+ opsiyonu Rails'e ilerde yapacağınız görsel içinde "remove" checkbox bulunması gerektiğini anlatır. +:reject_if+ opsiyonu hiç bir özelliği tanımlanmamış yeni tag'lerin kaydedilmesini engeller.
 
 +views/posts/_form.html.erb+ dosyasını tag üreten bir kısmi kod haline getirmek için değiştirin:
 
-<pre>
+<erb>
 <% @post.tags.build %>
 <%= form_for(@post) do |post_form| %>
   <% if @post.errors.any? %>
@@ -1315,7 +1315,7 @@ end
     <%= post_form.submit %>
   </div>
 <% end %>
-</pre>
+</erb>
 
 Dikkat ederseniz ne olduğunu daha iyi anlamak için +form_for(@post) do |f|+ deki +f+ yerine +post_form+ yazdık.
 
@@ -1325,7 +1325,7 @@ Ayrıca formun en üstüne <tt>@post.tags.build</tt> ekledik, bu kullanıcı tar
 
 Şimdi <tt>app/views/tags</tt> klasörünü ve içinde tag için formu içeren <tt>_form.html.erb</tt> dosyasını üretin:
 
-<pre>
+<erb>
 <%= form.fields_for :tags do |tag_form| %>
   <div class="field">
     <%= tag_form.label :name, 'Tag:' %>
@@ -1338,11 +1338,11 @@ Ayrıca formun en üstüne <tt>@post.tags.build</tt> ekledik, bu kullanıcı tar
     </div>
   <% end %>
 <% end %>
-</pre>
+</erb>
 
 Son olarak, <tt>app/views/posts/show.html.erb</tt> kalıbını tag'lermizi gösterecek şekilde düzenleyeceğiz.
 
-<pre>
+<erb>
 <p class="notice"><%= notice %></p>
 
 <p>
@@ -1374,7 +1374,7 @@ Son olarak, <tt>app/views/posts/show.html.erb</tt> kalıbını tag'lermizi göst
 
 <%= link_to 'Edit Post', edit_post_path(@post) %> |
 <%= link_to 'Back to Posts', posts_path %> |
-</pre>
+</erb>
 
 Bu değişikliklerle birlikte aynı görüntü içinde gönderilerle beraber tag'lerin de düzenlenebildiğini göreceksiniz.
 
@@ -1386,17 +1386,17 @@ Görsel yardımcıları <tt>app/helpers</tt> klasöründe yaşar ve görseller i
 
 <tt>app/helpers/posts_helper.rb</tt> dosyasını açın ve şunları yazın:
 
-<pre>
+<ruby>
 module PostsHelper
   def join_tags(post)
     post.tags.map { |t| t.name }.join(", ")
   end
 end
-</pre>
+</ruby>
 
-Şimdi <tt>app/views/posts/show.html.erb</tt> görelini şöyle düzenleyebilirsiniz:
+Şimdi <tt>app/views/posts/show.html.erb</tt> görselini şöyle düzenleyebilirsiniz:
 
-<pre>
+<erb>
 <p class="notice"><%= notice %></p>
 
 <p>
@@ -1428,7 +1428,7 @@ end
 
 <%= link_to 'Edit Post', edit_post_path(@post) %> |
 <%= link_to 'Back to Posts', posts_path %> |
-</pre>
+</erb>
 
 h3. Sırada Ne Var?
 

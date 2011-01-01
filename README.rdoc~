@@ -1,8 +1,3 @@
-== Çeviri ile ilgili not :
-
-çevirilerde Textile dosyaları github'ta taraycı ile açarsanız sağlıklı görünmüyor. Rails'de uygulamanızın klasöründe "rake doc:guides" çalıştırınca bu textile dosyalardan html dosyalar üretiliyor ve o dosyalarda görüntü düzgün oluyor. Bu yüzden çevirileri görmek için çevirisi yapılmış textile dosyasını "lib/ruby/gems/1.8/gems/railties-3.0.3/guides/source" klasöründeki ingilizce orjinali ile değiştirdikten sonra, oluşturulmuş herhangibir Rails uygulaması klasöründe "rake doc:guides" komutu çalıştırın ve uygulamanın doc klasöründe html'e dönüştürülmüş hallerini bulabilirsiniz.
-
-
 == \Rails'e Hoşgeldiniz
 
 \Rails bir web uygulama geliştirme iskeletidir. Veritabanına dayalı Model-View-Controller temelli web uygulamaları yaratmak için gereken herşeye sahiptir. 
