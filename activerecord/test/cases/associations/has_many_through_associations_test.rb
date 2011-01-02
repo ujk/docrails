@@ -401,7 +401,6 @@ class HasManyThroughAssociationsTest < ActiveRecord::TestCase
     sarah = Person.create!(:first_name => 'Sarah', :primary_contact_id => people(:susan).id, :gender => 'F', :number1_fan_id => 1)
     john = Person.create!(:first_name => 'John', :primary_contact_id => sarah.id, :gender => 'M', :number1_fan_id => 1)
     assert_equal sarah.agents, [john]
-<<<<<<< HEAD
     assert_equal people(:susan).agents.map(&:agents).flatten, people(:susan).agents_of_agents
   end
 
@@ -431,9 +430,6 @@ class HasManyThroughAssociationsTest < ActiveRecord::TestCase
     author.named_categories.delete(category)
     assert !Categorization.exists?(:author_id => author.id, :named_category_name => category.name)
     assert author.named_categories(true).empty?
-=======
-    assert_equal people(:susan).agents_of_agents, [john]
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
   end
 
   def test_collection_singular_ids_getter_with_string_primary_keys
@@ -505,7 +501,6 @@ class HasManyThroughAssociationsTest < ActiveRecord::TestCase
   end
 
   def test_has_many_through_with_default_scope_on_join_model
-<<<<<<< HEAD
     assert_equal posts(:welcome).comments.order('id').all, authors(:david).comments_on_first_posts
   end
 
@@ -554,8 +549,5 @@ class HasManyThroughAssociationsTest < ActiveRecord::TestCase
 
     assert proxy.stale_target?
     assert_equal authors(:david).categorizations.sort_by(&:id), post.author_categorizations.sort_by(&:id)
-=======
-    assert_equal posts(:welcome).comments, authors(:david).comments_on_first_posts
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
   end
 end

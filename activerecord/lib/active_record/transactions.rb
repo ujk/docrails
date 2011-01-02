@@ -141,15 +141,10 @@ module ActiveRecord
     #     end
     #   end
     #
-<<<<<<< HEAD
     # creates both "Kotori" and "Nemu". Reason is the <tt>ActiveRecord::Rollback</tt>
     # exception in the nested block does not issue a ROLLBACK. Since these exceptions
     # are captured in transaction blocks, the parent block does not see it and the
     # real transaction is committed.
-=======
-    #   User.find(:all)  # => Returns Kotori and Nemu, because
-    #     AcriveRecord::Rollback do not re-raise
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
     #
     # In order to get a ROLLBACK for the nested transaction you may ask for a real
     # sub-transaction by passing <tt>:requires_new => true</tt>. If anything goes wrong,

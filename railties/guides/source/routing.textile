@@ -614,7 +614,6 @@ resources :photos, :controller => "images"
 
 will recognize incoming paths beginning with +/photos+ but route to the +Images+ controller:
 
-<<<<<<< HEAD
 |_.HTTP Verb |_.Path         |_.action |_.named helper       |
 |GET         |/photos        |index    | photos_path         |
 |GET         |/photos/new    |new      | new_photo_path      |
@@ -623,16 +622,6 @@ will recognize incoming paths beginning with +/photos+ but route to the +Images+
 |GET         |/photos/1/edit |edit     | edit_photo_path(id) |
 |PUT         |/photos/1      |update   | photo_path(id)      |
 |DELETE      |/photos/1      |destroy  | photo_path(id)      |
-=======
-|_. Verb |_.Path         |_.action |_.named helper   |
-|GET     |/photos        |index    | photos_path     |
-|GET     |/photos/new    |new      | new_photo_path  |
-|POST    |/photos        |create   | photos_path     |
-|GET     |/photos/1      |show     | photo_path      |
-|GET     |/photos/1/edit |edit     | edit_photo_path |
-|PUT     |/photos/1      |update   | photo_path      |
-|DELETE  |/photos/1      |destroy  | photo_path      |
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
 
 NOTE: Use +photos_path+, +new_photos_path+, etc. to generate paths for this resource.
 
@@ -771,7 +760,6 @@ end
 
 Rails now creates routes to the +CategoriesController+.
 
-<<<<<<< HEAD
 |_.HTTP verb|_.Path                   |_.action |_.named helper          |
 |GET        |/kategorien              |index    | categories_path        |
 |GET        |/kategorien/neu          |new      | new_category_path      |
@@ -780,16 +768,6 @@ Rails now creates routes to the +CategoriesController+.
 |GET        |/kategorien/1/bearbeiten |edit     | edit_category_path(id) |
 |PUT        |/kategorien/1            |update   | category_path(id)      |
 |DELETE     |/kategorien/1            |destroy  | category_path(id)      |
-=======
-|_.HTTP verb|_.Path                     |_.action | .named helper      |
-|GET        |/kategorien                |index    | categories_path    |
-|GET        |/kategorien/neu            |new      | new_category_path  |
-|POST       |/kategorien                |create   | categories_path    |
-|GET        |/kategorien/1              |show     | category_path      |
-|GET        |/kategorien/:id/bearbeiten |edit     | edit_category_path |
-|PUT        |/kategorien/1              |update   | category_path      |
-|DELETE     |/kategorien/1              |destroy  | category_path      |
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
 
 h4. Overriding the Singular Form
 

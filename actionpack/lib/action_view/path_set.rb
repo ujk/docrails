@@ -11,11 +11,7 @@ module ActionView #:nodoc:
     end
 
     def find(*args)
-<<<<<<< HEAD
       find_all(*args).first || raise(MissingTemplate.new(self, *args))
-=======
-      find_all(*args).first || raise(MissingTemplate.new(self, "#{args[1]}/#{args[0]}", args[3], args[2]))
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
     end
 
     def find_all(path, prefixes = [], *args)

@@ -90,15 +90,8 @@ module RailtiesTest
 
       boot_rails
 
-<<<<<<< HEAD
       get("/bukkits")
       assert_equal "HELLO WORLD", last_response.body
-=======
-      env = Rack::MockRequest.env_for("/bukkits")
-      response = Rails.application.call(env)
-
-      assert_body "HELLO WORLD", response
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
     end
 
     test "it provides routes as default endpoint" do
@@ -123,14 +116,8 @@ module RailtiesTest
 
       boot_rails
 
-<<<<<<< HEAD
       get("/bukkits/foo")
       assert_equal "foo", last_response.body
-=======
-      env = Rack::MockRequest.env_for("/bukkits/foo")
-      response = Rails.application.call(env)
-      assert_body "foo", response
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
     end
 
     test "engine can load its own plugins" do
@@ -309,7 +296,6 @@ module RailtiesTest
 
       boot_rails
 
-<<<<<<< HEAD
       get("/app.html")
       assert_equal File.read(File.join(app_path, "public/app.html")), last_response.body
 
@@ -318,19 +304,6 @@ module RailtiesTest
 
       get("/bukkits/file_from_app.html")
       assert_equal File.read(File.join(app_path, "public/bukkits/file_from_app.html")), last_response.body
-=======
-      env = Rack::MockRequest.env_for("/app.html")
-      response = Rails.application.call(env)
-      assert_body File.read(File.join(app_path, "public/app.html")), response
-
-      env = Rack::MockRequest.env_for("/bukkits/bukkits.html")
-      response = Rails.application.call(env)
-      assert_body File.read(File.join(@plugin.path, "public/bukkits.html")), response
-
-      env = Rack::MockRequest.env_for("/bukkits/file_from_app.html")
-      response = Rails.application.call(env)
-      assert_body File.read(File.join(app_path, "public/bukkits/file_from_app.html")), response
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
     end
 
     test "shared engine should include application's helpers and own helpers" do
@@ -376,7 +349,6 @@ module RailtiesTest
 
       boot_rails
 
-<<<<<<< HEAD
       get("/foo")
       assert_equal "Something... Something... Something...", last_response.body
 
@@ -385,22 +357,6 @@ module RailtiesTest
 
       get("/foo/bar")
       assert_equal "It's a bar.", last_response.body
-=======
-      env = Rack::MockRequest.env_for("/foo")
-      response = Rails.application.call(env)
-      assert_body "Something... Something... Something...", response
-      response[2].close
-
-      env = Rack::MockRequest.env_for("/foo/show")
-      response = Rails.application.call(env)
-      assert_body "/foo", response
-      response[2].close
-
-      env = Rack::MockRequest.env_for("/foo/bar")
-      response = Rails.application.call(env)
-      assert_body "It's a bar.", response
-      response[2].close
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
     end
 
     test "isolated engine should include only its own routes and helpers" do
@@ -499,7 +455,6 @@ module RailtiesTest
       assert ::Bukkits::MyMailer.method_defined?(:foo_path)
       assert !::Bukkits::MyMailer.method_defined?(:bar_path)
 
-<<<<<<< HEAD
       get("/bukkits/from_app")
       assert_equal "false", last_response.body
 
@@ -514,32 +469,6 @@ module RailtiesTest
 
       get("/bukkits/polymorphic_path_without_namespace")
       assert_equal "/bukkits/posts/1", last_response.body
-=======
-      env = Rack::MockRequest.env_for("/bukkits/from_app")
-      response = AppTemplate::Application.call(env)
-      assert_body "false", response
-      response[2].close
-
-      env = Rack::MockRequest.env_for("/bukkits/foo/show")
-      response = AppTemplate::Application.call(env)
-      assert_body "/bukkits/foo", response
-      response[2].close
-
-      env = Rack::MockRequest.env_for("/bukkits/foo")
-      response = AppTemplate::Application.call(env)
-      assert_body "Helped.", response
-      response[2].close
-
-      env = Rack::MockRequest.env_for("/bukkits/routes_helpers_in_view")
-      response = AppTemplate::Application.call(env)
-      assert_body "/bukkits/foo, /bar", response
-      response[2].close
-
-      env = Rack::MockRequest.env_for("/bukkits/polymorphic_path_without_namespace")
-      response = AppTemplate::Application.call(env)
-      assert_body "/bukkits/posts/1", response
-      response[2].close
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
     end
 
     test "isolated engine should avoid namespace in names if that's possible" do
@@ -598,14 +527,8 @@ module RailtiesTest
 
       boot_rails
 
-<<<<<<< HEAD
       get("/bukkits/posts/new")
       assert_match /name="post\[title\]"/, last_response.body
-=======
-      env = Rack::MockRequest.env_for("/bukkits/posts/new")
-      response = AppTemplate::Application.call(env)
-      assert extract_body(response) =~ /name="post\[title\]"/
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
     end
 
     test "loading seed data" do

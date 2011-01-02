@@ -20,19 +20,6 @@ class ReloaderTest < Test::Unit::TestCase
     assert_equal 3, c
   end
 
-<<<<<<< HEAD
-=======
-  def test_to_prepare_with_identifier_replaces
-    a = b = 0
-    Reloader.to_prepare(:unique_id) { |*args| a = b = 1 }
-    Reloader.to_prepare(:unique_id) { |*args| a = 2 }
-
-    call_and_return_body
-    assert_equal 2, a
-    assert_equal 0, b
-  end
-
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
   class MyBody < Array
     def initialize(&block)
       @on_close = block
@@ -53,11 +40,7 @@ class ReloaderTest < Test::Unit::TestCase
 
   def test_returned_body_object_always_responds_to_close
     body = call_and_return_body
-<<<<<<< HEAD
     assert_respond_to body, :close
-=======
-    assert body.respond_to?(:close)
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
   end
 
   def test_returned_body_object_behaves_like_underlying_object
@@ -90,17 +73,10 @@ class ReloaderTest < Test::Unit::TestCase
     body = call_and_return_body do
       [200, { "Content-Type" => "text/html" }, MyBody.new]
     end
-<<<<<<< HEAD
     assert_respond_to body, :size
     assert_respond_to body, :each
     assert_respond_to body, :foo
     assert_respond_to body, :bar
-=======
-    assert body.respond_to?(:size)
-    assert body.respond_to?(:each)
-    assert body.respond_to?(:foo)
-    assert body.respond_to?(:bar)
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
   end
 
   def test_cleanup_callbacks_are_called_when_body_is_closed
@@ -138,7 +114,6 @@ class ReloaderTest < Test::Unit::TestCase
     Reloader.cleanup!
     assert !prepared
     assert cleaned
-<<<<<<< HEAD
   end
 
   def test_cleanup_callbacks_are_called_on_exceptions
@@ -152,12 +127,6 @@ class ReloaderTest < Test::Unit::TestCase
     rescue
     end
 
-=======
-
-    prepared = cleaned = false
-    Reloader.reload!
-    assert prepared
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
     assert cleaned
   end
 

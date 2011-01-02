@@ -26,11 +26,7 @@ end
 # reloads the environment
 def reload!(print=true)
   puts "Reloading..." if print
-<<<<<<< HEAD
   ActionDispatch::Reloader.cleanup!
   ActionDispatch::Reloader.prepare!
-=======
-  ActionDispatch::Reloader.reload!
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
   true
 end

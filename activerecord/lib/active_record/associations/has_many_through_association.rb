@@ -62,10 +62,7 @@ module ActiveRecord
 
         def find_target
           return [] unless target_reflection_has_associated_record?
-<<<<<<< HEAD
           update_stale_state
-=======
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
           scoped.all
         end
 

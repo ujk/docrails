@@ -343,11 +343,7 @@ module ActiveRecord
             key && key.to_s
           end
           id_map.delete nil
-<<<<<<< HEAD
           klasses_and_ids[reflection.klass] = id_map unless id_map.empty?
-=======
-          klasses_and_ids[reflection.klass.name] = id_map unless id_map.empty?
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
         end
 
         klasses_and_ids.each do |klass, _id_map|

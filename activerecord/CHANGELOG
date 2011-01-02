@@ -1,11 +1,8 @@
 *Rails 3.1.0 (unreleased)*
 
-<<<<<<< HEAD
 * Removed support for interpolated SQL conditions.  Please use scoping
 along with attribute conditionals as a replacement.
 
-=======
->>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
 * Added ActiveRecord::Base#has_secure_password (via ActiveModel::SecurePassword) to encapsulate dead-simple password usage with BCrypt encryption and salting [DHH]. Example:
 
     # Schema: User(name:string, password_digest:string, password_salt:string)
@@ -106,13 +103,7 @@ IrreversibleMigration exception will be raised when going down.
 
   [Aaron Patterson]
 
-
-*Rails 3.0.3 (November 16, 2010)*
-
-* Support find by class like this: Post.where(:name => Post)
-
-
-*Rails 3.0.2 (November 15, 2010)*
+*Rails 3.0.2 (unreleased)*
 
 * reorder is deprecated in favor of except(:order).order(...) [Santiago Pastorino]
 
@@ -141,11 +132,9 @@ IrreversibleMigration exception will be raised when going down.
 
   [Aaron Patterson]
 
-
 *Rails 3.0.1 (October 15, 2010)*
 
 * Introduce a fix for CVE-2010-3993
-
 
 *Rails 3.0.0 (August 29, 2010)*
 
