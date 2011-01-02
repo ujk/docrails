@@ -9,9 +9,9 @@ ile değiştirdikten sonra, oluşturulmuş herhangibir Rails uygulaması klasör
 "rake doc:guides" komutu çalıştırın ve uygulamanın doc klasöründe html'e dönüştürülmüş 
 hallerini bulabilirsiniz.
 
-110102 - Bir diğer yöntem docrails'in sizdeki clone'unda "railties" klasöründe bir konsol
- açıp "rake generate_guides LANG=tr-TR" komutu girerseniz "docrails/railties/guides/output/tr-TR"
- klasöründe html dökümanları oluşturacaktır.
+110102 - Bir diğer yöntem docrails'in sizdeki clone'unda "railties" klasöründe bir konsol 
+açıp "rake generate_guides LANG=tr-TR" komutu girerseniz "docrails/railties/guides/output/tr-TR" 
+klasöründe html dökümanları oluşturacaktır.
 
 
 == \Rails'e Hoşgeldiniz
