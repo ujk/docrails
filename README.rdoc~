@@ -13,6 +13,10 @@ hallerini bulabilirsiniz.
 açıp "rake generate_guides LANG=tr-TR" komutu girerseniz "docrails/railties/guides/output/tr-TR" 
 klasöründe html dökümanları oluşturacaktır.
 
+=== Bu güne kadar çevrilenler :
+
+# getting_started.textile
+
 
 == \Rails'e Hoşgeldiniz
 
