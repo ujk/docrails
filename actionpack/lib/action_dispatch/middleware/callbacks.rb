@@ -7,8 +7,15 @@ module ActionDispatch
 
     define_callbacks :call, :rescuable => true
 
+<<<<<<< HEAD
     class << self
       delegate :to_prepare, :to_cleanup, :to => "ActionDispatch::Reloader"
+=======
+    def self.to_prepare(*args, &block)
+      ActiveSupport::Deprecation.warn "ActionDispatch::Callbacks.to_prepare is deprecated. " <<
+        "Please use ActionDispatch::Reloader.to_prepare instead."
+      ActionDispatch::Reloader.to_prepare(*args, &block)
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
     end
 
     def self.before(*args, &block)

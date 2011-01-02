@@ -243,6 +243,7 @@ class HasOneThroughAssociationsTest < ActiveRecord::TestCase
   end
 
   def test_has_one_through_with_default_scope_on_join_model
+<<<<<<< HEAD
     assert_equal posts(:welcome).comments.order('id').first, authors(:david).comment_on_first_post
   end
 
@@ -265,5 +266,8 @@ class HasOneThroughAssociationsTest < ActiveRecord::TestCase
 
     assert proxy.stale_target?
     assert_equal dashboards(:second), minivan.dashboard
+=======
+    assert_equal posts(:welcome).comments.first, authors(:david).comment_on_first_posts
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
   end
 end

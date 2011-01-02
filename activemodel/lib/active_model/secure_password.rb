@@ -37,6 +37,7 @@ module ActiveModel
 
         validates_confirmation_of :password
         validates_presence_of     :password_digest
+<<<<<<< HEAD
         
         include InstanceMethodsOnActivation
       end
@@ -57,6 +58,24 @@ module ActiveModel
         @password = unencrypted_password
         self.password_digest = BCrypt::Password.create(unencrypted_password)
       end
+=======
+      end
+    end
+
+    # Returns self if the password is correct, otherwise false.
+    def authenticate(unencrypted_password)
+      if BCrypt::Password.new(password_digest) == unencrypted_password
+        self
+      else
+        false
+      end
+    end
+
+    # Encrypts the password into the password_digest attribute.
+    def password=(unencrypted_password)
+      @password = unencrypted_password
+      self.password_digest = BCrypt::Password.create(unencrypted_password)
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
     end
   end
 end

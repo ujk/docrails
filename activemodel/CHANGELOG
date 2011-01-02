@@ -2,10 +2,13 @@
 
 * Added ActiveModel::SecurePassword to encapsulate dead-simple password usage with BCrypt encryption and salting [DHH]
 
+<<<<<<< HEAD
 
 *Rails 3.0.3 (November 16, 2010)*
 
 * No changes.
+=======
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
 
 
 *Rails 3.0.2 (November 15, 2010)*

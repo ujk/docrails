@@ -20,7 +20,10 @@ require 'models/project'
 require 'models/member'
 require 'models/membership'
 require 'models/club'
+<<<<<<< HEAD
 require 'models/categorization'
+=======
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
 
 class EagerAssociationTest < ActiveRecord::TestCase
   fixtures :posts, :comments, :authors, :author_addresses, :categories, :categories_posts,

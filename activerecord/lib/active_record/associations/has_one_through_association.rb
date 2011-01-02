@@ -32,7 +32,10 @@ module ActiveRecord
       end
 
       def find_target
+<<<<<<< HEAD
         update_stale_state
+=======
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
         scoped.first
       end
     end

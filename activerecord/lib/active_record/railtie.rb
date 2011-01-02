@@ -80,7 +80,11 @@ module ActiveRecord
       ActiveSupport.on_load(:active_record) do
         instantiate_observers
 
+<<<<<<< HEAD
         ActionDispatch::Reloader.to_prepare do
+=======
+        ActionDispatch::Reloader.to_prepare(:activerecord_instantiate_observers) do
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
           ActiveRecord::Base.instantiate_observers
         end
       end

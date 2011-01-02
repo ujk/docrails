@@ -54,7 +54,11 @@ module ActiveRecord
         end
 
         def insert_record(record, force = false, validate = true)
+<<<<<<< HEAD
           set_owner_attributes(record)
+=======
+          set_belongs_to_association_for(record)
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
           save_record(record, force, validate)
         end
 
@@ -62,20 +66,43 @@ module ActiveRecord
         def delete_records(records)
           case @reflection.options[:dependent]
             when :destroy
-              records.each { |r| r.destroy }
+              records.each(&:destroy)
             when :delete_all
+<<<<<<< HEAD
               @reflection.klass.delete(records.map { |r| r.id })
             else
               updates    = { @reflection.primary_key_name => nil }
               conditions = { @reflection.association_primary_key => records.map { |r| r.id } }
+=======
+              @reflection.klass.delete(records.map(&:id))
+            else
+              updates    = { @reflection.primary_key_name => nil }
+              conditions = { @reflection.association_primary_key => records.map(&:id) }
+
+              with_scope(@scope) do
+                @reflection.klass.update_all(updates, conditions)
+              end
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
 
               with_scope(@scope) do
                 @reflection.klass.update_all(updates, conditions)
               end
           end
+<<<<<<< HEAD
 
           if has_cached_counter? && @reflection.options[:dependent] != :destroy
             @owner.class.update_counters(@owner.id, cached_counter_attribute_name => -records.size)
+=======
+        end
+
+        def construct_conditions
+          if @reflection.options[:as]
+            sql =
+              "#{@reflection.quoted_table_name}.#{@reflection.options[:as]}_id = #{owner_quoted_id} AND " +
+              "#{@reflection.quoted_table_name}.#{@reflection.options[:as]}_type = #{@owner.class.quote_value(@owner.class.base_class.name.to_s)}"
+          else
+            sql = "#{@reflection.quoted_table_name}.#{@reflection.primary_key_name} = #{owner_quoted_id}"
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
           end
         end
 

@@ -105,7 +105,11 @@ task :default => :test
         copy_file "#{app_templates_dir}/public/javascripts/#{options[:javascript]}.js", "public/javascripts/#{options[:javascript]}.js"
         copy_file "#{app_templates_dir}/public/javascripts/#{options[:javascript]}_ujs.js", "public/javascripts/rails.js"
 
+<<<<<<< HEAD
         if options[:javascript] == "prototype"
+=======
+        if options[:prototype]
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
           copy_file "#{app_templates_dir}/public/javascripts/controls.js", "public/javascripts/controls.js"
           copy_file "#{app_templates_dir}/public/javascripts/dragdrop.js", "public/javascripts/dragdrop.js"
           copy_file "#{app_templates_dir}/public/javascripts/effects.js", "public/javascripts/effects.js"

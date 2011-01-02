@@ -484,12 +484,29 @@ module ActiveRecord
           force ? record.save! : record.save(:validate => validate)
         end
 
+<<<<<<< HEAD
         def create_record(attrs, &block)
           ensure_owner_is_persisted!
 
           transaction do
             with_scope(:create => @scope[:create].merge(scoped.where_values_hash)) do
               build_record(attrs, &block)
+=======
+        def create_record(attrs)
+          ensure_owner_is_persisted!
+
+          attrs.update(@reflection.options[:conditions]) if @reflection.options[:conditions].is_a?(Hash)
+          create_scope = @scope[:create].merge(scoped.where_values_hash || {})
+
+          transaction do
+            record = with_scope(:create => create_scope) do
+              @reflection.build_association(attrs)
+            end
+            if block_given?
+              add_record_to_target_with_callbacks(record) { |*block_args| yield(*block_args) }
+            else
+              add_record_to_target_with_callbacks(record)
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
             end
           end
         end

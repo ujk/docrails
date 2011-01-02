@@ -164,6 +164,7 @@ module ActiveRecord
 
     def build_arel
       arel = table.from table
+<<<<<<< HEAD
 
       build_joins(arel, @joins_values) unless @joins_values.empty?
 
@@ -175,6 +176,8 @@ module ActiveRecord
       arel.skip(@offset_value) if @offset_value
 
       arel.group(*@group_values.uniq.reject{|g| g.blank?}) unless @group_values.empty?
+=======
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
 
       arel.order(*@order_values.uniq.reject{|o| o.blank?}) unless @order_values.empty?
 
@@ -206,6 +209,37 @@ module ActiveRecord
       end
     end
 
+<<<<<<< HEAD
+=======
+    private
+
+    def custom_join_ast(table, joins)
+      joins = joins.reject { |join| join.blank? }
+
+      return if joins.empty?
+
+      @implicit_readonly = true
+
+      joins.map! do |join|
+        case join
+        when Array
+          join = Arel.sql(join.join(' ')) if array_of_strings?(join)
+        when String
+          join = Arel.sql(join)
+        end
+        join
+      end
+
+      head = table.create_string_join(table, joins.shift)
+
+      joins.inject(head) do |ast, join|
+        ast.right = table.create_string_join(ast.right, join)
+      end
+
+      head
+    end
+
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
     def collapse_wheres(arel, wheres)
       equalities = wheres.grep(Arel::Nodes::Equality)
 
@@ -239,6 +273,7 @@ module ActiveRecord
     end
 
     def build_joins(manager, joins)
+<<<<<<< HEAD
       buckets = joins.group_by do |join|
         case join
         when String
@@ -252,6 +287,12 @@ module ActiveRecord
         else
           raise 'unknown class: %s' % join.class.name
         end
+=======
+      joins = joins.map {|j| j.respond_to?(:strip) ? j.strip : j}.uniq
+
+      association_joins = joins.find_all do |join|
+        [Hash, Array, Symbol].include?(join.class) && !array_of_strings?(join)
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
       end
 
       association_joins         = buckets['association_join'] || []
@@ -263,6 +304,7 @@ module ActiveRecord
 
       join_list = custom_join_ast(manager, string_joins)
 
+<<<<<<< HEAD
       join_dependency = ActiveRecord::Associations::ClassMethods::JoinDependency.new(
         @klass,
         association_joins,
@@ -272,6 +314,12 @@ module ActiveRecord
       join_nodes.each do |join|
         join_dependency.table_aliases[join.left.name.downcase] = 1
       end
+=======
+      non_association_joins = (joins - association_joins - stashed_association_joins)
+      join_ast = custom_join_ast(manager.froms.first, non_association_joins)
+
+      join_dependency = ActiveRecord::Associations::ClassMethods::JoinDependency.new(@klass, association_joins, join_ast)
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
 
       join_dependency.graft(*stashed_association_joins)
 
@@ -279,6 +327,7 @@ module ActiveRecord
 
       # FIXME: refactor this to build an AST
       join_dependency.join_associations.each do |association|
+<<<<<<< HEAD
         association.join_to(manager)
       end
 
@@ -286,6 +335,17 @@ module ActiveRecord
       manager.join_sources.concat join_list
 
       manager
+=======
+        manager = association.join_to(manager)
+      end
+
+      if manager.froms.length > 0 && join_ast
+        join_ast.left = manager.froms.first
+        manager.from join_ast
+      else
+        manager
+      end
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
     end
 
     def build_select(arel, selects)

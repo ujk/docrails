@@ -31,7 +31,11 @@ module ActiveRecord
       im = arel.compile_insert values
       im.into @table
       primary_key_name = @klass.primary_key
+<<<<<<< HEAD
       primary_key_value = primary_key_name && Hash === values ? values[primary_key] : nil
+=======
+      primary_key_value = Hash === values ? values[primary_key_name] : nil
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
 
       @klass.connection.insert(
         im.to_sql,
@@ -170,8 +174,16 @@ module ActiveRecord
         order = []
         # Apply limit and order only if they're both present
         if @limit_value.present? == @order_values.present?
+<<<<<<< HEAD
           limit = arel.limit
           order = arel.orders
+=======
+          stmt = arel.compile_update(Arel::SqlLiteral.new(@klass.send(:sanitize_sql_for_assignment, updates)))
+          stmt.key = @klass.arel_table[@klass.primary_key]
+          @klass.connection.update stmt.to_sql
+        else
+          except(:limit, :order).update_all(updates)
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
         end
 
         stmt = arel.compile_update(Arel.sql(@klass.send(:sanitize_sql_for_assignment, updates)))

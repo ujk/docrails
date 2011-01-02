@@ -488,6 +488,7 @@ class BelongsToAssociationsTest < ActiveRecord::TestCase
   end
 
   def test_reassigning_the_parent_id_updates_the_object
+<<<<<<< HEAD
     client = companies(:second_client)
 
     client.firm
@@ -537,4 +538,41 @@ class BelongsToAssociationsTest < ActiveRecord::TestCase
     assert proxy.stale_target?
     assert_equal companies(:first_firm), sponsor.sponsorable
   end
+=======
+    original_parent = Firm.create! :name => "original"
+    updated_parent = Firm.create! :name => "updated"
+
+    client = Client.new("client_of" => original_parent.id)
+    assert_equal original_parent, client.firm
+    assert_equal original_parent, client.firm_with_condition
+    assert_equal original_parent, client.firm_with_other_name
+
+    client.client_of = updated_parent.id
+    assert_equal updated_parent, client.firm
+    assert_equal updated_parent, client.firm_with_condition
+    assert_equal updated_parent, client.firm_with_other_name
+  end
+
+  def test_polymorphic_reassignment_of_associated_id_updates_the_object
+    member1 = Member.create!
+    member2 = Member.create!
+
+    sponsor = Sponsor.new("sponsorable_type" => "Member", "sponsorable_id" => member1.id)
+    assert_equal member1, sponsor.sponsorable
+
+    sponsor.sponsorable_id = member2.id
+    assert_equal member2, sponsor.sponsorable
+  end
+
+  def test_polymorphic_reassignment_of_associated_type_updates_the_object
+    member1 = Member.create!
+
+    sponsor = Sponsor.new("sponsorable_type" => "Member", "sponsorable_id" => member1.id)
+    assert_equal member1, sponsor.sponsorable
+
+    sponsor.sponsorable_type = "Firm"
+    assert_not_equal member1, sponsor.sponsorable
+  end
+
+>>>>>>> 4c7da682b5580846867f1cce8dc63ca9b34c78cf
 end
