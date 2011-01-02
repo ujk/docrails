@@ -22,7 +22,7 @@ module ActiveRecord
           attr_reader :aliased_prefix, :aliased_table_name
 
           delegate :options, :through_reflection, :source_reflection, :to => :reflection
-          delegate :table, :table_name, :to => :parent, :prefix => true
+          delegate :table, :table_name, :to => :parent, :prefix => :parent
 
           def initialize(reflection, join_dependency, parent = nil)
             reflection.check_validity!
@@ -37,11 +37,15 @@ module ActiveRecord
             @join_dependency = join_dependency
             @parent          = parent
             @join_type       = Arel::InnerJoin
+            @aliased_prefix  = "t#{ join_dependency.join_parts.size }"
 
             # This must be done eagerly upon initialisation because the alias which is produced
             # depends on the state of the join dependency, but we want it to work the same way
             # every time.
             allocate_aliases
+            @table = Arel::Table.new(
+              table_name, :as => aliased_table_name, :engine => arel_engine
+            )
           end
 
           def ==(other)
@@ -65,35 +69,24 @@ module ActiveRecord
             joining_relation.joins(self)
           end
 
-          def table
-            @table ||= Arel::Table.new(
-              table_name, :as => aliased_table_name,
-              :engine => arel_engine, :columns => active_record.columns
-            )
-          end
-
+          attr_reader :table
           # More semantic name given we are talking about associations
           alias_method :target_table, :table
 
           protected
 
           def aliased_table_name_for(name, suffix = nil)
-            if @join_dependency.table_aliases[name].zero?
-              @join_dependency.table_aliases[name] = @join_dependency.count_aliases_from_table_joins(name)
+            aliases = @join_dependency.table_aliases
+
+            if aliases[name] != 0 # We need an alias
+              connection = active_record.connection
+
+              name = connection.table_alias_for "#{pluralize(reflection.name)}_#{parent_table_name}#{suffix}"
+              table_index = aliases[name] + 1
+              name = name[0, connection.table_alias_length-3] + "_#{table_index}" if table_index > 1
             end
 
-            if !@join_dependency.table_aliases[name].zero? # We need an alias
-              name = active_record.connection.table_alias_for "#{pluralize(reflection.name)}_#{parent_table_name}#{suffix}"
-              @join_dependency.table_aliases[name] += 1
-              if @join_dependency.table_aliases[name] == 1 # First time we've seen this name
-                # Also need to count the aliases from the table_aliases to avoid incorrect count
-                @join_dependency.table_aliases[name] += @join_dependency.count_aliases_from_table_joins(name)
-              end
-              table_index = @join_dependency.table_aliases[name]
-              name = name[0..active_record.connection.table_alias_length-3] + "_#{table_index}" if table_index > 1
-            else
-              @join_dependency.table_aliases[name] += 1
-            end
+            aliases[name] += 1
 
             name
           end
@@ -105,7 +98,6 @@ module ActiveRecord
           private
 
           def allocate_aliases
-            @aliased_prefix     = "t#{ join_dependency.join_parts.size }"
             @aliased_table_name = aliased_table_name_for(table_name)
 
             if reflection.macro == :has_and_belongs_to_many
@@ -123,20 +115,19 @@ module ActiveRecord
             active_record.send(:sanitize_sql, condition, table_name)
           end
 
-          def join_target_table(relation, *conditions)
-            relation = relation.join(target_table, join_type)
+          def join_target_table(relation, condition)
+            conditions = [condition]
 
             # If the target table is an STI model then we must be sure to only include records of
             # its type and its sub-types.
             unless active_record.descends_from_active_record?
-              sti_column = target_table[active_record.inheritance_column]
-
+              sti_column    = target_table[active_record.inheritance_column]
+              subclasses    = active_record.descendants
               sti_condition = sti_column.eq(active_record.sti_name)
-              active_record.descendants.each do |subclass|
-                sti_condition = sti_condition.or(sti_column.eq(subclass.sti_name))
-              end
 
-              conditions << sti_condition
+              conditions << subclasses.inject(sti_condition) { |attr,subclass|
+                attr.or(sti_column.eq(subclass.sti_name))
+              }
             end
 
             # If the reflection has conditions, add them
@@ -144,14 +135,20 @@ module ActiveRecord
               conditions << process_conditions(options[:conditions], aliased_table_name)
             end
 
-            relation = relation.on(*conditions)
+            ands = relation.create_and(conditions)
+
+            join = relation.create_join(
+              target_table,
+              relation.create_on(ands),
+              join_type)
+
+            relation.from join
           end
 
           def join_has_and_belongs_to_many_to(relation)
             join_table = Arel::Table.new(
-              options[:join_table], :engine => arel_engine,
-              :as => @aliased_join_table_name
-            )
+              options[:join_table]
+            ).alias(@aliased_join_table_name)
 
             fk       = options[:foreign_key]             || reflection.active_record.to_s.foreign_key
             klass_fk = options[:association_foreign_key] || reflection.klass.to_s.foreign_key
@@ -189,22 +186,24 @@ module ActiveRecord
 
           def join_has_many_through_to(relation)
             join_table = Arel::Table.new(
-              through_reflection.klass.table_name, :engine => arel_engine,
-              :as => @aliased_join_table_name
-            )
+              through_reflection.klass.table_name
+            ).alias @aliased_join_table_name
 
             jt_conditions = []
-            jt_foreign_key = first_key = second_key = nil
+            first_key = second_key = nil
 
-            if through_reflection.options[:as] # has_many :through against a polymorphic join
-              as_key         = through_reflection.options[:as].to_s
-              jt_foreign_key = as_key + '_id'
-
-              jt_conditions <<
-              join_table[as_key + '_type'].
-                eq(parent.active_record.base_class.name)
+            if through_reflection.macro == :belongs_to
+              jt_primary_key = through_reflection.primary_key_name
+              jt_foreign_key = through_reflection.association_primary_key
             else
+              jt_primary_key = through_reflection.active_record_primary_key
               jt_foreign_key = through_reflection.primary_key_name
+
+              if through_reflection.options[:as] # has_many :through against a polymorphic join
+                jt_conditions <<
+                join_table["#{through_reflection.options[:as]}_type"].
+                  eq(parent.active_record.base_class.name)
+              end
             end
 
             case source_reflection.macro
@@ -237,7 +236,7 @@ module ActiveRecord
             end
 
             jt_conditions <<
-            parent_table[parent.primary_key].
+            parent_table[jt_primary_key].
               eq(join_table[jt_foreign_key])
 
             if through_reflection.options[:conditions]
@@ -256,9 +255,9 @@ module ActiveRecord
             join_target_table(
               relation,
               target_table["#{reflection.options[:as]}_id"].
-              eq(parent_table[parent.primary_key]),
+              eq(parent_table[parent.primary_key]).and(
               target_table["#{reflection.options[:as]}_type"].
-              eq(parent.active_record.base_class.name)
+              eq(parent.active_record.base_class.name))
             )
           end
 

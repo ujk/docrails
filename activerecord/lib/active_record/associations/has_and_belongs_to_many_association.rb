@@ -2,14 +2,6 @@ module ActiveRecord
   # = Active Record Has And Belongs To Many Association
   module Associations
     class HasAndBelongsToManyAssociation < AssociationCollection #:nodoc:
-      def create(attributes = {})
-        create_record(attributes) { |record| insert_record(record) }
-      end
-
-      def create!(attributes = {})
-        create_record(attributes) { |record| insert_record(record, true) }
-      end
-
       def columns
         @reflection.columns(@reflection.options[:join_table], "#{@reflection.options[:join_table]} Columns")
       end
@@ -35,11 +27,7 @@ module ActiveRecord
 
         def insert_record(record, force = true, validate = true)
           if record.new_record?
-            if force
-              record.save!
-            else
-              return false unless record.save(:validate => validate)
-            end
+            return false unless save_record(record, force, validate)
           end
 
           if @reflection.options[:insert_sql]
@@ -87,10 +75,12 @@ module ActiveRecord
           "INNER JOIN #{@owner.connection.quote_table_name @reflection.options[:join_table]} ON #{@reflection.quoted_table_name}.#{@reflection.klass.primary_key} = #{@owner.connection.quote_table_name @reflection.options[:join_table]}.#{@reflection.association_foreign_key}"
         end
 
-        def construct_conditions
-          sql = "#{@owner.connection.quote_table_name @reflection.options[:join_table]}.#{@reflection.primary_key_name} = #{owner_quoted_id} "
-          sql << " AND (#{conditions})" if conditions
-          sql
+        def join_table
+          Arel::Table.new(@reflection.options[:join_table])
+        end
+
+        def construct_owner_conditions
+          super(join_table)
         end
 
         def construct_find_scope
@@ -113,22 +103,16 @@ module ActiveRecord
         end
 
       private
-        def create_record(attributes, &block)
-          # Can't use Base.create because the foreign key may be a protected attribute.
-          ensure_owner_is_persisted!
-          if attributes.is_a?(Array)
-            attributes.collect { |attr| create(attr) }
-          else
-            build_record(attributes, &block)
-          end
-        end
-
         def record_timestamp_columns(record)
           if record.record_timestamps
             record.send(:all_timestamp_attributes).map { |x| x.to_s }
           else
             []
           end
+        end
+
+        def invertible_for?(record)
+          false
         end
     end
   end

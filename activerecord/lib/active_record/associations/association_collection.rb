@@ -1,4 +1,3 @@
-require 'set'
 require 'active_support/core_ext/array/wrap'
 
 module ActiveRecord
@@ -19,6 +18,8 @@ module ActiveRecord
     # If you need to work on all current children, new and existing records,
     # +load_target+ and the +loaded+ flag are your friends.
     class AssociationCollection < AssociationProxy #:nodoc:
+      include HasAssociation
+
       delegate :group, :order, :limit, :joins, :where, :preload, :eager_load, :includes, :from, :lock, :readonly, :having, :to => :scoped
 
       def select(select = nil)
@@ -75,7 +76,7 @@ module ActiveRecord
           find(:first, *args)
         else
           load_target unless loaded?
-          args = args[1..-1] if args.first.kind_of?(Hash) && args.first.empty?
+          args.shift if args.first.kind_of?(Hash) && args.first.empty?
           @target.first(*args)
         end
       end
@@ -93,7 +94,7 @@ module ActiveRecord
       def to_ary
         load_target
         if @target.is_a?(Array)
-          @target.to_ary
+          @target
         else
           Array.wrap(@target)
         end
@@ -102,7 +103,7 @@ module ActiveRecord
 
       def reset
         reset_target!
-        reset_named_scopes_cache!
+        reset_scopes_cache!
         @loaded = false
       end
 
@@ -112,7 +113,7 @@ module ActiveRecord
         else
           build_record(attributes) do |record|
             block.call(record) if block_given?
-            set_belongs_to_association_for(record)
+            set_owner_attributes(record)
           end
         end
       end
@@ -124,7 +125,7 @@ module ActiveRecord
         load_target if @owner.new_record?
 
         transaction do
-          flatten_deeper(records).each do |record|
+          records.flatten.each do |record|
             raise_on_type_mismatch(record)
             add_record_to_target_with_callbacks(record) do |r|
               result &&= insert_record(record) unless @owner.new_record?
@@ -160,7 +161,7 @@ module ActiveRecord
         load_target
         delete(@target)
         reset_target!
-        reset_named_scopes_cache!
+        reset_scopes_cache!
       end
 
       # Calculate sum using SQL, not Enumerable
@@ -253,7 +254,7 @@ module ActiveRecord
         load_target
         destroy(@target).tap do
           reset_target!
-          reset_named_scopes_cache!
+          reset_scopes_cache!
         end
       end
 
@@ -263,7 +264,7 @@ module ActiveRecord
         else
           create_record(attrs) do |record|
             yield(record) if block_given?
-            record.save
+            insert_record(record, false)
           end
         end
       end
@@ -271,7 +272,7 @@ module ActiveRecord
       def create!(attrs = {})
         create_record(attrs) do |record|
           yield(record) if block_given?
-          record.save!
+          insert_record(record, true)
         end
       end
 
@@ -344,12 +345,10 @@ module ActiveRecord
         other_array.each { |val| raise_on_type_mismatch(val) }
 
         load_target
-        other   = other_array.size < 100 ? other_array : other_array.to_set
-        current = @target.size < 100 ? @target : @target.to_set
 
         transaction do
-          delete(@target.select { |v| !other.include?(v) })
-          concat(other_array.select { |v| !current.include?(v) })
+          delete(@target - other_array)
+          concat(other_array - @target)
         end
       end
 
@@ -409,9 +408,9 @@ module ActiveRecord
           if @target.respond_to?(method) || (!@reflection.klass.respond_to?(method) && Class.respond_to?(method))
             super
           elsif @reflection.klass.scopes[method]
-            @_named_scopes_cache ||= {}
-            @_named_scopes_cache[method] ||= {}
-            @_named_scopes_cache[method][args] ||= with_scope(@scope) { @reflection.klass.send(method, *args) }
+            @_scopes_cache ||= {}
+            @_scopes_cache[method] ||= {}
+            @_scopes_cache[method][args] ||= with_scope(@scope) { @reflection.klass.send(method, *args) }
           else
             with_scope(@scope) do
               if block_given?
@@ -442,8 +441,8 @@ module ActiveRecord
           @target = Array.new
         end
 
-        def reset_named_scopes_cache!
-          @_named_scopes_cache = {}
+        def reset_scopes_cache!
+          @_scopes_cache = {}
         end
 
         def find_target
@@ -455,9 +454,7 @@ module ActiveRecord
             end
 
           records = @reflection.options[:uniq] ? uniq(records) : records
-          records.each do |record|
-            set_inverse_instance(record, @owner)
-          end
+          records.each { |record| set_inverse_instance(record) }
           records
         end
 
@@ -465,45 +462,46 @@ module ActiveRecord
           callback(:before_add, record)
           yield(record) if block_given?
           @target ||= [] unless loaded?
-          if index = @target.index(record)
+          if @reflection.options[:uniq] && index = @target.index(record)
             @target[index] = record
           else
-             @target << record
+            @target << record
           end
           callback(:after_add, record)
-          set_inverse_instance(record, @owner)
+          set_inverse_instance(record)
           record
         end
 
       private
-        def create_record(attrs)
-          attrs.update(@reflection.options[:conditions]) if @reflection.options[:conditions].is_a?(Hash)
+        # Do the relevant stuff to insert the given record into the association collection. The
+        # force param specifies whether or not an exception should be raised on failure. The
+        # validate param specifies whether validation should be performed (if force is false).
+        def insert_record(record, force = true, validate = true)
+          raise NotImplementedError
+        end
+
+        def save_record(record, force, validate)
+          force ? record.save! : record.save(:validate => validate)
+        end
+
+        def create_record(attrs, &block)
           ensure_owner_is_persisted!
 
-          scoped_where = scoped.where_values_hash
-          create_scope = scoped_where ? @scope[:create].merge(scoped_where) : @scope[:create]
-          record = @reflection.klass.send(:with_scope, :create => create_scope) do
-            @reflection.build_association(attrs)
-          end
-          if block_given?
-            add_record_to_target_with_callbacks(record) { |*block_args| yield(*block_args) }
-          else
-            add_record_to_target_with_callbacks(record)
+          transaction do
+            with_scope(:create => @scope[:create].merge(scoped.where_values_hash)) do
+              build_record(attrs, &block)
+            end
           end
         end
 
-        def build_record(attrs)
+        def build_record(attrs, &block)
           attrs.update(@reflection.options[:conditions]) if @reflection.options[:conditions].is_a?(Hash)
           record = @reflection.build_association(attrs)
-          if block_given?
-            add_record_to_target_with_callbacks(record) { |*block_args| yield(*block_args) }
-          else
-            add_record_to_target_with_callbacks(record)
-          end
+          add_record_to_target_with_callbacks(record, &block)
         end
 
         def remove_records(*records)
-          records = flatten_deeper(records)
+          records = records.flatten
           records.each { |record| raise_on_type_mismatch(record) }
 
           transaction do

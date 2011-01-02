@@ -10,16 +10,16 @@ module ActionView #:nodoc:
       METHOD
     end
 
-    def find(path, prefix = nil, partial = false, details = {}, keys = [], key = nil)
-      template = find_all(path, prefix, partial, details, keys, key).first
-      raise MissingTemplate.new(self, "#{prefix}/#{path}", details, partial) unless template
-      template
+    def find(*args)
+      find_all(*args).first || raise(MissingTemplate.new(self, *args))
     end
 
-    def find_all(*args)
-      each do |resolver|
-        templates = resolver.find_all(*args)
-        return templates unless templates.empty?
+    def find_all(path, prefixes = [], *args)
+      prefixes.each do |prefix|
+        each do |resolver|
+          templates = resolver.find_all(path, prefix, *args)
+          return templates unless templates.empty?
+        end
       end
       []
     end

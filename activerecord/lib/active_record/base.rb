@@ -852,8 +852,8 @@ module ActiveRecord #:nodoc:
       #     limit(10) # Fires "SELECT * FROM posts LIMIT 10"
       #   }
       #
-      # It is recommended to use block form of unscoped because chaining unscoped with <tt>named_scope</tt>
-      # does not work. Assuming that <tt>published</tt> is a <tt>named_scope</tt> following two statements are same.
+      # It is recommended to use block form of unscoped because chaining unscoped with <tt>scope</tt>
+      # does not work. Assuming that <tt>published</tt> is a <tt>scope</tt> following two statements are same.
       #
       # Post.unscoped.published
       # Post.published
@@ -913,7 +913,7 @@ module ActiveRecord #:nodoc:
         end
 
         def type_condition
-          sti_column = arel_table[inheritance_column]
+          sti_column = arel_table[inheritance_column.to_sym]
           condition = sti_column.eq(sti_name)
           descendants.each { |subclass| condition = condition.or(sti_column.eq(subclass.sti_name)) }
 
@@ -1490,8 +1490,10 @@ MSG
         attributes.each do |k, v|
           if k.include?("(")
             multi_parameter_attributes << [ k, v ]
+          elsif respond_to?("#{k}=")
+            send("#{k}=", v)
           else
-            respond_to?(:"#{k}=") ? send(:"#{k}=", v) : raise(UnknownAttributeError, "unknown attribute: #{k}")
+            raise(UnknownAttributeError, "unknown attribute: #{k}")
           end
         end
 
@@ -1500,9 +1502,7 @@ MSG
 
       # Returns a hash of all the attributes with their names as keys and the values of the attributes as values.
       def attributes
-        attrs = {}
-        attribute_names.each { |name| attrs[name] = read_attribute(name) }
-        attrs
+        Hash[@attributes.map { |name, _| [name, read_attribute(name)] }]
       end
 
       # Returns an <tt>#inspect</tt>-like string for the value of the
@@ -1630,7 +1630,7 @@ MSG
       # Returns the contents of the record as a nicely formatted string.
       def inspect
         attributes_as_nice_string = self.class.column_names.collect { |name|
-          if has_attribute?(name) || new_record?
+          if has_attribute?(name)
             "#{name}: #{attribute_for_inspect(name)}"
           end
         }.compact.join(", ")
@@ -1682,7 +1682,7 @@ MSG
             if include_readonly_attributes || (!include_readonly_attributes && !self.class.readonly_attributes.include?(name))
               value = read_attribute(name)
 
-              if value && self.class.serialized_attributes.key?(name)
+              if !value.nil? && self.class.serialized_attributes.key?(name)
                 value = YAML.dump value
               end
               attrs[self.class.arel_table[name]] = value
@@ -1818,7 +1818,7 @@ MSG
         if scope = self.class.send(:current_scoped_methods)
           create_with = scope.scope_for_create
           create_with.each { |att,value|
-            respond_to?(:"#{att}=") && send("#{att}=", value)
+            respond_to?("#{att}=") && send("#{att}=", value)
           }
         end
       end
@@ -1853,6 +1853,7 @@ MSG
     include ActiveModel::MassAssignmentSecurity
     include Callbacks, ActiveModel::Observing, Timestamp
     include Associations, AssociationPreload, NamedScope
+    include ActiveModel::SecurePassword
 
     # AutosaveAssociation needs to be included before Transactions, because we want
     # #save_with_autosave_associations to be wrapped inside a transaction.

@@ -2,6 +2,8 @@ module ActiveRecord
   # = Active Record Belongs To Has One Association
   module Associations
     class HasOneAssociation < AssociationProxy #:nodoc:
+      include HasAssociation
+
       def create(attrs = {}, replace_existing = true)
         new_record(replace_existing) do |reflection|
           attrs = merge_with_conditions(attrs)
@@ -27,7 +29,7 @@ module ActiveRecord
         load_target
 
         unless @target.nil? || @target == obj
-          if dependent? && !dont_save
+          if @reflection.options[:dependent] && !dont_save
             case @reflection.options[:dependent]
             when :delete
               @target.delete if @target.persisted?
@@ -49,11 +51,11 @@ module ActiveRecord
           @target = nil
         else
           raise_on_type_mismatch(obj)
-          set_belongs_to_association_for(obj)
+          set_owner_attributes(obj)
           @target = (AssociationProxy === obj ? obj.target : obj)
         end
 
-        set_inverse_instance(obj, @owner)
+        set_inverse_instance(obj)
         @loaded = true
 
         unless !@owner.persisted? || obj.nil? || dont_save
@@ -79,26 +81,16 @@ module ActiveRecord
           the_target = with_scope(:find => @scope[:find]) do
             @reflection.klass.find(:first, options)
           end
-          set_inverse_instance(the_target, @owner)
+          set_inverse_instance(the_target)
           the_target
         end
 
         def construct_find_scope
-          if @reflection.options[:as]
-            sql =
-              "#{@reflection.quoted_table_name}.#{@reflection.options[:as]}_id = #{owner_quoted_id} AND " +
-              "#{@reflection.quoted_table_name}.#{@reflection.options[:as]}_type = #{@owner.class.quote_value(@owner.class.base_class.name.to_s)}"
-          else
-            sql = "#{@reflection.quoted_table_name}.#{@reflection.primary_key_name} = #{owner_quoted_id}"
-          end
-          sql << " AND (#{conditions})" if conditions
-          { :conditions => sql }
+          { :conditions => construct_conditions }
         end
 
         def construct_create_scope
-          create_scoping = {}
-          set_belongs_to_association_for(create_scoping)
-          create_scoping
+          construct_owner_attributes
         end
 
         def new_record(replace_existing)
@@ -115,15 +107,10 @@ module ActiveRecord
           else
             record[@reflection.primary_key_name] = @owner.id if @owner.persisted?
             self.target = record
-            set_inverse_instance(record, @owner)
+            set_inverse_instance(record)
           end
 
           record
-        end
-
-        def we_can_set_the_inverse_on_this?(record)
-          inverse = @reflection.inverse_of
-          return !inverse.nil?
         end
 
         def merge_with_conditions(attrs={})

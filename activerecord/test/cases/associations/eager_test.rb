@@ -17,12 +17,26 @@ require 'models/subscription'
 require 'models/book'
 require 'models/developer'
 require 'models/project'
+require 'models/member'
+require 'models/membership'
+require 'models/club'
+require 'models/categorization'
 
 class EagerAssociationTest < ActiveRecord::TestCase
   fixtures :posts, :comments, :authors, :author_addresses, :categories, :categories_posts,
-            :companies, :accounts, :tags, :taggings, :people, :readers,
+            :companies, :accounts, :tags, :taggings, :people, :readers, :categorizations,
             :owners, :pets, :author_favorites, :jobs, :references, :subscribers, :subscriptions, :books,
-            :developers, :projects, :developers_projects
+            :developers, :projects, :developers_projects, :members, :memberships, :clubs
+
+  def setup
+    # preheat table existence caches
+    Comment.find_by_id(1)
+  end
+
+  def test_eager_with_has_one_through_join_model_with_conditions_on_the_through
+    member = Member.find(members(:some_other_guy).id, :include => :favourite_club)
+    assert_nil member.favourite_club
+  end
 
   def test_loading_with_one_association
     posts = Post.find(:all, :include => :comments)
@@ -644,10 +658,6 @@ class EagerAssociationTest < ActiveRecord::TestCase
     assert_equal people(:david, :susan), Person.find(:all, :include => [:readers, :primary_contact, :number1_fan], :conditions => "number1_fans_people.first_name like 'M%'", :order => 'people.id', :limit => 2, :offset => 0)
   end
 
-  def test_preload_with_interpolation
-    assert_equal [comments(:greetings)], Post.find(posts(:welcome).id, :include => :comments_with_interpolated_conditions).comments_with_interpolated_conditions
-  end
-
   def test_polymorphic_type_condition
     post = Post.find(posts(:thinking).id, :include => :taggings)
     assert post.taggings.include?(taggings(:thinking_general))
@@ -876,15 +886,15 @@ class EagerAssociationTest < ActiveRecord::TestCase
   end
 
   def test_preload_has_one_using_primary_key
-    expected = Firm.find(:first).account_using_primary_key
-    firm = Firm.find :first, :include => :account_using_primary_key
+    expected = accounts(:signals37)
+    firm = Firm.find :first, :include => :account_using_primary_key, :order => 'companies.id'
     assert_no_queries do
       assert_equal expected, firm.account_using_primary_key
     end
   end
 
   def test_include_has_one_using_primary_key
-    expected = Firm.find(1).account_using_primary_key
+    expected = accounts(:signals37)
     firm = Firm.find(:all, :include => :account_using_primary_key, :order => 'accounts.id').detect {|f| f.id == 1}
     assert_no_queries do
       assert_equal expected, firm.account_using_primary_key
@@ -896,5 +906,11 @@ class EagerAssociationTest < ActiveRecord::TestCase
 
     assert_queries(2) { @tagging = Tagging.preload(:taggable).find(t.id) }
     assert_no_queries { assert ! @tagging.taggable }
+  end
+
+  def test_preloading_has_many_through_with_uniq
+    mary = Author.includes(:unique_categorized_posts).where(:id => authors(:mary).id).first
+    assert_equal 1, mary.unique_categorized_posts.length
+    assert_equal 1, mary.unique_categorized_post_ids.length
   end
 end

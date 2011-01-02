@@ -19,6 +19,7 @@ require 'models/minimalistic'
 require 'models/warehouse_thing'
 require 'models/parrot'
 require 'models/loose_person'
+require 'models/edge'
 require 'rexml/document'
 require 'active_support/core_ext/exception'
 
@@ -47,6 +48,10 @@ class Boolean < ActiveRecord::Base; end
 
 class BasicsTest < ActiveRecord::TestCase
   fixtures :topics, :companies, :developers, :projects, :computers, :accounts, :minimalistics, 'warehouse-things', :authors, :categorizations, :categories, :posts
+
+  def test_primary_key_with_no_id
+    assert_nil Edge.primary_key
+  end
 
   def test_select_symbol
     topic_ids = Topic.select(:id).map(&:id).sort
@@ -698,7 +703,7 @@ class BasicsTest < ActiveRecord::TestCase
 
     duped_topic.reload
     # FIXME: I think this is poor behavior, and will fix it with #5686
-    assert_equal({'a' => 'c'}.to_s, duped_topic.title)
+    assert_equal({'a' => 'c'}.to_yaml, duped_topic.title)
   end
 
   def test_dup_with_aggregate_of_same_name_as_attribute
@@ -997,6 +1002,22 @@ class BasicsTest < ActiveRecord::TestCase
     Topic.serialize(:content)
   end
 
+  def test_serialized_boolean_value_true
+    Topic.serialize(:content)
+    topic = Topic.new(:content => true)
+    assert topic.save
+    topic = topic.reload
+    assert_equal topic.content, true
+  end
+
+  def test_serialized_boolean_value_false
+    Topic.serialize(:content)
+    topic = Topic.new(:content => false)
+    assert topic.save
+    topic = topic.reload
+    assert_equal topic.content, false
+  end
+
   def test_quote
     author_name = "\\ \001 ' \n \\n \""
     topic = Topic.create('author_name' => author_name)
@@ -1052,9 +1073,14 @@ class BasicsTest < ActiveRecord::TestCase
   end
 
   def test_define_attr_method_with_block
-    k = Class.new( ActiveRecord::Base )
-    k.send(:define_attr_method, :primary_key) { "sys_" + original_primary_key }
-    assert_equal "sys_id", k.primary_key
+    k = Class.new( ActiveRecord::Base ) do
+      class << self
+        attr_accessor :foo_key
+      end
+    end
+    k.foo_key = "id"
+    k.send(:define_attr_method, :foo_key) { "sys_" + original_foo_key }
+    assert_equal "sys_id", k.foo_key
   end
 
   def test_set_table_name_with_value
@@ -1093,6 +1119,7 @@ class BasicsTest < ActiveRecord::TestCase
 
   def test_set_primary_key_with_block
     k = Class.new( ActiveRecord::Base )
+    k.primary_key = 'id'
     k.set_primary_key { "sys_" + original_primary_key }
     assert_equal "sys_id", k.primary_key
   end

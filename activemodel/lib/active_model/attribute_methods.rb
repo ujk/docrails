@@ -109,7 +109,7 @@ module ActiveModel
           # use eval instead of a block to work around a memory leak in dev
           # mode in fcgi
           sing.class_eval <<-eorb, __FILE__, __LINE__ + 1
-            def #{name}; #{value.to_s.inspect}; end
+            def #{name}; #{value.nil? ? 'nil' : value.to_s.inspect}; end
           eorb
         end
       end
@@ -325,7 +325,7 @@ module ActiveModel
             options.symbolize_keys!
             @prefix, @suffix = options[:prefix] || '', options[:suffix] || ''
             @regex = /^(#{Regexp.escape(@prefix)})(.+?)(#{Regexp.escape(@suffix)})$/
-            @method_missing_target = :"#{@prefix}attribute#{@suffix}"
+            @method_missing_target = "#{@prefix}attribute#{@suffix}"
             @method_name = "#{prefix}%s#{suffix}"
           end
 

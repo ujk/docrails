@@ -5,6 +5,13 @@ require "action_view/template"
 module ActionView
   # = Action View Resolver
   class Resolver
+    cattr_accessor :caching
+    self.caching = true
+
+    class << self
+      alias :caching? :caching
+    end
+
     def initialize
       @cached = Hash.new { |h1,k1| h1[k1] = Hash.new { |h2,k2|
         h2[k2] = Hash.new { |h3,k3| h3[k3] = Hash.new { |h4,k4| h4[k4] = {} } } } }
@@ -15,7 +22,7 @@ module ActionView
     end
 
     # Normalizes the arguments and passes it on to find_template.
-    def find_all(name, prefix=nil, partial=false, details={}, locals=[], key=nil)
+    def find_all(name, prefix=nil, partial=false, details={}, key=nil, locals=[])
       cached(key, [name, prefix, partial], details, locals) do
         find_templates(name, prefix, partial, details)
       end
@@ -23,9 +30,7 @@ module ActionView
 
   private
 
-    def caching?
-      @caching ||= !defined?(Rails.application) || Rails.application.config.cache_classes
-    end
+    delegate :caching?, :to => "self.class"
 
     # This is what child classes implement. No defaults are needed
     # because Resolver guarantees that the arguments are present and
@@ -42,7 +47,7 @@ module ActionView
       path
     end
 
-    # Hnadles templates caching. If a key is given and caching is on
+    # Handles templates caching. If a key is given and caching is on
     # always check the cache before hitting the resolver. Otherwise,
     # it always hits the resolver but check if the resolver is fresher
     # before returning it.

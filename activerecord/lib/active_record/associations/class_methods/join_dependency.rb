@@ -6,14 +6,17 @@ module ActiveRecord
   module Associations
     module ClassMethods
       class JoinDependency # :nodoc:
-        attr_reader :join_parts, :reflections, :table_aliases
+        attr_reader :join_parts, :reflections, :table_aliases, :active_record
 
         def initialize(base, associations, joins)
-          @table_joins           = joins || ''
+          @active_record         = base
+          @table_joins           = joins
           @join_parts            = [JoinBase.new(base)]
           @associations          = {}
           @reflections           = []
-          @table_aliases         = Hash.new(0)
+          @table_aliases         = Hash.new do |h,name|
+            h[name] = count_aliases_from_table_joins(name.downcase)
+          end
           @table_aliases[base.table_name] = 1
           build(associations)
         end
@@ -44,14 +47,17 @@ module ActiveRecord
         end
 
         def count_aliases_from_table_joins(name)
+          return 0 if Arel::Table === @table_joins
+
           # quoted_name should be downcased as some database adapters (Oracle) return quoted name in uppercase
-          quoted_name = join_base.active_record.connection.quote_table_name(name.downcase).downcase
-          join_sql = @table_joins.downcase
-          join_sql.blank? ? 0 :
-            # Table names
-            join_sql.scan(/join(?:\s+\w+)?\s+#{quoted_name}\son/).size +
-            # Table aliases
-            join_sql.scan(/join(?:\s+\w+)?\s+\S+\s+#{quoted_name}\son/).size
+          quoted_name = active_record.connection.quote_table_name(name).downcase
+
+          @table_joins.map { |join|
+            # Table names + table aliases
+            join.left.downcase.scan(
+              /join(?:\s+\w+)?\s+(\S+\s+)?#{quoted_name}\son/
+            ).size
+          }.sum
         end
 
         def instantiate(rows)
@@ -61,11 +67,11 @@ module ActiveRecord
           records = rows.map { |model|
             primary_id = model[primary_key]
             parent = parents[primary_id] ||= join_base.instantiate(model)
-            construct(parent, @associations, join_associations.dup, model)
+            construct(parent, @associations, join_associations, model)
             parent
           }.uniq
 
-          remove_duplicate_results!(join_base.active_record, records, @associations)
+          remove_duplicate_results!(active_record, records, @associations)
           records
         end
 
@@ -134,7 +140,7 @@ module ActiveRecord
               build(association, parent, join_type)
             end
           when Hash
-            associations.keys.sort{|a,b|a.to_s<=>b.to_s}.each do |name|
+            associations.keys.sort_by { |a| a.to_s }.each do |name|
               join_association = build(name, parent, join_type)
               build(associations[name], join_association, join_type)
             end
@@ -206,7 +212,7 @@ module ActiveRecord
               collection = record.send(join_part.reflection.name)
               collection.loaded
               collection.target.push(association)
-              collection.__send__(:set_inverse_instance, association, record)
+              collection.send(:set_inverse_instance, association)
             when :belongs_to
               set_target_and_inverse(join_part, association, record)
             else
@@ -218,7 +224,7 @@ module ActiveRecord
 
         def set_target_and_inverse(join_part, association, record)
           association_proxy = record.send("set_#{join_part.reflection.name}_target", association)
-          association_proxy.__send__(:set_inverse_instance, association, record)
+          association_proxy.send(:set_inverse_instance, association)
         end
       end
     end

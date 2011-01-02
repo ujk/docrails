@@ -298,6 +298,22 @@ class AssociationsJoinModelTest < ActiveRecord::TestCase
     assert_equal [authors(:mary)], posts(:authorless).authors
   end
 
+  def test_has_many_going_through_join_model_with_custom_primary_key
+    assert_equal [authors(:david)], posts(:thinking).authors_using_author_id
+  end
+
+  def test_has_many_going_through_polymorphic_join_model_with_custom_primary_key
+    assert_equal [tags(:general)], posts(:eager_other).tags_using_author_id
+  end
+
+  def test_has_many_through_with_custom_primary_key_on_belongs_to_source
+    assert_equal [authors(:david), authors(:david)], posts(:thinking).author_using_custom_pk
+  end
+
+  def test_has_many_through_with_custom_primary_key_on_has_many_source
+    assert_equal [authors(:david)], posts(:thinking).authors_using_custom_pk
+  end
+
   def test_both_scoped_and_explicit_joins_should_be_respected
     assert_nothing_raised do
       Post.send(:with_scope, :find => {:joins => "left outer join comments on comments.id = posts.id"}) do
@@ -324,11 +340,16 @@ class AssociationsJoinModelTest < ActiveRecord::TestCase
   end
 
   def test_has_many_polymorphic
-    assert_raise ActiveRecord::HasManyThroughAssociationPolymorphicError do
-      assert_equal posts(:welcome, :thinking), tags(:general).taggables
+    assert_raise ActiveRecord::HasManyThroughAssociationPolymorphicSourceError do
+      tags(:general).taggables
     end
+
+    assert_raise ActiveRecord::HasManyThroughAssociationPolymorphicThroughError do
+      taggings(:welcome_general).things
+    end
+
     assert_raise ActiveRecord::EagerLoadPolymorphicError do
-      assert_equal posts(:welcome, :thinking), tags(:general).taggings.find(:all, :include => :taggable, :conditions => 'bogus_table.column = 1')
+      tags(:general).taggings.find(:all, :include => :taggable, :conditions => 'bogus_table.column = 1')
     end
   end
 
@@ -493,6 +514,10 @@ class AssociationsJoinModelTest < ActiveRecord::TestCase
     assert_equal(count + 4, post_thinking.tags(true).size)
 
     # Raises if the wrong reflection name is used to set the Edge belongs_to
+    assert_nothing_raised { vertices(:vertex_1).sinks << vertices(:vertex_5) }
+  end
+
+  def test_add_to_join_table_with_no_id
     assert_nothing_raised { vertices(:vertex_1).sinks << vertices(:vertex_5) }
   end
 

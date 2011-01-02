@@ -207,7 +207,7 @@ module Rails
   #     end
   #   end
   #
-  # == Namespaced Engine
+  # == Isolated Engine
   #
   # Normally when you create controllers, helpers and models inside engine, they are treated
   # as they were created inside the application. This means all applications helpers and named routes
@@ -371,6 +371,11 @@ module Rails
          end
         end
       end
+
+      # Finds engine with given path
+      def find(path)
+        Rails::Engine::Railties.engines.find { |r| File.expand_path(r.root.to_s) == File.expand_path(path.to_s) }
+      end
     end
 
     delegate :middleware, :root, :paths, :to => :config
@@ -494,7 +499,7 @@ module Rails
     end
 
     initializer :append_asset_paths do
-      config.asset_path ||= "/#{railtie_name}%s"
+      config.asset_path ||= default_asset_path
 
       public_path = paths["public"].first
       if config.compiled_asset_path && File.exist?(public_path)
@@ -548,6 +553,11 @@ module Rails
     end
 
   protected
+
+    def default_asset_path
+      "/#{railtie_name}%s"
+    end
+
     def routes?
       defined?(@routes)
     end

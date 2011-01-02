@@ -4,17 +4,17 @@ module ActiveRecord
   module Associations
     # = Active Record Associations
     #
-    # This is the root class of all association proxies:
+    # This is the root class of all association proxies ('+ Foo' signifies an included module Foo):
     #
     #   AssociationProxy
     #     BelongsToAssociation
-    #       HasOneAssociation
     #     BelongsToPolymorphicAssociation
-    #     AssociationCollection
+    #     AssociationCollection + HasAssociation
     #       HasAndBelongsToManyAssociation
     #       HasManyAssociation
-    #         HasManyThroughAssociation
-    #            HasOneThroughAssociation
+    #         HasManyThroughAssociation + ThroughAssociation
+    #     HasOneAssociation + HasAssociation
+    #       HasOneThroughAssociation + ThroughAssociation
     #
     # Association proxies in Active Record are middlemen between the object that
     # holds the association, known as the <tt>@owner</tt>, and the actual associated
@@ -130,6 +130,16 @@ module ActiveRecord
         @loaded = true
       end
 
+      # The target is stale if the target no longer points to the record(s) that the
+      # relevant foreign_key(s) refers to. If stale, the association accessor method
+      # on the owner will reload the target. It's up to subclasses to implement this
+      # method if relevant.
+      #
+      # Note that if the target has not been loaded, it is not considered stale.
+      def stale_target?
+        false
+      end
+
       # Returns the target of this proxy, same as +proxy_target+.
       def target
         @target
@@ -157,11 +167,6 @@ module ActiveRecord
       end
 
       protected
-        # Does the association have a <tt>:dependent</tt> option?
-        def dependent?
-          @reflection.options[:dependent]
-        end
-
         def interpolate_sql(sql, record = nil)
           @owner.send(:interpolate_sql, sql, record)
         end
@@ -169,20 +174,6 @@ module ActiveRecord
         # Forwards the call to the reflection class.
         def sanitize_sql(sql, table_name = @reflection.klass.table_name)
           @reflection.klass.send(:sanitize_sql, sql, table_name)
-        end
-
-        # Assigns the ID of the owner to the corresponding foreign key in +record+.
-        # If the association is polymorphic the type of the owner is also set.
-        def set_belongs_to_association_for(record)
-          if @reflection.options[:as]
-            record["#{@reflection.options[:as]}_id"]   = @owner.id if @owner.persisted?
-            record["#{@reflection.options[:as]}_type"] = @owner.class.base_class.name.to_s
-          else
-            if @owner.persisted?
-              primary_key = @reflection.options[:primary_key] || :id
-              record[@reflection.primary_key_name] = @owner.send(primary_key)
-            end
-          end
         end
 
         # Merges into +options+ the ones coming from the reflection.
@@ -220,6 +211,17 @@ module ActiveRecord
         # Implemented by (some) subclasses
         def construct_create_scope
           {}
+        end
+
+        def aliased_table
+          @reflection.klass.arel_table
+        end
+
+        # Set the inverse association, if possible
+        def set_inverse_instance(record)
+          if record && invertible_for?(record)
+            record.send("set_#{inverse_reflection_for(record).name}_target", @owner)
+          end
         end
 
       private
@@ -280,34 +282,21 @@ module ActiveRecord
           end
         end
 
-        if RUBY_VERSION < '1.9.2'
-          # Array#flatten has problems with recursive arrays before Ruby 1.9.2.
-          # Going one level deeper solves the majority of the problems.
-          def flatten_deeper(array)
-            array.collect { |element| (element.respond_to?(:flatten) && !element.is_a?(Hash)) ? element.flatten : element }.flatten
-          end
-        else
-          def flatten_deeper(array)
-            array.flatten
-          end
-        end
-
         # Returns the ID of the owner, quoted if needed.
         def owner_quoted_id
           @owner.quoted_id
         end
 
-        def set_inverse_instance(record, instance)
-          return if record.nil? || !we_can_set_the_inverse_on_this?(record)
-          inverse_relationship = @reflection.inverse_of
-          unless inverse_relationship.nil?
-            record.send(:"set_#{inverse_relationship.name}_target", instance)
-          end
+        # Can be redefined by subclasses, notably polymorphic belongs_to
+        # The record parameter is necessary to support polymorphic inverses as we must check for
+        # the association in the specific class of the record.
+        def inverse_reflection_for(record)
+          @reflection.inverse_of
         end
 
-        # Override in subclasses
-        def we_can_set_the_inverse_on_this?(record)
-          false
+        # Is this association invertible? Can be redefined by subclasses.
+        def invertible_for?(record)
+          inverse_reflection_for(record)
         end
     end
   end

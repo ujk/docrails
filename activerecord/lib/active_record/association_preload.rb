@@ -127,8 +127,7 @@ module ActiveRecord
           association_proxy = parent_record.send(reflection_name)
           association_proxy.loaded
           association_proxy.target.push(*Array.wrap(associated_record))
-
-          association_proxy.__send__(:set_inverse_instance, associated_record, parent_record)
+          association_proxy.send(:set_inverse_instance, associated_record)
         end
       end
 
@@ -148,16 +147,19 @@ module ActiveRecord
       def set_association_single_records(id_to_record_map, reflection_name, associated_records, key)
         seen_keys = {}
         associated_records.each do |associated_record|
+          seen_key = associated_record[key].to_s
+
           #this is a has_one or belongs_to: there should only be one record.
           #Unfortunately we can't (in portable way) ask the database for
           #'all records where foo_id in (x,y,z), but please
           # only one row per distinct foo_id' so this where we enforce that
-          next if seen_keys[associated_record[key].to_s]
-          seen_keys[associated_record[key].to_s] = true
-          mapped_records = id_to_record_map[associated_record[key].to_s]
+          next if seen_keys.key? seen_key
+
+          seen_keys[seen_key] = true
+          mapped_records = id_to_record_map[seen_key]
           mapped_records.each do |mapped_record|
             association_proxy = mapped_record.send("set_#{reflection_name}_target", associated_record)
-            association_proxy.__send__(:set_inverse_instance, associated_record, mapped_record)
+            association_proxy.send(:set_inverse_instance, associated_record)
           end
         end
 
@@ -185,22 +187,45 @@ module ActiveRecord
       end
 
       def preload_has_and_belongs_to_many_association(records, reflection, preload_options={})
-        table_name = reflection.klass.quoted_table_name
+
+        left = reflection.klass.arel_table
+
         id_to_record_map, ids = construct_id_map(records)
         records.each {|record| record.send(reflection.name).loaded}
         options = reflection.options
 
-        conditions = "t0.#{reflection.primary_key_name} #{in_or_equals_for_ids(ids)}"
-        conditions << append_conditions(reflection, preload_options)
+        right = Arel::Table.new(options[:join_table]).alias('t0')
+
+
+        join_condition = left[reflection.klass.primary_key].eq(
+          right[reflection.association_foreign_key])
+
+        join = left.create_join(right, left.create_on(join_condition))
+        select = [
+          # FIXME: options[:select] is always nil in the tests.  Do we really
+          # need it?
+          options[:select] || left[Arel.star],
+          right[reflection.primary_key_name].as(
+            Arel.sql('the_parent_record_id'))
+        ]
 
         associated_records_proxy = reflection.klass.unscoped.
             includes(options[:include]).
-            joins("INNER JOIN #{connection.quote_table_name options[:join_table]} t0 ON #{reflection.klass.quoted_table_name}.#{reflection.klass.primary_key} = t0.#{reflection.association_foreign_key}").
-            select("#{options[:select] || table_name+'.*'}, t0.#{reflection.primary_key_name} as the_parent_record_id").
             order(options[:order])
 
+        associated_records_proxy.joins_values = [join]
+        associated_records_proxy.select_values = select
+
+        custom_conditions = append_conditions(reflection, preload_options)
+
         all_associated_records = associated_records(ids) do |some_ids|
-          associated_records_proxy.where([conditions, ids]).to_a
+          method     = in_or_equal(some_ids)
+          conditions = right[reflection.primary_key_name].send(*method)
+          conditions = custom_conditions.inject(conditions) do |ast, cond|
+            ast.and cond
+          end
+
+          associated_records_proxy.where(conditions).to_a
         end
 
         set_association_collection_records(id_to_record_map, reflection.name, all_associated_records, 'the_parent_record_id')
@@ -251,6 +276,7 @@ module ActiveRecord
               through_record_id = through_record[reflection.through_reflection_primary_key].to_s
               add_preloaded_records_to_collection(id_to_record_map[through_record_id], reflection.name, through_record.send(source))
             end
+            records.each { |record| record.send(reflection.name).target.uniq! } if options[:uniq]
           end
 
         else
@@ -306,61 +332,54 @@ module ActiveRecord
             if klass = record.send(polymorph_type)
               klass_id = record.send(primary_key_name)
               if klass_id
-                id_map = klasses_and_ids[klass] ||= {}
+                id_map = klasses_and_ids[klass.constantize] ||= {}
                 (id_map[klass_id.to_s] ||= []) << record
               end
             end
           end
         else
-          id_map = {}
-          records.each do |record|
+          id_map = records.group_by do |record|
             key = record.send(primary_key_name)
-            (id_map[key.to_s] ||= []) << record if key
+            key && key.to_s
           end
-          klasses_and_ids[reflection.klass.name] = id_map unless id_map.empty?
+          id_map.delete nil
+          klasses_and_ids[reflection.klass] = id_map unless id_map.empty?
         end
 
-        klasses_and_ids.each do |klass_name, _id_map|
-          klass = klass_name.constantize
-
-          table_name = klass.quoted_table_name
+        klasses_and_ids.each do |klass, _id_map|
+          table       = klass.arel_table
           primary_key = (reflection.options[:primary_key] || klass.primary_key).to_s
-          column_type = klass.columns.detect{|c| c.name == primary_key}.type
+          method      = in_or_equal(_id_map.keys)
+          conditions  = table[primary_key].send(*method)
 
-          ids = _id_map.keys.map do |id|
-            if column_type == :integer
-              id.to_i
-            elsif column_type == :float
-              id.to_f
-            else
-              id
-            end
+          custom_conditions = append_conditions(reflection, preload_options)
+          conditions = custom_conditions.inject(conditions) do |ast, cond|
+            ast.and cond
           end
 
-          conditions = "#{table_name}.#{connection.quote_column_name(primary_key)} #{in_or_equals_for_ids(ids)}"
-          conditions << append_conditions(reflection, preload_options)
-
-          associated_records = klass.unscoped.where([conditions, ids]).apply_finder_options(options.slice(:include, :select, :joins, :order)).to_a
+          associated_records = klass.unscoped.where(conditions).apply_finder_options(options.slice(:include, :select, :joins, :order)).to_a
 
           set_association_single_records(_id_map, reflection.name, associated_records, primary_key)
         end
       end
 
       def find_associated_records(ids, reflection, preload_options)
-        options = reflection.options
-        table_name = reflection.klass.quoted_table_name
+        options    = reflection.options
+        table      = reflection.klass.arel_table
+
+        conditions = []
+
+        key = reflection.primary_key_name
 
         if interface = reflection.options[:as]
-          conditions = "#{reflection.klass.quoted_table_name}.#{connection.quote_column_name "#{interface}_id"} #{in_or_equals_for_ids(ids)} and #{reflection.klass.quoted_table_name}.#{connection.quote_column_name "#{interface}_type"} = '#{self.base_class.sti_name}'"
-        else
-          foreign_key = reflection.primary_key_name
-          conditions = "#{reflection.klass.quoted_table_name}.#{foreign_key} #{in_or_equals_for_ids(ids)}"
+          key = "#{interface}_id"
+          conditions << table["#{interface}_type"].eq(base_class.sti_name)
         end
 
-        conditions << append_conditions(reflection, preload_options)
+        conditions += append_conditions(reflection, preload_options)
 
         find_options = {
-          :select => preload_options[:select] || options[:select] || Arel::SqlLiteral.new("#{table_name}.*"),
+          :select => preload_options[:select] || options[:select] || table[Arel.star],
           :include => preload_options[:include] || options[:include],
           :joins => options[:joins],
           :group => preload_options[:group] || options[:group],
@@ -368,24 +387,24 @@ module ActiveRecord
         }
 
         associated_records(ids) do |some_ids|
-          reflection.klass.scoped.apply_finder_options(find_options.merge(:conditions => [conditions, some_ids])).to_a
+          method = in_or_equal(some_ids)
+          where = conditions.inject(table[key].send(*method)) do |ast, cond|
+            ast.and cond
+          end
+
+          reflection.klass.scoped.apply_finder_options(find_options.merge(:conditions => where)).to_a
         end
       end
 
-
-      def interpolate_sql_for_preload(sql)
-        instance_eval("%@#{sql.gsub('@', '\@')}@", __FILE__, __LINE__)
-      end
-
       def append_conditions(reflection, preload_options)
-        sql = ""
-        sql << " AND (#{interpolate_sql_for_preload(reflection.sanitized_conditions)})" if reflection.sanitized_conditions
-        sql << " AND (#{sanitize_sql preload_options[:conditions]})" if preload_options[:conditions]
-        sql
+        [
+          ("(#{reflection.sanitized_conditions})" if reflection.sanitized_conditions),
+          ("(#{sanitize_sql preload_options[:conditions]})" if preload_options[:conditions]),
+        ].compact.map { |x| Arel.sql x }
       end
 
-      def in_or_equals_for_ids(ids)
-        ids.size > 1 ? "IN (?)" : "= ?"
+      def in_or_equal(ids)
+        ids.length == 1 ? ['eq', ids.first] : ['in', ids]
       end
 
       # Some databases impose a limit on the number of ids in a list (in Oracle its 1000)

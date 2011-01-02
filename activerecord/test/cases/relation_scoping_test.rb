@@ -152,7 +152,7 @@ class NestedRelationScopingTest < ActiveRecord::TestCase
     Developer.where('salary = 80000').scoping do
       Developer.limit(10).scoping do
         devs = Developer.scoped
-        assert_equal '(salary = 80000)', devs.arel.send(:where_clauses).join(' AND ')
+        assert_match '(salary = 80000)', devs.arel.to_sql
         assert_equal 10, devs.taken
       end
     end
@@ -422,7 +422,7 @@ class DefaultScopingTest < ActiveRecord::TestCase
     assert_equal expected, received
   end
 
-  def test_named_scope_overwrites_default
+  def test_scope_overwrites_default
     expected = Developer.find(:all, :order => 'salary DESC, name DESC').collect { |dev| dev.name }
     received = DeveloperOrderedBySalary.by_name.find(:all).collect { |dev| dev.name }
     assert_equal expected, received

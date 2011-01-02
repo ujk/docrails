@@ -1275,6 +1275,20 @@ if ActiveRecord::Base.connection.supports_migrations?
       end
     end
 
+    def test_finds_migrations_from_two_directories
+      directories = [MIGRATIONS_ROOT + '/valid_with_timestamps', MIGRATIONS_ROOT + '/to_copy_with_timestamps']
+      migrations = ActiveRecord::Migrator.new(:up, directories).migrations
+
+      [[20090101010101, "PeopleHaveHobbies"],
+       [20090101010202, "PeopleHaveDescriptions"],
+       [20100101010101, "ValidWithTimestampsPeopleHaveLastNames"],
+       [20100201010101, "ValidWithTimestampsWeNeedReminders"],
+       [20100301010101, "ValidWithTimestampsInnocentJointable"]].each_with_index do |pair, i|
+        assert_equal pair.first, migrations[i].version
+        assert_equal pair.last, migrations[i].name
+      end
+    end
+
     def test_finds_pending_migrations
       ActiveRecord::Migrator.up(MIGRATIONS_ROOT + "/interleaved/pass_2", 1)
       migrations = ActiveRecord::Migrator.new(:up, MIGRATIONS_ROOT + "/interleaved/pass_2").pending_migrations

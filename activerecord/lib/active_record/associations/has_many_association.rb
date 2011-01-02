@@ -54,8 +54,8 @@ module ActiveRecord
         end
 
         def insert_record(record, force = false, validate = true)
-          set_belongs_to_association_for(record)
-          force ? record.save! : record.save(:validate => validate)
+          set_owner_attributes(record)
+          save_record(record, force, validate)
         end
 
         # Deletes the records according to the <tt>:dependent</tt> option.
@@ -64,32 +64,19 @@ module ActiveRecord
             when :destroy
               records.each { |r| r.destroy }
             when :delete_all
-              @reflection.klass.delete(records.map { |record| record.id })
+              @reflection.klass.delete(records.map { |r| r.id })
             else
-              relation = Arel::Table.new(@reflection.table_name)
-              stmt = relation.where(relation[@reflection.primary_key_name].eq(@owner.id).
-                  and(relation[@reflection.klass.primary_key].in(records.map { |r| r.id }))
-              ).compile_update(relation[@reflection.primary_key_name] => nil)
-              @owner.connection.update stmt.to_sql
+              updates    = { @reflection.primary_key_name => nil }
+              conditions = { @reflection.association_primary_key => records.map { |r| r.id } }
 
-              @owner.class.update_counters(@owner.id, cached_counter_attribute_name => -records.size) if has_cached_counter?
+              with_scope(@scope) do
+                @reflection.klass.update_all(updates, conditions)
+              end
           end
-        end
 
-        def target_obsolete?
-          false
-        end
-
-        def construct_conditions
-          if @reflection.options[:as]
-            sql =
-              "#{@reflection.quoted_table_name}.#{@reflection.options[:as]}_id = #{owner_quoted_id} AND " +
-              "#{@reflection.quoted_table_name}.#{@reflection.options[:as]}_type = #{@owner.class.quote_value(@owner.class.base_class.name.to_s)}"
-          else
-            sql = "#{@reflection.quoted_table_name}.#{@reflection.primary_key_name} = #{owner_quoted_id}"
+          if has_cached_counter? && @reflection.options[:dependent] != :destroy
+            @owner.class.update_counters(@owner.id, cached_counter_attribute_name => -records.size)
           end
-          sql << " AND (#{conditions})" if conditions
-          sql
         end
 
         def construct_find_scope
@@ -103,13 +90,7 @@ module ActiveRecord
         end
 
         def construct_create_scope
-          create_scoping = {}
-          set_belongs_to_association_for(create_scoping)
-          create_scoping
-        end
-
-        def we_can_set_the_inverse_on_this?(record)
-          @reflection.inverse_of
+          construct_owner_attributes
         end
     end
   end
