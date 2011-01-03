@@ -33,7 +33,7 @@ class ClientsController < ApplicationController
 end
 </ruby>
 
-As an example, if a user goes to +/clients/new+ in your application to add a new client, Rails will create an instance of +ClientsController+ and run the +new+ method. Note that the empty method from the example above could work just fine because Rails will by default render the +new.html.erb+ view unless the action says otherwise. The +new+ method could make available to the view a +@client+ instance variable by creating a new +Client+:
+Bir örnek olarak, eğer bir kullanıcı uygulamanızda yeni bir müşteri eklemek için +/clients/new+ bağlantısına tıklarsa, Rails +ClientsController+ ın bir instance'ını üretecek ve +new+ metodunu çağıracaktır. Dikkat edin yukardaki boş metod sorunsuz çalışır çünkü Rails, diğer bir şey belirtilmedikçe +new.html.erb+ görselini yayınlayarak devam edecektir. +new+ metodu yeni bir +Client+ oluşturabilmek için +@client+ değişkenini görsele göndermelidir:
 
 <ruby>
 def new
@@ -41,23 +41,23 @@ def new
 end
 </ruby>
 
-The "Layouts & Rendering Guide":layouts_and_rendering.html explains this in more detail.
+"Yerleşimler ve Yayınlama Klavuzu":layouts_and_rendering.html bunu daha ayrıntılı anlatır.
 
-+ApplicationController+ inherits from +ActionController::Base+, which defines a number of helpful methods. This guide will cover some of these, but if you're curious to see what's in there, you can see all of them in the API documentation or in the source itself.
++ApplicationController+ sınıfı, birkaç yararlı metodu olan  +ActionController::Base+ sınıfından üretilmiştir. Bu klavuz bunların bir kısmını kapsayacak, fakat içinde neler olduğunu merak ediyorsanız API dökümanından inceleyebilirsiniz.
 
-Only public methods are callable as actions. It is a best practice to lower the visibility of methods which are not intended to be actions, like auxiliary methods or filters.
+Sadece Public olan metodlar eylem olarak çağırılabilir. Harici metodlar ve filtreler gibi eylem olmayacak şeylerin görünmesini engellemek doğru bir tercih olacaktır.
 
-h3. Parameters
+h3. Parametreler
 
-You will probably want to access data sent in by the user or other parameters in your controller actions. There are two kinds of parameters possible in a web application. The first are parameters that are sent as part of the URL, called query string parameters. The query string is everything after "?" in the URL. The second type of parameter is usually referred to as POST data. This information usually comes from an HTML form which has been filled in by the user. It's called POST data because it can only be sent as part of an HTTP POST request. Rails does not make any distinction between query string parameters and POST parameters, and both are available in the +params+ hash in your controller:
+Kontrolörünüzün eylemlerinde kullanıcının gönderdiği veriler ve diğer parametrelere ulaşmanız gerekecektir. Bir web uygulamasında mümkün olan iki çeşit parametre vardır. İlki URL'nin parçası olarak gönderilen parametrelerdir, bunlara "query string" parametreleri denir. "query string" URL adresinde "?" işaretinden sonra gelen herşeydir. İkinci çeşide POST verisi denir. Bu bilgi genellikle kullanıcı tarafından doldurulan bir HTML formdan gelir. POST veri olarak isimlendirilir çünkü sadece bir HTTP POST çağrısı ile gönderilebilir. Rails query string parametreleri ve POST parametreleri arasında ayrım yapmaz, her ikisini de +params+ hash'i içinde işler:
 
 <ruby>
 class ClientsController < ActionController::Base
-  # This action uses query string parameters because it gets run
-  # by an HTTP GET request, but this does not make any difference
-  # to the way in which the parameters are accessed. The URL for
-  # this action would look like this in order to list activated
-  # clients: /clients?status=activated
+  # Bu eylem query string parametrelerini kullanır çünkü bir
+  # HTTP GET isteğiyle çalışır, fakat bu parametrelere nasıl
+  # erişileceği konusunu değiştirmez. Bu eylemin URL'si
+  # aktif müşterileri listelemek isterse: /clients?status=activated
+  # şeklinde olacaktır
   def index
     if params[:status] == "activated"
       @clients = Client.activated
@@ -66,36 +66,36 @@ class ClientsController < ActionController::Base
     end
   end
 
-  # This action uses POST parameters. They are most likely coming
-  # from an HTML form which the user has submitted. The URL for
-  # this RESTful request will be "/clients", and the data will be
-  # sent as part of the request body.
+  # Bu eylem POST parametrelerini kullanır. Bunlar daha çok
+  # kullanıcının gönderdiği bir HTML formdan gelirler. 
+  # RESTful URL adresi "/clients" olacak ve veri çağrının bir
+  # parçası olarak gelecektir
   def create
     @client = Client.new(params[:client])
     if @client.save
       redirect_to @client
     else
-      # This line overrides the default rendering behavior, which
-      # would have been to render the "create" view.
+      # Bu satır default cevap olan "create" yayınının 
+      # üzerine yazacak ve değiştirecektir.
       render :action => "new"
     end
   end
 end
 </ruby>
 
-h4. Hash and Array Parameters
+h4. Hash ve Array Parametreler
 
-The +params+ hash is not limited to one-dimensional keys and values. It can contain arrays and (nested) hashes. To send an array of values, append an empty pair of square brackets "[]" to the key name:
++params+ hash'i tek boyutlu olmak zorunda değildir. Array'ler ve içiçe hash'ler barındırabilir. Bir array içinde verileri göndermek için key isimine "[]" köşeli parantez açıp-kapaması ekleyin:
 
 <pre>
 GET /clients?ids[]=1&ids[]=2&ids[]=3
 </pre>
 
-NOTE: The actual URL in this example will be encoded as "/clients?ids%5b%5d=1&ids%5b%5d=2&ids%5b%5d=3" as "[" and "]" are not allowed in URLs. Most of the time you don't have to worry about this because the browser will take care of it for you, and Rails will decode it back when it receives it, but if you ever find yourself having to send those requests to the server manually you have to keep this in mind.
+NOTE: Bu örnekte aktif URL de "[" ve "]" izin verilmediği için "/clients?ids%5b%5d=1&ids%5b%5d=2&ids%5b%5d=3" olarak kodlanacaktır. Birçok durumda tarayıcı gereken düzenlemeyi yapacağı ve Rails'de böyle gelen veriyi anlayacağı için endişelenmenize gerek yok. Ama eğer bu çağrıları server'a kendiniz yollayacaksanız bu noktaları gözönünde bulundurmanız gerekir.
 
-The value of +params[:ids]+ will now be +["1", "2", "3"]+. Note that parameter values are always strings; Rails makes no attempt to guess or cast the type.
++params[:ids]+ değeri +["1", "2", "3"]+ olacaktır. Dikkat edin parametre değerleri daima stringdir; Rails tiplerini tahmin etmekle uğraşmaz.
 
-To send a hash you include the key name inside the brackets:
+Bir hash göndermek için köşeli parantezlerin içinde key'leri bulundurun:
 
 <html>
 <form accept-charset="UTF-8" action="/clients" method="post">
@@ -106,19 +106,19 @@ To send a hash you include the key name inside the brackets:
 </form>
 </html>
 
-When this form is submitted, the value of +params[:client]+ will be <tt>{"name" => "Acme", "phone" => "12345", "address" => {"postcode" => "12345", "city" => "Carrot City"}}</tt>. Note the nested hash in +params[:client][:address]+.
+Bu form gönderildiğinde +params[:client]+ değeri <tt>{"name" => "Acme", "phone" => "12345", "address" => {"postcode" => "12345", "city" => "Carrot City"}}</tt> olacaktır. Dikkat edin içiçe hash +params[:client][:address]+ şeklinde verilmiş.
 
-Note that the +params+ hash is actually an instance of +HashWithIndifferentAccess+ from Active Support, which acts like a hash that lets you use symbols and strings interchangeably as keys.
+Not olarak, +params+ hash'i aslında Active Support'un +HashWithIndifferentAccess+ in bir instance'ıdır, ve key olarak sembolleri ve stringleri kullanmanıza izin veren bir hash olarak davranır.
 
-h4. Routing Parameters
+h4. Yönlendirme Parametreleri
 
-The +params+ hash will always contain the +:controller+ and +:action+ keys, but you should use the methods +controller_name+ and +action_name+ instead to access these values. Any other parameters defined by the routing, such as +:id+ will also be available. As an example, consider a listing of clients where the list can show either active or inactive clients. We can add a route which captures the +:status+ parameter in a "pretty" URL:
++params+ hash'i herzaman +:controller+ ve +:action+ key'lerini içerecektir, fakat siz bu değerlere erişmek için +controller_name+ ve +action_name+ metodlarını kullanmalısınız. Yönlendirme tarafından tayin edilen +:id+ gibi parametrelerde olacaktır. Örnek olarak aktif ya da aktif olmayan müşterileri listelemek istiyorsunuz. "Cici" bir URL içinde +:status+ parametresini yakalayan bir yönlendirme ekleyebiliriz:
 
 <ruby>
 match '/clients/:status' => 'clients#index', :foo => "bar"
 </ruby>
 
-In this case, when a user opens the URL +/clients/active+, +params[:status]+ will be set to "active". When this route is used, +params[:foo]+ will also be set to "bar" just like it was passed in the query string. In the same way +params[:action]+ will contain "index".
+Bu durumda kullanıcı +/clients/active" URL'sini açınca +params[:status]+ değeri "active" olacaktır. Bu yönlendirme kullanılınca +params[:foo]+ değeri de "bar" olacaktır, aynı query string'de gönderilmiş gibi. Aynı zamanda +params[:action]+ değeri de "index" olacaktır.
 
 h4. +default_url_options+
 

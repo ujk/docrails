@@ -16,7 +16,7 @@ klasöründe html dökümanları oluşturacaktır.
 === Bu güne kadar çevrilenler :
 
 * getting_started.textile - %100
-* action_controller_overview.textile - %1
+* action_controller_overview.textile - %12
 
 
 == \Rails'e Hoşgeldiniz
