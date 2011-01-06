@@ -122,36 +122,36 @@ Bu durumda kullanıcı +/clients/active" URL'sini açınca +params[:status]+ de�
 
 h4. +default_url_options+
 
-You can set global default parameters that will be used when generating URLs with +default_url_options+. To do this, define a method with that name in your controller:
++default_url_options+ ile URL'lerin nasıl oluşturulacağını parametreleri değiştirerek ayarlayabilirsiniz. Bunu yapmak için kontrolörünüzün içide bu isimde bir metod oluşturun:
 
 <ruby>
 class ApplicationController < ActionController::Base
-  # The options parameter is the hash passed in to 'url_for'
+  # Options parametresi 'url_for' a gönderilen hash'tir
   def default_url_options(options)
     {:locale => I18n.locale}
   end
 end
 </ruby>
 
-These options will be used as a starting-point when generating URLs, so it's possible they'll be overridden by +url_for+. Because this method is defined in the controller, you can define it on +ApplicationController+ so it would be used for all URL generation, or you could define it on only one controller for all URLs generated there.
+Bu opsiyolar URL'leri üretirken başlangıç noktası olarak kullanılır, böylece +url_for+ un üstüne yazabilir. Çünkü metodu kontrolöre yazdınız eğer +ApplicationController+ içinde tanımlasaydınız tüm URL üretimlerinde kullanılacaktı.
 
 
-h3. Session
+h3. Session (Oturum)
 
-Your application has a session for each user in which you can store small amounts of data that will be persisted between requests. The session is only available in the controller and the view and can use one of a number of different storage mechanisms:
+Uygulamanız her kullanıcı için çağrılar araında bir kısım veriyi taşıyabilecek bir oturuma sahiptir. Oturum sadece kontrolörde ve görselde ulaşılabilir ve birkaç farklı saklama mekanizması kullanabilir:
 
-* CookieStore - Stores everything on the client.
-* DRbStore - Stores the data on a DRb server.
-* MemCacheStore - Stores the data in a memcache.
-* ActiveRecordStore - Stores the data in a database using Active Record.
+* CookieStore - Herşeyi client tarafta saklar.
+* DRbStore - Veriyi bir DRb server'da saklar.
+* MemCacheStore - Veriyi bir memcache'de saklar.
+* ActiveRecordStore - Veriyi Active Record kullanarak bir veritabanında saklar.
 
-All session stores use a cookie to store a unique ID for each session (you must use a cookie, Rails will not allow you to pass the session ID in the URL as this is less secure).
+Tüm oturum saklama şekilleri her oturumun tanımlama ID'sini bir çereze saklar (çerezleri kllanmak zorundasınız Rails güvensiz bir yol olduğu için oturum ID'sini URL'de saklamaz).
 
-For most stores this ID is used to look up the session data on the server, e.g. in a database table. There is one exception, and that is the default and recommended session store - the CookieStore - which stores all session data in the cookie itself (the ID is still available to you if you need it). This has the advantage of being very lightweight and it requires zero setup in a new application in order to use the session. The cookie data is cryptographically signed to make it tamper-proof, but it is not encrypted, so anyone with access to it can read its contents but not edit it (Rails will not accept it if it has been edited).
+Birçok saklamalarda bu ID server tarafında karşı gelen oturumun verilerini örneğin bir veritabanında bulmak için kullanılır. Bir tek ayrıcalıklı durum var, tüm oturum verisini çerezin kendiinde saklayan ve kullanımı önerilen default CookieStore (ihtiyacınız olursa ID hala mevcuttur). Bunun avantajı çok az yük getirmesi ve yeni bir uygulama yaptığınızda ek bir işlem gerekmeden çalışmasıdır. Çerez verileri kurcalanmasın diye şifrelenmiştir fakat gizlenmez, herkes erişebilir ve okuyabilir fakat değiştiremez (Rails değiştirilmiş olan bilgiyi anlayacak ve kabul etmeyecektir).
 
-The CookieStore can store around 4kB of data -- much less than the others -- but this is usually enough. Storing large amounts of data in the session is discouraged no matter which session store your application uses. You should especially avoid storing complex objects (anything other than basic Ruby objects, the most common example being model instances) in the session, as the server might not be able to reassemble them between requests, which will result in an error.
+CookieStore 4kB kadar veri saklayabilir -- diğerlerinden daha az -- fakat bu kadarı genelde yeterlidir. Yüksek miktarda veriyi oturuma saklamak saklama yönteminiz ne olursa olsun istenmez. Karmaşık objeleri (basit Ruby nesnelerinden başka şeyleri, çok sık görülen bir örnek model instance'ları) oturum veriinde saklamaktan uzak durmalısınız, server çağrılar arasında bu veriyi toparlamakta sorun yaşayabilir ve bu da bir hata sebebidir.
 
-Read more about session storage in the "Security Guide":security.html.
+Daha fazla bilgiyi "Güvenlik Klavuzu":security.html nda bulabilirsiniz.
 
 If you need a different session storage mechanism, you can change it in the +config/initializers/session_store.rb+ file:
 
