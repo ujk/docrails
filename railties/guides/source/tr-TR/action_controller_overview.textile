@@ -153,12 +153,12 @@ CookieStore 4kB kadar veri saklayabilir -- diğerlerinden daha az -- fakat bu ka
 
 Daha fazla bilgiyi "Güvenlik Klavuzu":security.html nda bulabilirsiniz.
 
-If you need a different session storage mechanism, you can change it in the +config/initializers/session_store.rb+ file:
+Eğer farklı bir oturum saklama mekanizmasına ihtiyaç duyarsanız, bunu +config/initializers/session_store.rb+ dosyasında değiştirebilirsiniz:
 
 <ruby>
-# Use the database for sessions instead of the cookie-based default,
-# which shouldn't be used to store highly confidential information
-# (create the session table with "script/rails g session_migration")
+# çok gizli olabilecek bilgileri saklamakta kullanılmaması gereken 
+# cookie temelli default yerine veritabanı içinde oturumları saklamak için,
+# ("script/rails g session_migration" ile session tablosunu oluşturun)
 # YourApp::Application.config.session_store :active_record_store
 </ruby>
 
